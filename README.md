@@ -10,4 +10,6 @@
 ![TypeScript](https://img.shields.io/badge/-TypeScript-373D45?style=for-the-badge&logo=TypeScript)
 ![Sass](https://img.shields.io/badge/-SASS-373D45?style=for-the-badge&logo=Sass)
 
-### Start this project with `npm run dev`
+### Don't forget to install all dependencies with tw command: `npm i` *in root folder* & `npm i` *in client folder*
+
+### Start the project with `npm run dev`
