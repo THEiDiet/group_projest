@@ -1,0 +1,78 @@
+
+.red {
+    background: red;
+}
+/*--------------default styles--------------------*/
+@keyframes button {
+    0%{
+        transform: scale(1);
+    }
+
+    100%{
+        transform: scale(100);
+    }
+}
+@keyframes buttonActive {
+    0%{
+        background: inherit;
+    }
+
+    100%{
+        background: red;
+    }
+}
+.button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    outline: none;
+}
+.default {
+    color: #3f5d52;
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+.default:disabled {
+    opacity: 50%;
+    animation: none;
+}
+.default:disabled:hover{
+    animation: none;
+}
+.default:hover:before {
+    content: '';
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    top: 50%;
+    left: 50%;
+    background: #37706d;
+    opacity: 0.2;
+    transform: rotate(45deg);
+    border-radius: 100%;
+}
+.default:hover:before {
+    animation: button 1000ms linear;
+}
+.default:focus{
+    outline: 2px solid #fc9c92;
+}
+.default:active {
+    animation: buttonActive 300ms ease-in forwards;
+}
+.primary {
+    background: #b8dee7;
+    color: #365a67;
+}
+
+/*--------------default styles is ending--------------------*/
+
+.secondary {
+    background: #365a67;
+}
+.danger {
+    font-weight: 700;
+    color: #fc9c92;
+}

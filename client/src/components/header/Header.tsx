@@ -10,11 +10,18 @@ export const Header = (): ReactElement => (
     <header className={s.header}>
       <div className={s.container}>
         <Link to={Paths.Home}>Home page</Link>
-        <Link to={Paths.Sample}>Sample</Link>
+        <Link to={Paths.Profile}>Profile</Link>
+        <Link to={Paths.Auth}>Auth</Link>
+        <Link to={Paths.Login}>Login</Link>
+        <Link to={Paths.RestorePassword}>Restore Password</Link>
+        <Link to={Paths.ChangePassword}>Change Password</Link>
+        <Link to={Paths.Test}>Test</Link>
       </div>
     </header>
     <main className={s.main}>
-      <Outlet />
+      <div className={s.mainContainer}>
+        <Outlet />
+      </div>
     </main>
   </>
 )

@@ -28,7 +28,7 @@
     "no-alert": "error",
     "no-debugger": "error",
     "no-plusplus": "error",
-    "no-unused-vars": "off",
+    "no-unused-vars": "warn",
     "no-magic-numbers": "off",
     "default-param-last": "off",
     "no-use-before-define": "off",
@@ -67,7 +67,8 @@
     "react/prop-types": 0,
     "react/display-name": "off",
     "react/react-in-jsx-scope": "off",
-    "react/destructuring-assignment": "error",
+    "react/destructuring-assignment": "warn",
+    "react/no-array-index-key": "warn",
     "react/jsx-filename-extension": [
       1,
       {

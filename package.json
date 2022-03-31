@@ -7,7 +7,9 @@
     "client": "npm start --prefix client",
     "watch": "tsc -w",
     "clean": "rimraf dist",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "predeploy": "npm run build --prefix client",
+    "deploy": "gh-pages -d build --prefix client"
   },
   "dependencies": {
     "@types/socket.io": "^2.1.11",

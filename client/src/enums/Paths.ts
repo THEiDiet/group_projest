@@ -1,4 +1,10 @@
 export enum Paths {
   Home = '/',
-  Sample = 'sample',
+  Login = 'login',
+  Auth = 'auth',
+  Profile = 'profile',
+  ChangePassword = 'change_pass',
+  RestorePassword = 'restore_pass',
+  Test = 'test',
+  NotFound = '*',
 }

@@ -5,8 +5,8 @@ const initialState = {
   users: [],
 }
 const testSlice = createSlice({
-  name: 'testReducer',
   initialState,
+  name: 'testReducer',
   reducers: {
     add: (state, action: PayloadAction<number>) => {
       // eslint-disable-next-line no-param-reassign
@@ -22,5 +22,6 @@ const testSlice = createSlice({
     },
   },
 })
+
 export const { add, subst, getUsers } = testSlice.actions
 export const testReducer = testSlice.reducer

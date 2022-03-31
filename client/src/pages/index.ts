@@ -1,1 +1,8 @@
 export { MainPage } from 'pages/mainPage/MainPage'
+export { Login } from 'pages/login/Login'
+export { Auth } from 'pages/auth/Auth'
+export { Profile } from 'pages/profile/Profile'
+export { ChangePassword } from 'pages/changePassword/ChangePassword'
+export { RestorePassword } from 'pages/restorePassword/RestorePassword'
+export { TestComponent } from 'pages/testComponent/TestComponent'
+export { NotFound } from 'pages/notFound/NotFound'

@@ -1,1 +1,1 @@
-export default () => {}
+export { userApi } from 'api/userApi'
