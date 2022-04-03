@@ -1,0 +1,14 @@
+.login_container {
+  width: 415px;
+  height: 600px;
+  background-color: white;
+  margin: 0 auto;
+  border-radius: 9px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+
+  & .input_block {
+    margin-bottom: 20px;
+  }
+}

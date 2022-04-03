@@ -1,33 +1,108 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-import { NavLink } from 'react-router-dom'
+import { useFormik } from 'formik'
+import { Navigate, NavLink } from 'react-router-dom'
 
+import Security from '../../components/assets/security.svg'
+import unSecurity from '../../components/assets/unSecurity.svg'
 import { Button } from '../../components/common'
+import { CustomInput } from '../../components/input/CustomInput'
+import { useAppSelector } from '../../hooks'
 
-export const Login: React.FC = () => (
-  <div
-    style={{
-      width: '415px',
-      height: '600px',
-      backgroundColor: 'white',
-      margin: '0 auto',
-    }}
-  >
-    <h1>it-incubator</h1>
-    <span>Sign In</span>
-    <div>
-      <form>
-        <div>
-          <input type="email" />
-        </div>
-        <div>
-          <input type="password" />
-        </div>
-        <p>Forgot Password</p>
-        <Button type="submit">Login</Button>
-      </form>
-      <p>Don’t have an account?</p>
-      <NavLink to="/signUp">Sign Up</NavLink>
+import styles from './Login.module.scss'
+
+interface Values {
+  password: string
+  email: string
+}
+
+export const Login: React.FC = () => {
+  const [isSecurity, setIsSecurity] = useState(false)
+  const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
+  const changeSecurity = (): void => {
+    setIsSecurity(x => !x)
+  }
+  const formik = useFormik({
+    validate: values => {
+      const minLengthPassword = 8
+      const errors: Partial<Values> = {}
+      if (!values.email) {
+        errors.email = 'Email is required'
+      } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+        errors.email = 'Invalid email address'
+      }
+      if (values.password.length < minLengthPassword) {
+        errors.password = 'Password is short'
+      } else if (!values.password) {
+        errors.password = 'Password is required'
+      }
+      return errors
+    },
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    onSubmit: (values: Values) => {
+      const space = 2
+      // eslint-disable-next-line no-alert
+      alert(JSON.stringify(values, null, space))
+    },
+  })
+
+  if (isLoggedIn) return <Navigate to="/profile" />
+  return (
+    <div className={styles.login_container}>
+      <h1>it-incubator</h1>
+      <span>Sign In</span>
+      <div>
+        <form>
+          <div className={styles.input_block}>
+            <CustomInput
+              name="email"
+              type="text"
+              label="Email"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.email}
+            />
+            {formik.touched.email && formik.errors.email}
+          </div>
+          <div className={styles.input_block}>
+            {isSecurity ? (
+              <CustomInput
+                name="password"
+                label="Password"
+                id="password"
+                type="text"
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                value={formik.values.password}
+                icon={Security}
+                onClick={changeSecurity}
+              />
+            ) : (
+              <CustomInput
+                name="password"
+                id="password"
+                label="Password"
+                type="password"
+                onBlur={formik.handleBlur}
+                value={formik.values.password}
+                icon={unSecurity}
+                onChange={formik.handleChange}
+                onClick={changeSecurity}
+              />
+            )}
+            {formik.touched.password && formik.errors.password}
+          </div>
+          <p>Forgot Password</p>
+          <Button type="submit">Login</Button>
+        </form>
+      </div>
+      <div>
+        <p>Don’t have an account?</p>
+        <NavLink to="/signUp">Sign Up</NavLink>
+      </div>
     </div>
-  </div>
-)
+  )
+}
