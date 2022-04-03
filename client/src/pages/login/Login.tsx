@@ -7,7 +7,9 @@ import Security from '../../components/assets/security.svg'
 import unSecurity from '../../components/assets/unSecurity.svg'
 import { Button } from '../../components/common'
 import { CustomInput } from '../../components/input/CustomInput'
-import { useAppSelector } from '../../hooks'
+import { Paths } from '../../enums'
+import { AuthTypeSaga } from '../../enums/AuthTypeSaga'
+import { useAppDispatch, useAppSelector } from '../../hooks'
 
 import styles from './Login.module.scss'
 
@@ -17,6 +19,7 @@ interface Values {
 }
 
 export const Login: React.FC = () => {
+  const dispatch = useAppDispatch()
   const [isSecurity, setIsSecurity] = useState(false)
   const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
   const changeSecurity = (): void => {
@@ -41,21 +44,21 @@ export const Login: React.FC = () => {
     initialValues: {
       email: '',
       password: '',
+      rememberMe: false,
     },
     onSubmit: (values: Values) => {
-      const space = 2
-      // eslint-disable-next-line no-alert
-      alert(JSON.stringify(values, null, space))
+      dispatch({ type: AuthTypeSaga.LoginSaga, values })
+      formik.resetForm()
     },
   })
 
-  if (isLoggedIn) return <Navigate to="/profile" />
+  if (isLoggedIn) return <Navigate to={Paths.Profile} />
   return (
     <div className={styles.login_container}>
       <h1>it-incubator</h1>
       <span>Sign In</span>
       <div>
-        <form>
+        <form onSubmit={formik.handleSubmit}>
           <div className={styles.input_block}>
             <CustomInput
               name="email"
@@ -95,7 +98,19 @@ export const Login: React.FC = () => {
             )}
             {formik.touched.password && formik.errors.password}
           </div>
-          <p>Forgot Password</p>
+          <div>
+            <span>
+              Remember me
+              <input
+                name="rememberMe"
+                id="rememberMe"
+                type="checkbox"
+                onChange={formik.handleChange}
+                checked={formik.values.rememberMe}
+              />
+            </span>
+            <p>Forgot Password</p>
+          </div>
           <Button type="submit">Login</Button>
         </form>
       </div>
