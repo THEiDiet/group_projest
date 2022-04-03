@@ -4,7 +4,6 @@ import { NavLink } from 'react-router-dom'
 
 import { Button } from '../../components/common'
 
-
 export const Login: React.FC = () => (
   <div
     style={{
