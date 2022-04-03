@@ -55,8 +55,8 @@ export const Login: React.FC = () => {
   if (isLoggedIn) return <Navigate to={Paths.Profile} />
   return (
     <div className={styles.login_container}>
-      <h1>it-incubator</h1>
-      <span>Sign In</span>
+      <h1>Card App</h1>
+      <span className={styles.signIn}>Sign In</span>
       <div>
         <form onSubmit={formik.handleSubmit}>
           <div className={styles.input_block}>
@@ -98,7 +98,7 @@ export const Login: React.FC = () => {
             )}
             {formik.touched.password && formik.errors.password}
           </div>
-          <div>
+          <div className={styles.login_settings}>
             <span>
               Remember me
               <input
@@ -109,14 +109,18 @@ export const Login: React.FC = () => {
                 checked={formik.values.rememberMe}
               />
             </span>
-            <p>Forgot Password</p>
+            <NavLink className={styles.forgetPass} to={Paths.RestorePassword}>
+              Forgot Password
+            </NavLink>
           </div>
           <Button type="submit">Login</Button>
         </form>
       </div>
       <div>
-        <p>Don’t have an account?</p>
-        <NavLink to="/signUp">Sign Up</NavLink>
+        <p className={styles.textDown}>Don’t have an account?</p>
+        <NavLink className={styles.signUp} to={Paths.Register}>
+          Sign Up
+        </NavLink>
       </div>
     </div>
   )
