@@ -4,7 +4,7 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 import { userApi } from '../../api'
 
 const initialState = {
-  isInitialized: false,
+  isInitialized: true,
 }
 
 const slice = createSlice({
@@ -30,7 +30,7 @@ export function* setInitializeWorker() {
   try {
     yield call(userApi.me)
   } catch (e) {
-    console.warn(e)
+    console.log(e)
   } finally {
     yield put(setInitializeAC(true))
   }
@@ -38,9 +38,8 @@ export function* setInitializeWorker() {
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function* AppWatcher() {
-  console.log('watcher')
   yield takeLatest('REQUEST_INITIALIZE', setInitializeWorker)
 }
 
-export type NullableType<T> = null | T
-export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
+// export type NullableType<T> = null | T
+// export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'

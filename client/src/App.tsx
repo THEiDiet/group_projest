@@ -11,11 +11,11 @@ import { requestInitialize } from 'store/reducers/appReducer'
 
 const App = (): ReactElement => {
   const isInitialized = useAppSelector<boolean>(state => state.app.isInitialized)
-  const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
+  // const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (isLoggedIn) return
+    // if (isLoggedIn)
     dispatch(requestInitialize())
   }, [])
 

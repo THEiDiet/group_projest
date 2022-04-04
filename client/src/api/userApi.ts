@@ -12,4 +12,13 @@ export const userApi = {
   me: async () => await instance.post('auth/me', JSON.stringify({})),
   // eslint-disable-next-line no-return-await
   update: async (body: any) => await instance.put('auth/me', JSON.stringify(body)),
+
+  setNewPassword: async (body: setNewPasswordRequestType) =>
+    // eslint-disable-next-line no-return-await
+    await instance.post('/auth/set-new-password', body),
+}
+
+type setNewPasswordRequestType = {
+  password: string
+  resetPasswordToken: string
 }
