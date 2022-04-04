@@ -1,6 +1,5 @@
-import { LoginParamsType, ResponseType } from '../types/userApiType'
-
 import { instance } from 'api/config'
+import { LoginParamsType, ResponseType } from 'types/UserApiType'
 
 export const userApi = {
   // eslint-disable-next-line no-return-await

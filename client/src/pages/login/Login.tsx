@@ -3,20 +3,16 @@ import React, { useState } from 'react'
 import { useFormik } from 'formik'
 import { Navigate, NavLink } from 'react-router-dom'
 
-import Security from '../../components/assets/security.svg'
-import unSecurity from '../../components/assets/unSecurity.svg'
-import { Button } from '../../components/common'
-import { CustomInput } from '../../components/input/CustomInput'
-import { Paths } from '../../enums'
-import { AuthTypeSaga } from '../../enums/AuthTypeSaga'
-import { useAppDispatch, useAppSelector } from '../../hooks'
-
 import styles from './Login.module.scss'
 
-interface Values {
-  password: string
-  email: string
-}
+import Security from 'components/assets/security.svg'
+import unSecurity from 'components/assets/unSecurity.svg'
+import { Button } from 'components/common'
+import { CustomInput } from 'components/input/CustomInput'
+import { Paths } from 'enums'
+import { AuthTypeSaga } from 'enums/AuthTypeSaga'
+import { useAppDispatch, useAppSelector } from 'hooks'
+import { LoginValues } from 'types'
 
 export const Login: React.FC = () => {
   const dispatch = useAppDispatch()
@@ -28,7 +24,7 @@ export const Login: React.FC = () => {
   const formik = useFormik({
     validate: values => {
       const minLengthPassword = 8
-      const errors: Partial<Values> = {}
+      const errors: Partial<LoginValues> = {}
       if (!values.email) {
         errors.email = 'Email is required'
       } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
@@ -46,7 +42,7 @@ export const Login: React.FC = () => {
       password: '',
       rememberMe: false,
     },
-    onSubmit: (values: Values) => {
+    onSubmit: (values: LoginValues) => {
       dispatch({ type: AuthTypeSaga.LoginSaga, values })
       formik.resetForm()
     },
