@@ -1,10 +1,10 @@
 import React from 'react'
 
-import { InputPropsType } from '../../types/InputPropsType'
-
 import styles from './styles/CustomInput.module.scss'
 
-export const CustomInput: React.FC<InputPropsType> = props => {
+import { InputPropsType } from 'types/InputPropsType'
+
+export const CustomInput = React.memo((props: InputPropsType) => {
   const { label, onClick, icon, type, id, name, onChange, value, ...rest } = props
   return (
     <div className={styles.input_container}>
@@ -34,4 +34,4 @@ export const CustomInput: React.FC<InputPropsType> = props => {
       </div>
     </div>
   )
-}
+})

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 
 import { useFormik } from 'formik'
 import { Navigate, NavLink } from 'react-router-dom'
@@ -16,11 +16,11 @@ import { LoginValues } from 'types'
 
 export const Login: React.FC = () => {
   const dispatch = useAppDispatch()
-  const [isSecurity, setIsSecurity] = useState(false)
   const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
-  const changeSecurity = (): void => {
+  const [isSecurity, setIsSecurity] = useState(false)
+  const changeSecurity = useCallback((): void => {
     setIsSecurity(x => !x)
-  }
+  }, [])
   const formik = useFormik({
     validate: values => {
       const minLengthPassword = 8
@@ -64,7 +64,6 @@ export const Login: React.FC = () => {
               onBlur={formik.handleBlur}
               value={formik.values.email}
             />
-            {formik.touched.email && formik.errors.email}
           </div>
           <div className={styles.input_block}>
             {isSecurity ? (
@@ -92,7 +91,6 @@ export const Login: React.FC = () => {
                 onClick={changeSecurity}
               />
             )}
-            {formik.touched.password && formik.errors.password}
           </div>
           <div className={styles.login_settings}>
             <span>
@@ -108,6 +106,10 @@ export const Login: React.FC = () => {
             <NavLink className={styles.forgetPass} to={Paths.RestorePassword}>
               Forgot Password
             </NavLink>
+          </div>
+          <div className={styles.errorMessage}>
+            <p> {formik.touched.email && formik.errors.email}</p>
+            <p> {formik.touched.password && formik.errors.password}</p>
           </div>
           <Button type="submit">Login</Button>
         </form>
