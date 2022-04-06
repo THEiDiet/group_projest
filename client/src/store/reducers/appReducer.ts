@@ -4,7 +4,7 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 import { userApi } from '../../api'
 
 const initialState = {
-  isInitialized: true,
+  isInitialized: false,
 }
 
 const slice = createSlice({

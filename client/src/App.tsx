@@ -11,15 +11,15 @@ import { requestInitialize } from 'store/reducers/appReducer'
 
 const App = (): ReactElement => {
   const isInitialized = useAppSelector<boolean>(state => state.app.isInitialized)
-  // const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
+  const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
   const dispatch = useDispatch()
 
   useEffect(() => {
-    // if (isLoggedIn)
+    if (isLoggedIn) return
     dispatch(requestInitialize())
   }, [])
 
-  if (!isInitialized) {
+  if (!isInitialized && !isLoggedIn) {
     return (
       <div style={{ position: 'fixed', top: '30%', textAlign: 'center', width: '100%' }}>
         <img src={preloader} alt="preloader" />
@@ -29,6 +29,8 @@ const App = (): ReactElement => {
 
   return (
     <div className={s.app}>
+      {/** mojno bilo perenesti v routes OUtlet
+       */}
       <Router />
     </div>
   )

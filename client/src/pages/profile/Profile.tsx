@@ -4,11 +4,11 @@ import { Navigate, useLocation } from 'react-router-dom'
 
 import { Paths } from '../../enums'
 import { useAppDispatch, useAppSelector } from '../../hooks'
-import { requestChangeName } from '../../store/reducers/authReducer'
+import { requestChangeName } from '../../store/reducers/userReducer'
 
 export const Profile: FC = () => {
   const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
-  const stateName = useAppSelector<string>(state => state.auth.user.name)
+  const stateName = useAppSelector<string>(state => state.user.userInfo.name)
   const location = useLocation()
   const dispatch = useAppDispatch()
   const [name, setName] = useState<string>(stateName)
