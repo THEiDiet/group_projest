@@ -1,23 +1,19 @@
-export type UserType = {
-  id: number
-  name: string
-  username: string
+export type UserT = {
+  password: string
   email: string
-  address: {
-    street: string
-    suite: string
-    city: string
-    zipcode: string
-    geo: {
-      lat: string
-      lng: string
-    }
-  }
-  phone: string
-  website: string
-  company: {
+  rememberMe?: boolean
+}
+export type AuthResponse = {
+  addedUser: {
+    created: string
+    email: string
+    isAdmin: boolean
     name: string
-    catchPhrase: string
-    bs: string
+    publicCardPacksCount: number
+    rememberMe: boolean
+    updated: string
+    verified: boolean
+    __v: number
+    _id: string
   }
 }

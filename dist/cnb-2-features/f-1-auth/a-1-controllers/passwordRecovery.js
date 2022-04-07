@@ -20,12 +20,14 @@ const validators_1 = require("../a-3-helpers/h-2-more/validators");
 const generateToken_1 = require("../a-3-helpers/h-2-more/generateToken");
 exports.passwordRecovery = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, html1, html2, message, from } = req.body;
+    console.log(email, message, from)
     if (!validators_1.emailValidator(email))
         res.status(400)
             .json({ error: "Email address not valid /ᐠ-ꞈ-ᐟ\\", email, emailRegExp: validators_1.emailRegExp, in: "passwordRecovery" });
     else
         try {
             const user = yield user_1.default.findOne({ email }).exec();
+            console.log(user)
             if (!user)
                 res.status(404)
                     .json({ error: "Email address not found /ᐠ-ꞈ-ᐟ\\", email, in: "passwordRecovery" });
@@ -36,6 +38,7 @@ exports.passwordRecovery = (req, res) => __awaiter(void 0, void 0, void 0, funct
                     if (message && message.includes("$token$")) {
                         do {
                             html = html.replace("$token$", resetPasswordToken);
+                            console.log(html)
                         } while (html.includes("$token$"));
                     }
                     else {
@@ -49,8 +52,10 @@ exports.passwordRecovery = (req, res) => __awaiter(void 0, void 0, void 0, funct
                             '</div>' +
                                 '</div>');
                     }
+                    console.log(html)
                     const fromFinal = from || "cards-nya <neko.nyakus.cafe@gmail.com>";
-                    const answer = yield gmail_1.sendMail(fromFinal, email, "password recovery", html);
+                    // const answer = yield gmail_1.sendMail(fromFinal, email, "password recovery", html);
+                    const answer = 'good'
                     res.status(200).json({
                         info: "sent —ฅ/ᐠ.̫ .ᐟ\\ฅ—",
                         success: Boolean(answer.accepted && answer.accepted.length > 0),
@@ -60,7 +65,7 @@ exports.passwordRecovery = (req, res) => __awaiter(void 0, void 0, void 0, funct
                 }
                 catch (e) {
                     res.status(500).json({
-                        error: "some error: " + e.message,
+                        error: "some error mfk: " + e.message,
                         info: "Back doesn't know what the error is... ^._.^",
                         errorObject: config_1.DEV_VERSION && e,
                         in: "passwordRecovery/sendMail",
@@ -70,7 +75,7 @@ exports.passwordRecovery = (req, res) => __awaiter(void 0, void 0, void 0, funct
         }
         catch (e) {
             res.status(500).json({
-                error: "some error: " + e.message,
+                error: "some error222: " + e.message,
                 info: "Back doesn't know what the error is... ^._.^",
                 errorObject: config_1.DEV_VERSION && e,
                 in: "passwordRecovery/User.findOne",
