@@ -1,4 +1,5 @@
 import { instance } from 'api/config'
+import { LoginParamsType, ResponseType } from 'types/UserApiType'
 
 export const userApi = {
   // eslint-disable-next-line no-return-await
@@ -6,10 +7,13 @@ export const userApi = {
   register: async (body: any) =>
     // eslint-disable-next-line no-return-await
     await instance.post('auth/register', JSON.stringify(body)),
+  login: async (body: LoginParamsType) =>
+    // eslint-disable-next-line no-return-await
+    await instance.post<ResponseType>('auth/login', JSON.stringify(body)),
   // eslint-disable-next-line no-return-await
-  login: async (body: any) => await instance.post('auth/login', JSON.stringify(body)),
-  // eslint-disable-next-line no-return-await
-  me: async () => await instance.post('auth/me', JSON.stringify({})),
+  me: async () => await instance.post<ResponseType>('auth/me', JSON.stringify({})),
   // eslint-disable-next-line no-return-await
   update: async (body: any) => await instance.put('auth/me', JSON.stringify(body)),
+  // eslint-disable-next-line no-return-await
+  logOut: async () => await instance.delete('auth/me'),
 }

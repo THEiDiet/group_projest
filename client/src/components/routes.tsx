@@ -8,13 +8,13 @@ import { Header } from './header/Header'
 
 import {
   Auth,
-  MainPage,
-  Login,
-  Profile,
-  TestComponent,
-  RestorePassword,
   ChangePassword,
+  Login,
+  MainPage,
   NotFound,
+  Profile,
+  RestorePassword,
+  TestComponent,
 } from 'pages'
 
 export const Router: FC = (): ReactElement => (
