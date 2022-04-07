@@ -23,7 +23,7 @@ export const Router: FC = (): ReactElement => (
       <Route index element={<MainPage />} />
       <Route path={Paths.Auth} element={<Auth />} />
       <Route path={Paths.Login} element={<Login />} />
-      <Route path={Paths.ChangePassword} element={<ChangePassword />} />
+      <Route path={`${Paths.ChangePassword}/*`} element={<ChangePassword />} />
       <Route path={Paths.RestorePassword} element={<RestorePassword />} />
       <Route path={Paths.Profile} element={<Profile />} />
       <Route path={Paths.Test} element={<TestComponent />} />
