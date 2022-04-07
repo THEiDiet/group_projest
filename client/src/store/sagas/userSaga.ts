@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios'
-import { call, put, takeLatest } from 'redux-saga/effects'
+import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 
 import {
   requestChangeNameType,
@@ -9,20 +9,17 @@ import {
 
 import { userApi } from 'api/userApi'
 import { setIsLoggedInAC } from 'store/reducers'
-import { UserType } from 'types/UserType'
+import { setNameUserResponseType } from 'types'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function* setNameWorker(action: requestChangeNameType) {
   try {
-    // Отправить запрос на изменение имени и аватарки, т.к. до аватарки пока не дошли - пусто.
-    const res: AxiosResponse<UserType> = yield call(userApi.update, {
+    const res: AxiosResponse<setNameUserResponseType> = yield call(userApi.update, {
       name: action.payload,
       avatar: '',
     })
-    // по окончании запроса, приходить полный объект юзер и сетаем его в стейт
-    yield put(setUpdatedUserInfo(res.data))
+    yield put(setUpdatedUserInfo(res.data.updatedUser))
   } catch (e) {
-    // поправить нормальную обработку ошибок
     console.warn(e)
   }
 }
@@ -31,7 +28,6 @@ export function* setNewPasswordWorker(action: requestChangePasswordType) {
   try {
     // отправить запрос на изменение с токеном и паролем, если все ок залогиниться?
     yield call(userApi.setNewPassword, action.payload)
-
     // что сделать, если упадет ошибка?
     yield put(setIsLoggedInAC(true))
   } catch (e) {
@@ -43,5 +39,5 @@ export function* setNewPasswordWorker(action: requestChangePasswordType) {
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function* UserWatcher() {
   yield takeLatest('REQUEST_CHANGE_NAME', setNameWorker)
-  yield takeLatest('REQUEST_CHANGE_PASS', setNewPasswordWorker)
+  yield takeEvery('REQUEST_CHANGE_PASS', setNewPasswordWorker)
 }
