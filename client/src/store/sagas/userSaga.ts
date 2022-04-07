@@ -1,14 +1,15 @@
 import { AxiosResponse } from 'axios'
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-import { userApi } from '../../api'
-import { UserType } from '../../types'
-import { setIsLoggedInAC } from '../reducers/authReducer'
 import {
   requestChangeNameType,
   requestChangePasswordType,
   setUpdatedUserInfo,
 } from '../reducers/userReducer'
+
+import { userApi } from 'api/userApi'
+import { setIsLoggedInAC } from 'store/reducers'
+import { UserType } from 'types/UserType'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function* setNameWorker(action: requestChangeNameType) {

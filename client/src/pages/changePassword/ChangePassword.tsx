@@ -2,11 +2,11 @@ import React, { FC, useState } from 'react'
 
 import { Navigate, useParams } from 'react-router-dom'
 
-import { requestChangePassword } from '../../store/reducers/userReducer'
-
 import { useAppDispatch, useAppSelector } from 'hooks/useAppDispatchAndSelector'
+import { requestChangePassword } from 'store/reducers/userReducer'
 
 export const ChangePassword: FC = () => {
+  // @ts-ignore
   const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
   const dispatch = useAppDispatch()
   const [password, setPassword] = useState<string>('')
