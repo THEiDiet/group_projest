@@ -1,18 +1,22 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
+// init State
 const initialState = {
   isLoggedIn: false,
 }
-
-export const slice = createSlice({
+// reducer
+const slice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setIsLoggedInAC(state, action: PayloadAction<{ isLoggedIn: boolean }>) {
+    setIsLoggedInAC(state, action: PayloadAction<boolean>) {
       // eslint-disable-next-line no-param-reassign
-      state.isLoggedIn = action.payload.isLoggedIn
+      state.isLoggedIn = action.payload
     },
   },
 })
+
 export const authReducer = slice.reducer
+
+// ACTION CREATORS
 export const { setIsLoggedInAC } = slice.actions

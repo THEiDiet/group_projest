@@ -116,7 +116,7 @@ export const Login: React.FC = () => {
       </div>
       <div>
         <p className={styles.textDown}>Don’t have an account?</p>
-        <NavLink className={styles.signUp} to={Paths.Register}>
+        <NavLink className={styles.signUp} to={Paths.Auth}>
           Sign Up
         </NavLink>
       </div>

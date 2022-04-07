@@ -3,6 +3,7 @@ export type LoginParamsType = {
   password: string
   rememberMe: boolean
 }
+
 export type ResponseType = {
   _id: string
   email: string
@@ -15,4 +16,9 @@ export type ResponseType = {
   verified: boolean
   rememberMe: boolean
   error?: string
+}
+
+export type SetNewPasswordRequestType = {
+  password: string
+  resetPasswordToken: string
 }
