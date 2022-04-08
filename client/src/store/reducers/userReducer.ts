@@ -14,6 +14,14 @@ const slice = createSlice({
       // eslint-disable-next-line no-param-reassign
       state.userInfo = action.payload
     },
+    setUserInfo(state, action: PayloadAction<UserType>) {
+      // eslint-disable-next-line no-param-reassign
+
+      // eslint-disable-next-line no-debugger
+      debugger
+      // eslint-disable-next-line no-param-reassign
+      state.userInfo = action.payload
+    },
   },
 })
 
@@ -21,7 +29,7 @@ export const userReducer = slice.reducer
 
 // ACTION CREATORS
 
-export const { setUpdatedUserInfo } = slice.actions
+export const { setUpdatedUserInfo, setUserInfo } = slice.actions
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type,no-unused-vars,@typescript-eslint/no-unused-vars
 export const requestChangeName = (name: string) =>
