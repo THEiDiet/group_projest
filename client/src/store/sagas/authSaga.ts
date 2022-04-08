@@ -2,7 +2,7 @@ import { call, put, takeEvery } from 'redux-saga/effects'
 
 import { userApi } from 'api/userApi'
 import { AuthTypeSaga } from 'enums/AuthTypeSaga'
-import { setIsLoggedInAC } from 'store/reducers/'
+import { setIsLoggedInAC } from 'store/reducers'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function* loginWorker(data: any) {
