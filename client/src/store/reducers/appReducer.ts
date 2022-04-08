@@ -33,8 +33,6 @@ export const requestInitialize = () => ({ type: 'REQUEST_INITIALIZE' })
 export function* setInitializeWorker() {
   try {
     const response: AxiosResponse<UserType> = yield call(userApi.me)
-    // eslint-disable-next-line no-debugger
-    debugger
     yield put(setUserInfo(response.data))
   } catch (e) {
     console.log(e)
