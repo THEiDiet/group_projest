@@ -1,2 +1,2 @@
 export { Header } from 'components/header/Header'
-export { CustomInput } from './input/CustomInput'
+export { CustomInput } from 'components/common/input/CustomInput'

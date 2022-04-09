@@ -1,43 +1,37 @@
 import React, { FC, useState } from 'react'
 
 import { useFormik } from 'formik'
+import { NavLink } from 'react-router-dom'
 
 import { userApi } from 'api/userApi'
+import Security from 'assets/icons/security.svg'
+import unSecurity from 'assets/icons/unSecurity.svg'
 import { CustomInput } from 'components'
 import { Button } from 'components/common/button/Button'
+import { Paths } from 'enums/Paths'
+import { useAppDispatch, useAppSelector } from 'hooks/useAppDispatchAndSelector'
+import styles from 'pages/login/Login.module.scss'
+import { AuthResponse } from 'types/AuthorizationTypes'
 import { LoginParamsType } from 'types/UserApiType'
+import { validatePassAndEmail } from 'utils/validatePassAndEmail'
 
-const MIN_PASS_LENGTH = 7
-
-type AuthResponse =
-  | {
-      addedUser: {
-        _id: string
-        email: string
-        rememberMe: boolean
-        isAdmin: boolean
-        name: string
-        verified: boolean
-        publicCardPacksCount: number
-        created: string
-        updated: string
-        __v: number
-      }
-    }
-  | string
-
-type handleResponseT = {
+export type HandleResponseT = {
   [key: string]: string
 }
 
 export const Auth: FC = () => {
-  const [isSecurity, setIsSecurity] = useState(false)
+  const dispatch = useAppDispatch()
   const [userName, setUserName] = useState('')
   const [error, setError] = useState('')
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const [isSecurity, setIsSecurity] = useState(false)
+  const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
+  const changeSecurity = (): void => {
+    setIsSecurity(x => !x)
+  }
+
   const onSubmitForm = async (
     values: Omit<LoginParamsType, 'rememberMe'>,
-  ): Promise<handleResponseT> => {
+  ): Promise<HandleResponseT> => {
     const res: AuthResponse = await userApi.register(values)
     if (typeof res === 'string') {
       setError(res)
@@ -48,77 +42,62 @@ export const Auth: FC = () => {
   }
 
   const formik = useFormik({
-    validate: values => {
-      const errors = {} as Omit<LoginParamsType, 'rememberMe'>
-      if (!values.email) {
-        errors.email = 'Email is required'
-      } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = 'Invalid email address'
-      }
-      if (values.password.length < MIN_PASS_LENGTH) {
-        errors.password = 'Password must be more than 7 symbols'
-      } else if (!values.password) {
-        errors.password = 'Password is required'
-      }
-      return errors
-    },
+    validate: validatePassAndEmail,
     initialValues: {
       email: '',
       password: '',
     },
     onSubmit: (values: Omit<LoginParamsType, 'rememberMe'>) => {
-      onSubmitForm(values).then((res: handleResponseT) => {
+      onSubmitForm(values).then((res: HandleResponseT) => {
         if (res?.name) {
           formik.resetForm()
-          console.log('hello', res?.name)
-        } else console.log(res?.error || 'Something went wrong')
+        }
       })
     },
   })
 
   return (
-    <form onSubmit={formik.handleSubmit}>
+    <div className={styles.login_container}>
+      <h1>Auth</h1>
+      <h1>Auth</h1>
       <div>
-        <CustomInput
-          name="email"
-          type="text"
-          label="Email"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.email}
-        />
-        {formik.touched.email && formik.errors.email}
+        <form onSubmit={formik.handleSubmit}>
+          <div>
+            <CustomInput
+              name="email"
+              type="text"
+              label="Email"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.email}
+            />
+            {formik.touched.email && formik.errors.email}
+          </div>
+          <div className={styles.login_settings}>
+            <CustomInput
+              name="password"
+              id="password"
+              label="Password"
+              type={isSecurity ? 'text' : 'password'}
+              onBlur={formik.handleBlur}
+              value={formik.values.password}
+              icon={isSecurity ? Security : unSecurity}
+              onChange={formik.handleChange}
+              onClick={changeSecurity}
+            />
+            {formik.touched.password && formik.errors.password}
+          </div>
+          <Button type="submit">Auth</Button>
+          <span>{userName}</span>
+        </form>
       </div>
       <div>
-        {isSecurity ? (
-          <CustomInput
-            name="password"
-            label="Password"
-            id="password"
-            type="text"
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            value={formik.values.password}
-            // icon={Security}
-            // onClick={changeSecurity}
-          />
-        ) : (
-          <CustomInput
-            name="password"
-            id="password"
-            label="Password"
-            type="password"
-            onBlur={formik.handleBlur}
-            value={formik.values.password}
-            // icon={unSecurity}
-            onChange={formik.handleChange}
-            // onClick={changeSecurity}
-          />
-        )}
-        {formik.touched.password && formik.errors.password}
+        <div>{error || userName}</div>
+        <p className={styles.textDown}>Do you have an account?</p>
+        <NavLink className={styles.signUp} to={Paths.Login}>
+          Login
+        </NavLink>
       </div>
-      <Button type="submit">Auth</Button>
-      <span>{userName}</span>
-    </form>
+    </div>
   )
 }

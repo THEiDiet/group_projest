@@ -10,9 +10,6 @@ export const userApi = {
   register: async (body: Omit<LoginParamsType, 'rememberMe'>) => {
     try {
       const res = await instance.post('auth/register', JSON.stringify(body))
-      if (res.status === Responses.Created) {
-        return res.data
-      }
       return res.data
     } catch (e) {
       return (e as AxiosError)?.response?.data?.error || 'some error'
@@ -39,9 +36,6 @@ export const userApi = {
     }
     try {
       const res = await instance.post('auth/forgot', JSON.stringify(body))
-      if (res.status === Responses.Success) {
-        return res.data
-      }
       return res.data
     } catch (e) {
       return (e as AxiosError)?.response?.data?.error

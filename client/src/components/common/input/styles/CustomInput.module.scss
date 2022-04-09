@@ -9,7 +9,7 @@
   position: relative;
 
 
-  input {
+  & input {
     width: 90%;
     height: 25px;
     font-size: 16px;
@@ -22,15 +22,21 @@
     left: 0.5%;
   }
 
-  .text_field_label {
+  & .text_field_label {
     font-size: 13px;
     position: absolute;
     left: 2%;
     top: 15%;
     opacity: 0.5;
   }
-
-  .icon {
+  .button{
+    appearance: none;
+    outline: none;
+    border: transparent;
+    padding: 0;
+    background: transparent;
+  }
+  & .icon {
     width: 24px;
     height: 24px;
     position: absolute;

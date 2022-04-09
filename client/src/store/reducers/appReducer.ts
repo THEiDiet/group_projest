@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AxiosResponse } from 'axios'
-import { call, put, takeLatest } from 'redux-saga/effects'
+import { SagaIterator } from 'redux-saga'
+import { call, put, takeLatest, ForkEffect } from 'redux-saga/effects'
 
 import { userApi } from '../../api'
-import { UserType } from '../../types'
+import { GenericReturnType, UserType } from '../../types'
 
 import { setUserInfo } from './userReducer'
 
@@ -16,7 +17,6 @@ const slice = createSlice({
   initialState,
   reducers: {
     setInitializeAC: (state, action: PayloadAction<boolean>) => {
-      // eslint-disable-next-line no-param-reassign
       state.isInitialized = action.payload
     },
   },
@@ -26,11 +26,9 @@ export const appReducer = slice.reducer
 
 export const { setInitializeAC } = slice.actions
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const requestInitialize = () => ({ type: 'REQUEST_INITIALIZE' })
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function* setInitializeWorker() {
+export function* setInitializeWorker(): SagaIterator {
   try {
     const response: AxiosResponse<UserType> = yield call(userApi.me)
     yield put(setUserInfo(response.data))
@@ -41,8 +39,7 @@ export function* setInitializeWorker() {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function* AppWatcher() {
+export function* AppWatcher(): GenericReturnType {
   yield takeLatest('REQUEST_INITIALIZE', setInitializeWorker)
 }
 

@@ -1,9 +1,13 @@
 import React, { ChangeEvent, FC, useState } from 'react'
 
+import { NavLink } from 'react-router-dom'
+
 import { userApi } from 'api/userApi'
 import { CustomInput } from 'components'
 import { Button } from 'components/common/button/Button'
+import { Paths } from 'enums/Paths'
 import { useLoader } from 'hooks/useLoader'
+import styles from 'pages/login/Login.module.scss'
 
 const MIN_EMAIL_LENGTH = 6
 
@@ -29,17 +33,22 @@ export const RestorePassword: FC = () => {
   }
 
   return (
-    <div>
-      <CustomInput
-        name="email"
-        label="Email"
-        type="text"
-        onChange={handleChange}
-        value={email}
-      />
-      <Button onClick={restorePassword}>Restore</Button>
-      {isLoading && <span>Loading...</span>}
+    <div className={styles.login_container}>
+      <h1>Restore pass</h1>
+      <div>
+        <div>
+          <CustomInput
+            name="email"
+            label="Email"
+            type="text"
+            onChange={handleChange}
+            value={email}
+          />
+          <Button onClick={restorePassword}>Restore</Button>
+        </div>
+      </div>
       {error || response}
+      {isLoading && <span>Loading...</span>}
     </div>
   )
 }
