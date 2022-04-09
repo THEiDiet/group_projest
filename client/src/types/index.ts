@@ -5,3 +5,4 @@ export type {
   LoginParamsType,
   SetNewPasswordRequestType,
 } from 'types/UserApiType'
+export type { GenericReturnType } from './SagaTypes'

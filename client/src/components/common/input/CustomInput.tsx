@@ -1,8 +1,7 @@
 import React from 'react'
 
-import { InputPropsType } from '../../types/InputPropsType'
-
-import styles from './styles/CustomInput.module.scss'
+import styles from 'components/common/input/styles/CustomInput.module.scss'
+import { InputPropsType } from 'types/InputPropsType'
 
 export const CustomInput: React.FC<InputPropsType> = props => {
   const { label, onClick, icon, type, id, name, onChange, value, ...rest } = props
@@ -22,14 +21,13 @@ export const CustomInput: React.FC<InputPropsType> = props => {
           onBlur={rest.onBlur}
         />
         {icon && (
-          // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
-          <span onClick={onClick}>
+          <button onClick={onClick} type="button" className={styles.button}>
             <img
               className={styles.icon}
               src={icon}
               alt="Button for show/close password"
             />
-          </span>
+          </button>
         )}
       </div>
     </div>

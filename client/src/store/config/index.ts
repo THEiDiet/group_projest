@@ -1,7 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import createSagaMiddleware from 'redux-saga'
 
-import { testReducer } from 'store/reducers'
 import { appReducer } from 'store/reducers/appReducer'
 import { authReducer } from 'store/reducers/authReducer'
 import { userReducer } from 'store/reducers/userReducer'
@@ -11,12 +10,13 @@ const sagaMiddleware = createSagaMiddleware()
 
 export const store = configureStore({
   reducer: {
-    test: testReducer,
     auth: authReducer,
     app: appReducer,
     user: userReducer,
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware().concat(sagaMiddleware),
+  // enhancers:''
+  devTools: process.env.NODE_ENV !== 'production',
 })
 sagaMiddleware.run(rootSaga)
 

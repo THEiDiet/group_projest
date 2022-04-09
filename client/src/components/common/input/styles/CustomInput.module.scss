@@ -29,7 +29,13 @@
     top: 15%;
     opacity: 0.5;
   }
-
+  .button{
+    appearance: none;
+    outline: none;
+    border: transparent;
+    padding: 0;
+    background: transparent;
+  }
   & .icon {
     width: 24px;
     height: 24px;
