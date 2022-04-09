@@ -11,7 +11,7 @@ export const Profile: FC = () => {
   const stateName = useAppSelector<string>(state => state.user.userInfo.name)
   const location = useLocation()
   const dispatch = useAppDispatch()
-  const [name, setName] = useState<string>(stateName)
+  const [name, setName] = useState<string>(stateName || '')
   const [edit, setEdit] = useState<boolean>(false)
 
   if (!isLoggedIn) {
@@ -37,11 +37,13 @@ export const Profile: FC = () => {
           autoFocus
         />
       ) : (
-        <span onDoubleClick={() => setEdit(true)}>{name} --</span>
+        <span onDoubleClick={() => setEdit(true)}>{stateName || 'Enter new name'}</span>
       )}
-      <button type="button" onClick={changeName}>
-        Send new name?
-      </button>
+      <div>
+        <button type="button" onClick={changeName}>
+          Confirm
+        </button>
+      </div>
     </div>
   )
 }

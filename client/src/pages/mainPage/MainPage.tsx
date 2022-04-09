@@ -28,18 +28,5 @@ export const MainPage = (): ReactElement => {
     console.log(res)
   }
   console.log(userData)
-  return (
-    <div>
-      <button type="button" onClick={onButtonClick}>
-        register
-      </button>
-      <button type="button" onClick={onButtonClick2}>
-        login
-      </button>
-      <button type="button" onClick={onButtonClick3}>
-        me
-      </button>
-      MainPage
-    </div>
-  )
+  return <div>MainPage</div>
 }

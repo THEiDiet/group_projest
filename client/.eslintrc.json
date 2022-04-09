@@ -28,15 +28,16 @@
     "no-alert": "error",
     "no-debugger": "error",
     "no-plusplus": "error",
-    "no-unused-vars": "warn",
+    "no-unused-vars": "off",
     "no-magic-numbers": "off",
     "default-param-last": "off",
     "no-use-before-define": "off",
+    "no-param-reassign": "off",
     "semi": "off",
     "semi-style": "off",
     "no-extra-semi": "off",
     "no-multiple-empty-lines": [
-      "error",
+      "off",
       {
         "max": 1
       }
@@ -45,7 +46,7 @@
       "error"
     ],
     "@typescript-eslint/no-unused-vars": [
-      "error"
+      "off"
     ],
     "@typescript-eslint/no-magic-numbers": [
       "error",
@@ -58,12 +59,12 @@
       "error"
     ],
     "@typescript-eslint/explicit-function-return-type": [
-      "error",
+      "warn",
       {
         "allowExpressions": true
       }
     ],
-    "prettier/prettier": "error",
+    "prettier/prettier": "warn",
     "react/prop-types": 0,
     "react/display-name": "off",
     "react/react-in-jsx-scope": "off",

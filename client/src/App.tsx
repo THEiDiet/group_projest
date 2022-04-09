@@ -2,10 +2,10 @@ import React, { ReactElement, useEffect } from 'react'
 
 import { useDispatch } from 'react-redux'
 
-import preloader from './common/image/Rocket.gif'
 import { useAppSelector } from './hooks'
 
 import s from 'App.module.scss'
+import preloader from 'assets/Rocket.gif'
 import { Router } from 'components/routes'
 import { requestInitialize } from 'store/reducers/appReducer'
 

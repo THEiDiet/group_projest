@@ -10,7 +10,6 @@ const slice = createSlice({
   initialState,
   reducers: {
     setIsLoggedInAC(state, action: PayloadAction<boolean>) {
-      // eslint-disable-next-line no-param-reassign
       state.isLoggedIn = action.payload
     },
   },
