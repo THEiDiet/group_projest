@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AxiosResponse } from 'axios'
 import { SagaIterator } from 'redux-saga'
-import { call, put, takeLatest, ForkEffect } from 'redux-saga/effects'
-
-import { userApi } from '../../api'
-import { GenericReturnType, UserType } from '../../types'
+import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { setUserInfo } from './userReducer'
+
+import { userApi } from 'api'
+import { setIsLoggedInAC } from 'store/reducers/authReducer'
+import { GenericReturnType, UserType } from 'types'
 
 const initialState = {
   isInitialized: false,
@@ -31,7 +32,9 @@ export const requestInitialize = () => ({ type: 'REQUEST_INITIALIZE' })
 export function* setInitializeWorker(): SagaIterator {
   try {
     const response: AxiosResponse<UserType> = yield call(userApi.me)
+
     yield put(setUserInfo(response.data))
+    yield put(setIsLoggedInAC(true))
   } catch (e) {
     console.log(e)
   } finally {

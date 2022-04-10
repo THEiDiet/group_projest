@@ -6,7 +6,6 @@ import { setIsLoggedInAC } from 'store/reducers'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function* loginWorker(data: any) {
-  // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
   try {
     yield call(userApi.login, data.values)
     yield put(setIsLoggedInAC(true))
@@ -22,7 +21,6 @@ export function* loginWatcher() {
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function* logOutWorker() {
-  // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
   try {
     yield call(userApi.logOut)
     yield put(setIsLoggedInAC(false))

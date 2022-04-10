@@ -24,7 +24,9 @@ export const Profile: FC = () => {
 
   return (
     <div>
-      <div>Profile</div>
+      <div>
+        <h1>Profile</h1>
+      </div>
       {edit ? (
         <input
           type="text"
@@ -40,9 +42,11 @@ export const Profile: FC = () => {
         <span onDoubleClick={() => setEdit(true)}>{stateName || 'Enter new name'}</span>
       )}
       <div>
-        <button type="button" onClick={changeName}>
-          Confirm
-        </button>
+        {edit ? (
+          <button type="button" onClick={changeName}>
+            Confirm
+          </button>
+        ) : null}
       </div>
     </div>
   )

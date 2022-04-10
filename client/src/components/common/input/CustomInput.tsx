@@ -1,6 +1,6 @@
 import React from 'react'
 
-import styles from 'components/common/input/styles/CustomInput.module.scss'
+import styles from 'components/common/input/styles/Input.module.scss'
 import { InputPropsType } from 'types/InputPropsType'
 
 export const CustomInput: React.FC<InputPropsType> = props => {

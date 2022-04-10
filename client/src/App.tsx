@@ -2,11 +2,10 @@ import React, { ReactElement, useEffect } from 'react'
 
 import { useDispatch } from 'react-redux'
 
-import { useAppSelector } from './hooks'
-
 import s from 'App.module.scss'
 import preloader from 'assets/Rocket.gif'
 import { Router } from 'components/routes'
+import { useAppSelector } from 'hooks'
 import { requestInitialize } from 'store/reducers/appReducer'
 
 const App = (): ReactElement => {

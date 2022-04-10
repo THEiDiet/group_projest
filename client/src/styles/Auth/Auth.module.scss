@@ -1,0 +1,96 @@
+.wrapper {
+  width: 415px;
+  height: 600px;
+  background-color: white;
+  margin: 0 auto;
+  border-radius: 9px;
+  @media (min-width: 481px) and (max-width: 991px) {
+    width: 350px;
+    .settings {
+      flex-direction: column;
+    }
+  }
+  @media (max-width: 481px) {
+    width: 260px;
+    .settings {
+      flex-direction: column;
+    }
+  }
+
+  .container {
+    width: calc(100% - 66px);
+    height: calc(100% - 30px);
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+  }
+
+
+  h1 {
+    line-height: 40px;
+  }
+
+  h2 {
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 33px;
+  }
+
+  .input_block {
+    margin-bottom: 20px;
+  }
+
+  .settings {
+    margin: 28px 0 40px 0;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+
+    input[type=checkbox] {
+      margin-left: 10px;
+      align-items: center;
+    }
+
+    .forgetPass {
+      font-weight: 400;
+      line-height: 17px;
+      color: black;
+    }
+
+    .forgetPass:hover {
+      color: #8a8ad7;
+    }
+
+  }
+
+  .errorMessage {
+    color: red;
+    height: 20px;
+    margin-bottom: 55px;
+
+    p {
+      margin-bottom: 5px;
+    }
+  }
+
+  .textDown {
+    font-size: 14px;
+    font-weight: 600;
+    opacity: 0.6;
+    margin-bottom: 5px;
+  }
+
+  .down_Link {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    color: black;
+  }
+
+  .down_Link:hover {
+    color: #8a8ad7;
+  }
+}
