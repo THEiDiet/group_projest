@@ -2,6 +2,8 @@ import React, { FC, useState } from 'react'
 
 import { Navigate, useLocation } from 'react-router-dom'
 
+import { cardsApi } from '../../api/cardsApi'
+import { Button } from '../../components/common'
 import { Paths } from '../../enums'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import { requestChangeName } from '../../store/reducers/userReducer'
@@ -21,7 +23,12 @@ export const Profile: FC = () => {
   const changeName = () => {
     dispatch(requestChangeName(name))
   }
-
+  const setCard = (): void => {
+    cardsApi.setPack()
+  }
+  const getCard = (): void => {
+    cardsApi.getPack()
+  }
   return (
     <div>
       <div>Profile</div>
@@ -44,6 +51,12 @@ export const Profile: FC = () => {
           Confirm
         </button>
       </div>
+      <Button onClick={setCard} type="button">
+        setCard
+      </Button>
+      <Button onClick={getCard} type="button">
+        getCard
+      </Button>
     </div>
   )
 }

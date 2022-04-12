@@ -1,15 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AxiosResponse } from 'axios'
 import { SagaIterator } from 'redux-saga'
-import { call, put, takeLatest, ForkEffect } from 'redux-saga/effects'
-
-import { userApi } from '../../api'
-import { GenericReturnType, UserType } from '../../types'
+import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { setUserInfo } from './userReducer'
 
+import { userApi } from 'api'
+import { GenericReturnType, UserType } from 'types'
+
 const initialState = {
   isInitialized: false,
+  error: '',
 }
 
 const slice = createSlice({

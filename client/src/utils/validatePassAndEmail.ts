@@ -2,7 +2,9 @@ import { LoginParamsType } from 'types/UserApiType'
 
 const MIN_PASS_LENGTH = 7
 
-export const validatePassAndEmail = (values: Omit<LoginParamsType, 'rememberMe'>) => {
+export const validatePassAndEmail = (
+  values: Omit<LoginParamsType, 'rememberMe'>,
+): Omit<LoginParamsType, 'rememberMe'> => {
   const errors = {} as Omit<LoginParamsType, 'rememberMe'>
   if (!values.email) {
     errors.email = 'Email is required'

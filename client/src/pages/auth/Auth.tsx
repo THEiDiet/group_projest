@@ -59,7 +59,6 @@ export const Auth: FC = () => {
   return (
     <div className={styles.login_container}>
       <h1>Auth</h1>
-      <h1>Auth</h1>
       <div>
         <form onSubmit={formik.handleSubmit}>
           <div>
