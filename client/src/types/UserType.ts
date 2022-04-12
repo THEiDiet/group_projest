@@ -1,19 +1,18 @@
-export type UserT = {
-  password: string
+export type UserType = {
+  _id: string
   email: string
-  rememberMe?: boolean
+  name: string
+  avatar?: string
+  publicCardPacksCount: number
+  created: Date
+  updated: Date
+  isAdmin: boolean
+  verified: boolean
+  rememberMe: boolean
+  error?: string
 }
-export type AuthResponse = {
-  addedUser: {
-    created: string
-    email: string
-    isAdmin: boolean
-    name: string
-    publicCardPacksCount: number
-    rememberMe: boolean
-    updated: string
-    verified: boolean
-    __v: number
-    _id: string
-  }
+
+export type setNameUserResponseType = {
+  token: string
+  updatedUser: UserType
 }

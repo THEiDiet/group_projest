@@ -14,7 +14,7 @@ export const Header = (): ReactElement => (
         <Link to={Paths.Auth}>Auth</Link>
         <Link to={Paths.Login}>Login</Link>
         <Link to={Paths.RestorePassword}>Restore Password</Link>
-        <Link to={Paths.ChangePassword}>Change Password</Link>
+
         <Link to={Paths.Test}>Test</Link>
       </div>
     </header>

@@ -2,8 +2,9 @@
   "name": "group_project",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://THEiDiet.github.io/group_project/",
+  "homepage": "https://THEiDiet.github.io/group_projest/",
   "dependencies": {
+    "@redux-devtools/extension": "^3.2.2",
     "@reduxjs/toolkit": "^1.8.0",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.4",
