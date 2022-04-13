@@ -26,7 +26,7 @@ export const Login: React.FC = () => {
     validate: validatePassAndEmail,
     initialValues: {
       email: '',
-      password: '',
+      password: 'qwerty123',
       rememberMe: false,
     },
     onSubmit: (values: LoginValues) => {

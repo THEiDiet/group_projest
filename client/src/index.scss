@@ -1,5 +1,9 @@
 @import-normalize;
 
+*{
+  box-sizing: border-box;
+}
+
 html, body, #root {
   margin: 0;
   padding: 0;
@@ -19,3 +23,14 @@ h1, h2, h3, h4, h5, h6, p {
 a {
   text-decoration: none;
 }
+
+table, tr, th, td, thead, tbody {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  display: block;
+}
+
+//th, td {
+//  display: inline-block;
+//}

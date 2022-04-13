@@ -6,6 +6,9 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 import { setUserInfo } from './userReducer'
 
 import { userApi } from 'api'
+import { cardsApi } from 'api/cardsApi'
+import { setIsLoggedInAC } from 'store/reducers/authReducer'
+import { CardsPackT } from 'store/sagas/cardsSaga'
 import { GenericReturnType, UserType } from 'types'
 
 const initialState = {
@@ -33,6 +36,7 @@ export function* setInitializeWorker(): SagaIterator {
   try {
     const response: AxiosResponse<UserType> = yield call(userApi.me)
     yield put(setUserInfo(response.data))
+    yield put(setIsLoggedInAC(true))
   } catch (e) {
     console.log(e)
   } finally {
