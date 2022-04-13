@@ -6,6 +6,7 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 import { setUserInfo } from './userReducer'
 
 import { userApi } from 'api'
+import { setIsLoggedInAC } from 'store/reducers/authReducer'
 import { GenericReturnType, UserType } from 'types'
 
 const initialState = {

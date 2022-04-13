@@ -1,13 +1,10 @@
 import React, { ChangeEvent, FC, useState } from 'react'
 
-import { NavLink } from 'react-router-dom'
-
 import { userApi } from 'api/userApi'
-import { CustomInput } from 'components'
+import { Input } from 'components'
 import { Button } from 'components/common/button/Button'
-import { Paths } from 'enums/Paths'
 import { useLoader } from 'hooks/useLoader'
-import styles from 'pages/login/Login.module.scss'
+import styles from 'styles/Auth/Auth.module.scss'
 
 const MIN_EMAIL_LENGTH = 6
 
@@ -33,22 +30,25 @@ export const RestorePassword: FC = () => {
   }
 
   return (
-    <div className={styles.login_container}>
-      <h1>Restore pass</h1>
-      <div>
+    <div className={styles.wrapper}>
+      <div className={styles.container}>
+        <h1>Card App</h1>
+        <h2>Restore pass</h2>
         <div>
-          <CustomInput
-            name="email"
-            label="Email"
-            type="text"
-            onChange={handleChange}
-            value={email}
-          />
-          <Button onClick={restorePassword}>Restore</Button>
+          <div>
+            <Input
+              name="email"
+              label="Email"
+              type="text"
+              onChange={handleChange}
+              value={email}
+            />
+          </div>
         </div>
+        <div className={styles.errorMessage}>{error || response}</div>
+        <Button onClick={restorePassword}>Restore</Button>
+        {isLoading && <span>Loading...</span>}
       </div>
-      {error || response}
-      {isLoading && <span>Loading...</span>}
     </div>
   )
 }

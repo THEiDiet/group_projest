@@ -1,16 +1,16 @@
 import React, { FC, useState } from 'react'
 
 import { useFormik } from 'formik'
-import { NavLink } from 'react-router-dom'
+import {Navigate, NavLink} from 'react-router-dom'
 
 import { userApi } from 'api/userApi'
 import Security from 'assets/icons/security.svg'
 import unSecurity from 'assets/icons/unSecurity.svg'
-import { CustomInput } from 'components'
+import { Input } from 'components'
 import { Button } from 'components/common/button/Button'
 import { Paths } from 'enums/Paths'
 import { useAppDispatch, useAppSelector } from 'hooks/useAppDispatchAndSelector'
-import styles from 'pages/login/Login.module.scss'
+import styles from 'styles/Auth/Auth.module.scss'
 import { AuthResponse } from 'types/AuthorizationTypes'
 import { LoginParamsType } from 'types/UserApiType'
 import { validatePassAndEmail } from 'utils/validatePassAndEmail'
@@ -26,7 +26,7 @@ export const Auth: FC = () => {
   const [isSecurity, setIsSecurity] = useState(false)
   const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
   const changeSecurity = (): void => {
-    setIsSecurity(x => !x)
+    setIsSecurity(value => !value)
   }
 
   const onSubmitForm = async (
@@ -57,45 +57,50 @@ export const Auth: FC = () => {
   })
 
   return (
-    <div className={styles.login_container}>
-      <h1>Auth</h1>
-      <div>
-        <form onSubmit={formik.handleSubmit}>
-          <div>
-            <CustomInput
-              name="email"
-              type="text"
-              label="Email"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.email}
-            />
-            {formik.touched.email && formik.errors.email}
-          </div>
-          <div className={styles.login_settings}>
-            <CustomInput
-              name="password"
-              id="password"
-              label="Password"
-              type={isSecurity ? 'text' : 'password'}
-              onBlur={formik.handleBlur}
-              value={formik.values.password}
-              icon={isSecurity ? Security : unSecurity}
-              onChange={formik.handleChange}
-              onClick={changeSecurity}
-            />
-            {formik.touched.password && formik.errors.password}
-          </div>
-          <Button type="submit">Auth</Button>
-          <span>{userName}</span>
-        </form>
-      </div>
-      <div>
-        <div>{error || userName}</div>
-        <p className={styles.textDown}>Do you have an account?</p>
-        <NavLink className={styles.signUp} to={Paths.Login}>
-          Login
-        </NavLink>
+    <div className={styles.wrapper}>
+      <div className={styles.container}>
+        <h1>Card App</h1>
+        <h2>Auth</h2>
+        <div>
+          <form onSubmit={formik.handleSubmit}>
+            <div className={styles.input_block}>
+              <Input
+                name="email"
+                type="text"
+                label="Email"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.email}
+              />
+            </div>
+            <div className={styles.input_block}>
+              <Input
+                name="password"
+                id="password"
+                label="Password"
+                type={isSecurity ? 'text' : 'password'}
+                onBlur={formik.handleBlur}
+                value={formik.values.password}
+                icon={!isSecurity ? Security : unSecurity}
+                onChange={formik.handleChange}
+                onClick={changeSecurity}
+              />
+            </div>
+            <div className={styles.errorMessage}>
+              <p> {formik.touched.email && formik.errors.email}</p>
+              <p>{formik.touched.password && formik.errors.password}</p>
+              <p>{error || userName}</p>
+            </div>
+            <Button type="submit">Auth</Button>
+            <span>{userName}</span>
+          </form>
+        </div>
+        <div>
+          <p className={styles.textDown}>Do you have an account?</p>
+          <NavLink className={styles.down_Link} to={Paths.Login}>
+            Login
+          </NavLink>
+        </div>
       </div>
     </div>
   )
