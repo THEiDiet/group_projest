@@ -1,6 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
 import createSagaMiddleware from 'redux-saga'
 
+import { cardsReducer } from '../reducers/cardsReducer'
+
 import { appReducer } from 'store/reducers/appReducer'
 import { authReducer } from 'store/reducers/authReducer'
 import { userReducer } from 'store/reducers/userReducer'
@@ -13,6 +15,7 @@ export const store = configureStore({
     auth: authReducer,
     app: appReducer,
     user: userReducer,
+    cards: cardsReducer,
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware().concat(sagaMiddleware),
   devTools: process.env.NODE_ENV !== 'production',

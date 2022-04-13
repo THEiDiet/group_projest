@@ -5,6 +5,7 @@ import {
   requestChangeNameType,
   requestChangePasswordType,
   setUpdatedUserInfo,
+  setUserError,
 } from '../reducers/userReducer'
 
 import { userApi } from 'api/userApi'
@@ -23,20 +24,18 @@ export function* setNameWorker(action: requestChangeNameType) {
     console.warn(e)
   }
 }
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+
 export function* setNewPasswordWorker(action: requestChangePasswordType) {
   try {
     // отправить запрос на изменение с токеном и паролем, если все ок залогиниться?
-    yield call(userApi.setNewPassword, action.payload)
-    // что сделать, если упадет ошибка?
+    const response: AxiosResponse = yield call(userApi.setNewPassword, action.payload)
+    // тут должен быть login запрос?
     yield put(setIsLoggedInAC(true))
-  } catch (e) {
-    // поправить нормальную обработку ошибок
-    console.warn(e)
+  } catch (e: any) {
+    yield put(setUserError(e.response.data.error))
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function* UserWatcher() {
   yield takeLatest('REQUEST_CHANGE_NAME', setNameWorker)
   yield takeEvery('REQUEST_CHANGE_PASS', setNewPasswordWorker)

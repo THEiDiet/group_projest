@@ -4,6 +4,7 @@ import { UserType } from '../../types'
 
 const initialState = {
   userInfo: {} as UserType,
+  error: '',
 }
 
 const slice = createSlice({
@@ -16,6 +17,9 @@ const slice = createSlice({
     setUserInfo(state, action: PayloadAction<UserType>) {
       state.userInfo = action.payload
     },
+    setUserError(state, action: PayloadAction<string>) {
+      state.error = action.payload
+    },
   },
 })
 
@@ -23,7 +27,7 @@ export const userReducer = slice.reducer
 
 // ACTION CREATORS
 
-export const { setUpdatedUserInfo, setUserInfo } = slice.actions
+export const { setUpdatedUserInfo, setUserInfo, setUserError } = slice.actions
 
 export const requestChangeName = (name: string) =>
   ({
