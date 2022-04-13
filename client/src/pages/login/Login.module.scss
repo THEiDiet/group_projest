@@ -21,7 +21,7 @@
   }
 
   .login_settings {
-    margin: 28px 0 95px 0;
+    margin: 28px 0 40px 0;
     font-size: 14px;
     display: flex;
     justify-content: space-around;
@@ -39,6 +39,14 @@
       color: #8a8ad7;
     }
 
+  }
+  .errorMessage{
+    color: red;
+    height: 20px;
+    margin-bottom: 55px;
+    p{
+      margin-bottom: 5px;
+    }
   }
   .textDown{
     font-size: 14px;
