@@ -29,6 +29,7 @@
     "no-debugger": "error",
     "no-plusplus": "error",
     "no-unused-vars": "off",
+    "no-unused-expressions": "warn",
     "no-magic-numbers": "off",
     "default-param-last": "off",
     "no-use-before-define": "off",

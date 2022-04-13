@@ -1,24 +1,22 @@
-import React, {ReactElement, useCallback, useState} from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 
-import {userApi} from 'api'
-import {useAppSelector} from 'hooks'
-import {Paths} from 'enums'
-import {Navigate} from 'react-router-dom'
-import {DebounceSearchInput} from 'components/DebounceSearchInput'
-import {useDispatch} from 'react-redux'
+import { useDispatch } from 'react-redux'
+
+import s from './mainPage.module.scss'
+
+import { userApi } from 'api'
+import { Modal } from 'components/common/modal/Modal'
+import { Table } from 'components/common/table'
+import { useAppDispatch, useAppSelector } from 'hooks'
 
 export const MainPage = (): ReactElement => {
-    const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
-    const dispatch = useDispatch()
-    const searchByPacks = useCallback((pack: string): void => {
-        // dispatch()
-        // dispatch(setSearchPackAC(pack));
-        // dispatch(rerenderPackAC());
-    }, []);
-
-    if (!isLoggedIn) return <Navigate to={Paths.Login}/>
-    return <div>
-        <h1>MainPage</h1>
-        <DebounceSearchInput searchValue={searchByPacks}/>
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch({ type: 'GET_CARDS' })
+  }, [])
+  return (
+    <div className={s.main}>
+      <Table />
     </div>
+  )
 }
