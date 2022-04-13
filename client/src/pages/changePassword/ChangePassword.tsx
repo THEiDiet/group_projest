@@ -6,8 +6,8 @@ import { Input } from '../../components'
 import { Button } from '../../components/common'
 
 import { useAppDispatch, useAppSelector } from 'hooks/useAppDispatchAndSelector'
-import styles from 'pages/login/Login.module.css'
 import { requestChangePassword } from 'store/reducers/userReducer'
+import styles from 'styles/Auth/Auth.module.scss'
 
 export const ChangePassword: FC = () => {
   const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
