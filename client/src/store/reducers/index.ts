@@ -1,2 +1,3 @@
 export { setIsLoggedInAC } from 'store/reducers/authReducer'
-export { setPacks, sortCards, packsReducer, setSearchPack } from 'store/reducers/packReducer'
+export { setSearchPack } from 'store/reducers/cardPacksReducer'
+export { setPacks, sortCards, packsReducer } from 'store/reducers/packReducer'

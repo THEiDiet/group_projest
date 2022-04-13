@@ -7,8 +7,8 @@ import { setUserInfo } from './userReducer'
 
 import { userApi } from 'api'
 import { cardsApi } from 'api/cardsApi'
-import { CardsPackT } from 'store/sagas/cardsSaga'
 import { setIsLoggedInAC } from 'store/reducers/authReducer'
+import { CardsPackT } from 'store/sagas/cardsSaga'
 import { GenericReturnType, UserType } from 'types'
 
 const initialState = {

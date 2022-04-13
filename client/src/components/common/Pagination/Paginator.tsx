@@ -5,13 +5,10 @@ import Pagination from '@mui/material/Pagination'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import Stack from '@mui/material/Stack'
 
-import { useAppDispatch, useAppSelector } from '../../../hooks'
-import {
-  setAmountOfElementsToShow,
-  setCurrentPage,
-} from '../../../store/reducers/cardsReducer'
-
 import s from './styles/Paginator.module.css'
+
+import { useAppDispatch, useAppSelector } from 'hooks'
+import { setAmountOfElementsToShow, setCurrentPage } from 'store/reducers/cardsReducer'
 
 type propsType = {
   currentPage?: number

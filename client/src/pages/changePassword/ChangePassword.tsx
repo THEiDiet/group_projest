@@ -2,11 +2,11 @@ import React, { ChangeEvent, FC, useState } from 'react'
 
 import { Navigate, useParams } from 'react-router-dom'
 
-import { CustomInput } from '../../components'
+import { Input } from '../../components'
 import { Button } from '../../components/common'
 
 import { useAppDispatch, useAppSelector } from 'hooks/useAppDispatchAndSelector'
-import styles from 'pages/login/Login.module.scss'
+import styles from 'pages/login/Login.module.css'
 import { requestChangePassword } from 'store/reducers/userReducer'
 
 export const ChangePassword: FC = () => {
@@ -49,7 +49,7 @@ export const ChangePassword: FC = () => {
       <h1>Restore pass</h1>
       <div>
         <div>
-          <CustomInput
+          <Input
             name="password"
             label="password"
             type="password"
