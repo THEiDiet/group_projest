@@ -50,6 +50,8 @@ export const Paginator: React.FC<propsType> = ({
 
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>): void => {
     dispatch(setAmountOfElementsToShow(+event.target.value))
+    dispatch(setPortionNumber(EHelpers.One))
+    dispatch(setCurrentPage(EHelpers.One))
   }
 
   return (
