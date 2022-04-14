@@ -2,8 +2,8 @@ import { AxiosResponse } from 'axios'
 
 import { instance } from './config'
 
-import { CardsPackT } from 'store/sagas/cardsSaga'
-import { CardsT } from 'types/PackTypes'
+import { CardsPackT } from 'types/PacksType'
+import { PackT } from 'types/PackTypes'
 
 export const cardsApi = {
   setPack() {
@@ -17,14 +17,14 @@ export const cardsApi = {
     const res = instance.post('cards/pack', data)
     console.log(res)
   },
-  getPack: async (payload: string = '20') => {
+  getPack: async (payload: string = '4660') => {
     const res: AxiosResponse<CardsPackT[]> = await instance.get(
       `cards/pack${payload && `?pageCount=${payload}`}`,
     )
     return res.data
   },
   getOnePackCards: async (payload: string = '') => {
-    const res: AxiosResponse<CardsT> = await instance.get(
+    const res: AxiosResponse<PackT> = await instance.get(
       // TODO: сделать полный набор параметров, не только cardsPack
       `cards/card?cardsPack_id=${payload}`,
     )
