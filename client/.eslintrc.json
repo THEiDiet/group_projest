@@ -117,7 +117,7 @@
       }
     ],
     "import/no-extraneous-dependencies": [
-      "error",
+      "warn",
       {
         "devDependencies": true,
         "optionalDependencies": true,

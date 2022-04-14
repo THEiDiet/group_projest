@@ -3,7 +3,6 @@ import createSagaMiddleware from 'redux-saga'
 
 import { cardsReducer } from '../reducers/cardsReducer'
 
-import { packsReducer as packR } from 'store/reducers'
 import { appReducer } from 'store/reducers/appReducer'
 import { authReducer } from 'store/reducers/authReducer'
 import { packsReducer } from 'store/reducers/cardPacksReducer'
@@ -19,7 +18,6 @@ export const store = configureStore({
     user: userReducer,
     cards: cardsReducer,
     packs1: packsReducer,
-    packs: packR,
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware().concat(sagaMiddleware),
   devTools: process.env.NODE_ENV !== 'production',

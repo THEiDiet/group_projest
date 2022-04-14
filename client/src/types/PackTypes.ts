@@ -1,10 +1,6 @@
 import { EPacksSort } from 'enums'
 
-export type SortT =
-  | EPacksSort.Date
-  | EPacksSort.Name
-  | EPacksSort.UserName
-  | EPacksSort.CardsCount
+export type SortT = EPacksSort.Date | EPacksSort.Name | EPacksSort.UserName | EPacksSort.CardsCount
 
 type CardT = {
   answer: string
@@ -18,7 +14,7 @@ type CardT = {
   _id: string
 }
 
-export type CardsT = {
+export type PackT = {
   cards: CardT[]
   cardsTotalCount: number
   maxGrade: number
