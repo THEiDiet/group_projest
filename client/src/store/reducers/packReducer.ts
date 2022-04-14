@@ -20,6 +20,8 @@ const initialState = {
     [EPacksSort.Date]: false,
     [EPacksSort.CardsCount]: false,
   },
+  searchPack: '',
+  actualPacks: [] as CardsPackT[],
 }
 
 const slice = createSlice({
@@ -27,40 +29,38 @@ const slice = createSlice({
   initialState,
   reducers: {
     setPacks: (state, action: PayloadAction<GetPackResponseT>) => {
-      const {
-        cardPacks,
-        cardPacksTotalCount,
-        minCardsCount,
-        maxCardsCount,
-        pageCount,
-        page,
-      } = action.payload
+      const { cardPacks, cardPacksTotalCount, minCardsCount, maxCardsCount, pageCount, page } =
+        action.payload
       state.packs = cardPacks
       state.rangeValues = { minCardsCount, maxCardsCount }
       state.page = page
       state.pageCount = pageCount
       state.cardPacksTotalCount = cardPacksTotalCount
+      state.actualPacks = cardPacks
     },
     sortCards: (state, action: PayloadAction<SortT>) => {
       const { payload: sortType } = action
       if (state.revert[sortType]) {
         state.revert[sortType] = !state.revert[sortType]
-        state.packs.sort((a, b) =>
-          a[sortType] < b[sortType] ? EHelpers.One : EHelpers.MinusOne,
-        )
+        state.packs.sort((a, b) => (a[sortType] < b[sortType] ? EHelpers.One : EHelpers.MinusOne))
       } else {
         state.revert[sortType] = !state.revert[sortType]
-        state.packs.sort((a, b) =>
-          a[sortType] > b[sortType] ? EHelpers.One : EHelpers.MinusOne,
-        )
+        state.packs.sort((a, b) => (a[sortType] > b[sortType] ? EHelpers.One : EHelpers.MinusOne))
       }
     },
     setOnePackCards: (state, action: PayloadAction<CardsT>) => {
       state.currentPack = action.payload
+    },
+    setSearchPacks: (state, action: PayloadAction<string>) => {
+      const { payload: filterByName } = action
+      state.searchPack = filterByName
+      state.actualPacks = state.packs.filter(
+        p => p.name.toLowerCase().includes(filterByName.toLowerCase()) && p,
+      )
     },
   },
 })
 
 export const packsReducer = slice.reducer
 
-export const { setPacks, sortCards, setOnePackCards } = slice.actions
+export const { setPacks, sortCards, setOnePackCards, setSearchPacks } = slice.actions

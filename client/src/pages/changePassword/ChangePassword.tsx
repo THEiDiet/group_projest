@@ -2,12 +2,11 @@ import React, { ChangeEvent, FC, useState } from 'react'
 
 import { Navigate, useParams } from 'react-router-dom'
 
-import { Input } from '../../components'
-import { Button } from '../../components/common'
-
+import { Button } from 'components/common'
+import { Input } from 'components/index'
 import { useAppDispatch, useAppSelector } from 'hooks/useAppDispatchAndSelector'
-import styles from 'pages/login/Login.module.css'
 import { requestChangePassword } from 'store/reducers/userReducer'
+import styles from 'styles/Auth/Auth.module.scss'
 
 export const ChangePassword: FC = () => {
   const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
@@ -18,12 +17,12 @@ export const ChangePassword: FC = () => {
   const trimmedPassword = password.trim()
   const params = useParams<'*'>()
   const token = params['*']
-  const confirmPassword = () => {
+  const confirmPassword = (): void => {
     if (token && trimmedPassword) {
       dispatch(requestChangePassword(token, trimmedPassword))
     }
   }
-  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>): void => {
     setPassword(e.currentTarget.value)
   }
   if (isLoggedIn) return <Navigate to="/" />

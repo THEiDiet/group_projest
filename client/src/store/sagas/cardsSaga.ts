@@ -50,9 +50,7 @@ function* packsWorker({
   }
 }
 
-function* onePackCardsWorker({
-  payload,
-}: GetCardWorkerT): Generator<StrictEffect, void, CardsT> {
+function* onePackCardsWorker({ payload }: GetCardWorkerT): Generator<StrictEffect, void, CardsT> {
   try {
     const response: CardsT = yield call(cardsApi.getOnePackCards, payload)
     yield put(setOnePackCards(response))
