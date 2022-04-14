@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { useFormik } from 'formik'
-import { Navigate, NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 
 import Security from 'assets/icons/security.svg'
 import unSecurity from 'assets/icons/unSecurity.svg'
@@ -16,6 +16,7 @@ import { validatePassAndEmail } from 'utils/validatePassAndEmail'
 
 export const Login: React.FC = () => {
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   const [isSecurity, setIsSecurity] = useState(false)
   const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
   const changeSecurity = (): void => {
@@ -34,8 +35,12 @@ export const Login: React.FC = () => {
       formik.resetForm()
     },
   })
-
-  if (isLoggedIn) return <Navigate to={Paths.Profile} />
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate(Paths.Profile)
+    }
+  }, [isLoggedIn])
+  // if (isLoggedIn) return <Navigate to={Paths.Profile} />
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>

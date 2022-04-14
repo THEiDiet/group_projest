@@ -1,4 +1,4 @@
-import React, { FC, ReactElement } from 'react'
+import React, { ReactElement } from 'react'
 
 import { createPortal } from 'react-dom'
 
@@ -13,7 +13,6 @@ type ModalProps = {
 export const Modal = (props: ModalProps): any => {
   const { handleOpen, isOpen, component } = props
   const root = document.querySelector('body')
-  console.log(root)
   const wrapper = (
     <div className={s.wrapper}>
       <div className={s.modal}>

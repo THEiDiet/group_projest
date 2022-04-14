@@ -1,8 +1,6 @@
 import React, { ChangeEvent } from 'react'
 
-// eslint-disable-next-line import/no-extraneous-dependencies
 import Pagination from '@mui/material/Pagination'
-// eslint-disable-next-line import/no-extraneous-dependencies
 import Stack from '@mui/material/Stack'
 
 import s from './styles/Paginator.module.css'
@@ -16,22 +14,22 @@ type propsType = {
   amountOfElementsToShow?: number
   itemName?: string
 }
+// TODO: вынести в enum
 // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-const options = [2, 5, 10]
-
+const options = [2, 5, 10, 20]
+// TODO: не забываем типизировать
 export const Paginator = () => {
   const currentPage = useAppSelector<number>(state => state.cards.currentPage)
   const totalItemsCount = useAppSelector<number>(state => state.cards.totalPacksCount)
-  const amountOfElementsToShow = useAppSelector<number>(
-    state => state.cards.amountOfElementsToShow,
-  )
+  const amountOfElementsToShow = useAppSelector<number>(state => state.cards.amountOfElementsToShow)
   const pages = totalItemsCount / amountOfElementsToShow
 
   const dispatch = useAppDispatch()
-
+  // TODO: не забываем типизировать
   const handlePageChange = (event: ChangeEvent<unknown>, value: number) => {
     dispatch(setCurrentPage(value))
   }
+  // TODO: не забываем типизировать
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
     dispatch(setAmountOfElementsToShow(+event.target.value))
   }

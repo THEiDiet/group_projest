@@ -6,9 +6,7 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 import { setUserInfo } from './userReducer'
 
 import { userApi } from 'api'
-import { cardsApi } from 'api/cardsApi'
 import { setIsLoggedInAC } from 'store/reducers/authReducer'
-import { CardsPackT } from 'store/sagas/cardsSaga'
 import { GenericReturnType, UserType } from 'types'
 
 const initialState = {
@@ -30,7 +28,7 @@ export const appReducer = slice.reducer
 
 export const { setInitializeAC } = slice.actions
 
-export const requestInitialize = () => ({ type: 'REQUEST_INITIALIZE' })
+export const requestInitialize = () => ({ type: 'REQUEST_INITIALIZE' } as const)
 
 export function* setInitializeWorker(): SagaIterator {
   try {
