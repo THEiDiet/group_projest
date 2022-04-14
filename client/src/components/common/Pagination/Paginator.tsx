@@ -1,74 +1,78 @@
 import React, { ChangeEvent } from 'react'
 
-// eslint-disable-next-line import/no-extraneous-dependencies
-import Pagination from '@mui/material/Pagination'
-// eslint-disable-next-line import/no-extraneous-dependencies
-import Stack from '@mui/material/Stack'
-
 import s from './styles/Paginator.module.css'
 
-import { useAppDispatch, useAppSelector } from 'hooks'
-import { setAmountOfElementsToShow, setCurrentPage } from 'store/reducers/cardsReducer'
+import { EHelpers } from 'enums'
+import { useAppDispatch } from 'hooks'
+import {
+  setAmountOfElementsToShow,
+  setCurrentPage,
+  setPortionNumber,
+} from 'store/reducers/cardsReducer'
 
 type propsType = {
-  currentPage?: number
-  totalPacksCount?: number
-  amountOfElementsToShow?: number
-  itemName?: string
-  portionSize: number
+  currentPage: number
+  totalItemsCount: number
+  amountOfElementsToShow: number
+  itemName: string
+  portionSizeForPages: number
+  portionNumber: number
 }
-// TODO: вынести в enum
-// eslint-disable-next-line @typescript-eslint/no-magic-numbers
-const options = [2, 5, 10]
-    // TODO: не забываем типизировать
-export const Paginator = () => {
-  const currentPage = useAppSelector<number>(state => state.cards.currentPage)
-  const totalItemsCount = useAppSelector<number>(state => state.cards.totalPacksCount)
-  const amountOfElementsToShow = useAppSelector<number>(state => state.cards.amountOfElementsToShow)
-  const pagesAmount = Math.ceil(totalItemsCount / amountOfElementsToShow)
-  // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-  const [portionNumber, setPortionNumber] = useState<number>(1)
-  const portionSize = 10
-  // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-  const leftSideBorder = (portionNumber - 1) * portionSize + 1
-  const rightSideBorder = portionNumber * portionSize
-  const portionCount = Math.ceil(pagesAmount / portionSize)
 
+const options = [EHelpers.Two, EHelpers.Five, EHelpers.Ten]
+
+export const Paginator: React.FC<propsType> = ({
+  currentPage,
+  totalItemsCount,
+  amountOfElementsToShow,
+  itemName,
+  portionSizeForPages,
+  portionNumber,
+}) => {
+  const pagesAmount = Math.ceil(totalItemsCount / amountOfElementsToShow)
+  const leftSideBorder = (portionNumber - EHelpers.One) * portionSizeForPages + EHelpers.One
+  const rightSideBorder = portionNumber * portionSizeForPages
+  const portionCount = Math.ceil(pagesAmount / portionSizeForPages)
   const pages = []
-  // eslint-disable-next-line no-plusplus,@typescript-eslint/no-magic-numbers
-  for (let i = 1; i < pagesAmount + 1; i++) {
+  for (let i = EHelpers.One; i < pagesAmount + EHelpers.One; i += EHelpers.One) {
     pages.push(i)
   }
 
   const dispatch = useAppDispatch()
-  // TODO: не забываем типизировать
-  const handlePageChange = (event: ChangeEvent<unknown>, value: number) => {
+
+  const handlePortionNumberChange = (value: number): void => {
+    dispatch(setPortionNumber(value))
+  }
+
+  const handlePageChange = (value: number): void => {
     dispatch(setCurrentPage(value))
   }
-  // TODO: не забываем типизировать
-  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
+
+  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>): void => {
     dispatch(setAmountOfElementsToShow(+event.target.value))
   }
 
   return (
     <div className={s.pages}>
-      {/* eslint-disable-next-line @typescript-eslint/no-magic-numbers */}
-      {portionNumber > 1 && (
+      {portionNumber > EHelpers.One && (
         <>
           {' '}
-          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions,@typescript-eslint/no-magic-numbers */}
-          <span className={s.button} onClick={() => setPortionNumber(prevState => prevState - 1)}>
+          {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
+          <span
+            className={s.button}
+            onClick={() => handlePortionNumberChange(portionNumber - EHelpers.One)}
+            onKeyPress={() => {}}
+          >
             Prev
           </span>
-          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
+          {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
           <span
             className={s.page}
             onClick={() => {
-              // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-              setPortionNumber(1)
-              // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-              handlePageChange(1)
+              handlePortionNumberChange(EHelpers.One)
+              handlePageChange(EHelpers.One)
             }}
+            onKeyPress={() => {}}
           >
             {' '}
             1{' '}
@@ -79,11 +83,12 @@ export const Paginator = () => {
         {pages
           .filter(f => leftSideBorder <= f && f <= rightSideBorder)
           .map(m => (
-            // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
+            // eslint-disable-next-line jsx-a11y/no-static-element-interactions
             <span
               className={`${s.page} ${currentPage === m ? s.currentPage : ''}`}
               key={m}
               onClick={() => handlePageChange(m)}
+              onKeyPress={() => {}}
             >
               {' '}
               {m}
@@ -91,15 +96,15 @@ export const Paginator = () => {
           ))}
       </div>
 
-      {/* eslint-disable-next-line @typescript-eslint/no-magic-numbers */}
-      {portionCount > portionNumber && portionNumber > 1 && (
-        // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
+      {portionCount > portionNumber && portionNumber > EHelpers.One && (
+        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
         <span
           className={s.page}
           onClick={() => {
-            setPortionNumber(portionCount)
+            handlePortionNumberChange(portionCount)
             handlePageChange(pagesAmount)
           }}
+          onKeyPress={() => {}}
         >
           {' '}
           {pagesAmount}{' '}
@@ -107,27 +112,25 @@ export const Paginator = () => {
       )}
 
       {portionCount > portionNumber && (
-          // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions,@typescript-eslint/no-magic-numbers
-        <span className={s.button} onClick={() => setPortionNumber(prevState => prevState + 1)}>
+        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+        <span
+          className={s.button}
+          onClick={() => handlePortionNumberChange(portionNumber + EHelpers.One)}
+          onKeyPress={() => {}}
+        >
           Next
         </span>
       )}
 
       <span className={s.space}> Show:</span>
-      <select
-        value={amountOfElementsToShow}
-        onChange={handleSelectChange}
-        className={s.select}
-        defaultValue={10}
-      >
+      <select value={amountOfElementsToShow} onChange={handleSelectChange} className={s.select}>
         {options.map(m => (
           <option key={m} value={m}>
             {m}
           </option>
         ))}
       </select>
-      {/* вместо packs должно быть значение из пропсов props.itemName */}
-      <span> packs per page</span>
+      <span> {itemName} per page</span>
     </div>
   )
 }

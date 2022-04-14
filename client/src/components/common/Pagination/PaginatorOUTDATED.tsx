@@ -5,6 +5,8 @@ import Pagination from '@mui/material/Pagination'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import Stack from '@mui/material/Stack'
 
+import { EHelpers } from '../../../enums'
+
 import s from './styles/Paginator.module.css'
 
 import { useAppDispatch, useAppSelector } from 'hooks'
@@ -16,15 +18,13 @@ type propsType = {
   amountOfElementsToShow?: number
   itemName?: string
 }
-// eslint-disable-next-line @typescript-eslint/no-magic-numbers
-const options = [2, 5, 10]
+
+const options = [EHelpers.Two, EHelpers.Five, EHelpers.Ten]
 
 export const PaginatorOUTDATED = () => {
   const currentPage = useAppSelector<number>(state => state.cards.currentPage)
   const totalItemsCount = useAppSelector<number>(state => state.cards.totalPacksCount)
-  const amountOfElementsToShow = useAppSelector<number>(
-    state => state.cards.amountOfElementsToShow,
-  )
+  const amountOfElementsToShow = useAppSelector<number>(state => state.cards.amountOfElementsToShow)
   const pages = totalItemsCount / amountOfElementsToShow
 
   const dispatch = useAppDispatch()

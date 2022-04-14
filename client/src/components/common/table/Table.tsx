@@ -5,7 +5,7 @@ import { Modal } from 'components/common/modal/Modal'
 import { Paginator } from 'components/common/Pagination/Paginator'
 import { TableCell, TableRow } from 'components/common/table'
 import s from 'components/common/table/table.module.scss'
-import { EHelpers, EPacksSort } from 'enums'
+import { EHelpers, EPacksSort, PaginationNames } from 'enums'
 import { useAppDispatch, useAppSelector } from 'hooks'
 import { sortCards } from 'store/reducers'
 import { CardsPackT } from 'types/PacksType'
@@ -14,8 +14,13 @@ export const Table: FC = () => {
   const [isModalOpen, setModalOpen] = useState(false)
   const packs = useAppSelector(state => state.cards.packs)
   const currentPage = useAppSelector(state => state.cards.currentPage)
-  const portionSize = useAppSelector(state => state.cards.amountOfElementsToShow)
+  const amountOfElementsToShow = useAppSelector(state => state.cards.amountOfElementsToShow)
   const [pieceOfPacks, setPieceOfPacks] = useState<CardsPackT[]>([])
+  const portionSizeForPages = useAppSelector(state => state.cards.portionSizeForPages)
+  const portionNumber = useAppSelector(state => state.cards.portionNumber)
+  const totalItemsCount = useAppSelector<number>(state => state.cards.totalPacksCount)
+  // const amountOfElementsToShow = useAppSelector<number>(state => state.cards.amountOfElementsToShow)
+
   const dispatch = useAppDispatch()
   const sortByName = (): void => {
     dispatch(sortCards(EPacksSort.Name))
@@ -49,9 +54,12 @@ export const Table: FC = () => {
     : []
   useEffect(() => {
     setPieceOfPacks(
-      packs.slice((currentPage - EHelpers.One) * portionSize, currentPage * portionSize),
+      packs.slice(
+        (currentPage - EHelpers.One) * amountOfElementsToShow,
+        currentPage * amountOfElementsToShow,
+      ),
     )
-  }, [packs, currentPage, portionSize])
+  }, [packs, currentPage, amountOfElementsToShow])
   return (
     <div className={s.table}>
       <div className={s.head}>
@@ -72,7 +80,14 @@ export const Table: FC = () => {
         </TableRow>
       </div>
       <div className={s.body}>{tableRows}</div>
-      <Paginator />
+      <Paginator
+        currentPage={currentPage}
+        itemName={PaginationNames.Packs}
+        totalItemsCount={totalItemsCount}
+        amountOfElementsToShow={amountOfElementsToShow}
+        portionSizeForPages={portionSizeForPages}
+        portionNumber={portionNumber}
+      />
       <Modal
         component={<Card />}
         handleOpen={() => {

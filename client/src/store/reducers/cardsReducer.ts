@@ -8,6 +8,8 @@ const initialState = {
   currentPage: 1,
   amountOfElementsToShow: 10,
   totalPacksCount: 4660,
+  portionSizeForPages: 10,
+  portionNumber: 1,
   packs: [] as CardsPackT[],
   page: 1,
   pageCount: 0,
@@ -34,6 +36,9 @@ const slice = createSlice({
     },
     setAmountOfElementsToShow(state, action: PayloadAction<number>) {
       state.amountOfElementsToShow = action.payload
+    },
+    setPortionNumber(state, action: PayloadAction<number>) {
+      state.portionNumber = action.payload
     },
     setPacks: (state, action: PayloadAction<GetPackResponseT>) => {
       const { cardPacks, cardPacksTotalCount, minCardsCount, maxCardsCount, pageCount, page } =
@@ -63,5 +68,11 @@ const slice = createSlice({
 export const cardsReducer = slice.reducer
 
 // ACTION CREATORS
-export const { setCurrentPage, setAmountOfElementsToShow, setPacks, sortCards, setOnePackCards } =
-  slice.actions
+export const {
+  setCurrentPage,
+  setAmountOfElementsToShow,
+  setPacks,
+  sortCards,
+  setOnePackCards,
+  setPortionNumber,
+} = slice.actions
