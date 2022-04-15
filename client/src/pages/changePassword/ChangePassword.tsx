@@ -28,22 +28,6 @@ export const ChangePassword: FC = () => {
   if (isLoggedIn) return <Navigate to="/" />
 
   return (
-    //   <div>Set new password</div>
-    //   <input
-    //     type="text"
-    //     onChange={onChangeHandler}
-    //   />
-    //   {/* тут будет вывод еррора */}
-    //   <div>
-    //     <button
-    //       type="button"
-    //       onClick={confirmPassword}
-    //       disabled={trimmedPassword.length < minimalPasswordLength}
-    //     >
-    //       confirm new password
-    //     </button>
-    //   </div>
-
     <div className={styles.login_container}>
       <h1>Restore pass</h1>
       <div>

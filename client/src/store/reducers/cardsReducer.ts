@@ -23,6 +23,8 @@ const initialState = {
     [EPacksSort.Date]: false,
     [EPacksSort.CardsCount]: false,
   },
+  searchPack: '',
+  actualPacks: [] as CardsPackT[],
 }
 
 const slice = createSlice({
@@ -43,6 +45,7 @@ const slice = createSlice({
       state.page = page
       state.pageCount = pageCount
       state.cardPacksTotalCount = cardPacksTotalCount
+      state.actualPacks = cardPacks
     },
     sortCards: (state, action: PayloadAction<SortT>) => {
       const { payload: sortType } = action
@@ -57,11 +60,24 @@ const slice = createSlice({
     setOnePackCards: (state, action: PayloadAction<PackT>) => {
       state.currentPack = action.payload
     },
+    setSearchPacks: (state, action: PayloadAction<string>) => {
+      const { payload: filterByName } = action
+      state.searchPack = filterByName
+      state.actualPacks = state.packs.filter(
+        p => p.name.toLowerCase().includes(filterByName.toLowerCase()) && p,
+      )
+    },
   },
 })
 
 export const cardsReducer = slice.reducer
 
 // ACTION CREATORS
-export const { setCurrentPage, setAmountOfElementsToShow, setPacks, sortCards, setOnePackCards } =
-  slice.actions
+export const {
+  setCurrentPage,
+  setAmountOfElementsToShow,
+  setPacks,
+  sortCards,
+  setOnePackCards,
+  setSearchPacks,
+} = slice.actions
