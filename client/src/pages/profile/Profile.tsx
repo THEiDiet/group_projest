@@ -2,11 +2,9 @@ import React, { FC, useState } from 'react'
 
 import { Navigate, useLocation } from 'react-router-dom'
 
-import { cardsApi } from '../../api/cardsApi'
-import { Button } from '../../components/common'
-import { Paths } from '../../enums'
-import { useAppDispatch, useAppSelector } from '../../hooks'
-import { requestChangeName } from '../../store/reducers/userReducer'
+import { Paths } from 'enums'
+import { useAppDispatch, useAppSelector } from 'hooks'
+import { requestChangeName } from 'store/reducers/userReducer'
 
 export const Profile: FC = () => {
   const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
@@ -19,15 +17,8 @@ export const Profile: FC = () => {
   if (!isLoggedIn) {
     return <Navigate to={Paths.Login} state={{ from: location }} replace />
   }
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const changeName = () => {
+  const changeName = (): void => {
     dispatch(requestChangeName(name))
-  }
-  const setCard = (): void => {
-    cardsApi.setPack()
-  }
-  const getCard = (): void => {
-    cardsApi.getPack()
   }
   return (
     <div>
@@ -55,12 +46,6 @@ export const Profile: FC = () => {
           </button>
         ) : null}
       </div>
-      <Button onClick={setCard} type="button">
-        setCard
-      </Button>
-      <Button onClick={getCard} type="button">
-        getCard
-      </Button>
     </div>
   )
 }

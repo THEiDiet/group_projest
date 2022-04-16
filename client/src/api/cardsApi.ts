@@ -19,7 +19,7 @@ export const cardsApi = {
   },
   getPack: async (payload: string = '4660') => {
     const res: AxiosResponse<CardsPackT[]> = await instance.get(
-      `cards/pack${payload && `?pageCount=${payload}`}`,
+      `cards/pack?sortPacks=0updated`,
     )
     return res.data
   },
