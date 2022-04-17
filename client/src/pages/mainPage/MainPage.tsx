@@ -22,6 +22,7 @@ export const MainPage = (): ReactElement => {
   useEffect(() => {
     dispatch(getPacksS())
   }, [])
+
   return (
     <div className={s.main}>
       <Table />

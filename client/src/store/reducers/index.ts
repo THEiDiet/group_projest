@@ -7,3 +7,4 @@ export {
   setAmountOfElementsToShow,
   setCurrentPage,
 } from 'store/reducers/cardsReducer'
+export { setPacks, sortCards, packsReducer, setSearchPacks } from 'store/reducers/packReducer'

@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useCallback, useState } from 'react'
 
 import { useDispatch } from 'react-redux'
 
@@ -7,8 +7,11 @@ import { Modal } from 'components/common/modal/Modal'
 import { Paginator } from 'components/common/Pagination/Paginator'
 import { TableCell, TableRow } from 'components/common/table'
 import s from 'components/common/table/table.module.scss'
+import { DebounceSearchInput } from 'components/DebounceSearchInput'
+import { EPacksSort } from 'enums'
 import { EHelpers, PaginationNames } from 'enums'
 import { useAppDispatch, useAppSelector } from 'hooks'
+import { setSearchPacks, sortCards } from 'store/reducers'
 import { getPacksS } from 'store/sagas/cardsSaga'
 
 export const Table: FC = () => {
@@ -73,8 +76,29 @@ export const Table: FC = () => {
         )
       })
     : []
+
+  const searchByPacks = useCallback((pack: string): void => {
+    dispatch(setSearchPacks(pack))
+  }, [])
+
+  const tableRows = packs.map(({ user_name: userName, _id: id, name, updated, cardsCount }) => {
+    const date = new Date(updated).toLocaleDateString()
+    return (
+      <TableRow key={id} onClick={() => onTableRowClick(id)}>
+        <TableCell head>{name}</TableCell>
+        <TableCell>{cardsCount}</TableCell>
+        <TableCell>{date}</TableCell>
+        <TableCell>{userName}</TableCell>
+        <TableCell>text</TableCell>
+      </TableRow>
+    )
+  })
+  const searchByPacks = useCallback((pack: string): void => {
+    dispatch(setSearchPacks(pack))
+  }, [])
   return (
     <div className={s.table}>
+      <DebounceSearchInput placeholder="Title" searchValue={searchByPacks} />
       <div className={s.head}>
         <TableRow head>
           <TableCell head btn onClick={sortByName}>

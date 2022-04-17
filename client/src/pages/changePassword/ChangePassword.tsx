@@ -2,9 +2,8 @@ import React, { ChangeEvent, FC, useState } from 'react'
 
 import { Navigate, useParams } from 'react-router-dom'
 
-import { Input } from '../../components'
-import { Button } from '../../components/common'
-
+import { Button } from 'components/common'
+import { Input } from 'components'
 import { EHelpers } from 'enums'
 import { useAppDispatch, useAppSelector } from 'hooks/useAppDispatchAndSelector'
 import { requestChangePassword } from 'store/reducers/userReducer'
