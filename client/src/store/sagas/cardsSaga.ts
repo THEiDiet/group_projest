@@ -19,7 +19,7 @@ function* packsWorker({ payload }: GetPacksWorkerT): Generator<StrictEffect, voi
     yield put(setPacks(response.data))
   } catch (e) {
     // yield put({ type: 'error', payload: e })
-    yield put(setError((e as AxiosError)?.response?.data))
+    yield put(setError((e as AxiosError)?.response?.data.error))
   }
 }
 
@@ -61,13 +61,27 @@ function* updateOneCardFromPackWorker({ payload }: any): Generator<StrictEffect,
     yield put(setError((e as AxiosError)?.response?.data))
   }
 }
-export const updateOneCard = (payload: string) =>
-    ({ type: SagaActions.UpdateOrCreateCard, payload } as const)
+export const updateOneCard = (payload: CardTypePartial) =>
+    ({ type: SagaActions.UpdateCard, payload } as const)
+
+
+function* createNewCardInPackWorker({ payload }: any): Generator<StrictEffect, void, CardsT> {
+  try {
+    console.log(payload)
+    yield call(cardsApi.createCardInCurrentPack, payload)
+  } catch (e) {
+    console.log(e)
+    yield put(setError((e as AxiosError)?.response?.data.error))
+  }
+}
+export const createNewCard = (payload: CardTypePartial) =>
+    ({ type: SagaActions.CreateCard, payload } as const)
 
 
 export function* cardsWatcher(): SagaIterator {
   yield takeLatest(SagaActions.GetPacks, packsWorker)
   yield takeLatest(SagaActions.GetOnePack, onePackCardsWorker)
   yield takeLatest(SagaActions.DeleteCard, deleteOneCardFromPackWorker)
-  yield takeLatest(SagaActions.UpdateOrCreateCard, updateOneCardFromPackWorker)
+  yield takeLatest(SagaActions.UpdateCard, updateOneCardFromPackWorker)
+  yield takeLatest(SagaActions.CreateCard, createNewCardInPackWorker)
 }
