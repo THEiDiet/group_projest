@@ -37,6 +37,16 @@ export type InitialStateType = {
   resultMessageAddPack: string
 }
 
+export type GetPacksPayload = {
+  packName: string
+  min: number
+  max: number
+  sortPacks: string
+  pageCount: number
+  page: number
+  userId: string
+}
+
 export type CardsPackT = {
   _id: string
   user_id: string
@@ -55,7 +65,7 @@ export type CardsPackT = {
   __v: number
 }
 
-export type GetPackResponseT = {
+export type GetPacksResponseT = {
   cardPacks: CardsPackT[]
   page: number
   pageCount: number
@@ -66,7 +76,7 @@ export type GetPackResponseT = {
   tokenDeathTime: number
 }
 
-export type GetCardWorkerT = {
+export type GetPacksWorkerT = {
   type: string
-  payload?: string
+  payload: GetPacksPayload
 }

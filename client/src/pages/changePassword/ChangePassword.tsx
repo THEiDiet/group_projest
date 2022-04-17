@@ -2,8 +2,9 @@ import React, { ChangeEvent, FC, useState } from 'react'
 
 import { Navigate, useParams } from 'react-router-dom'
 
+import { Input } from 'components'
 import { Button } from 'components/common'
-import { Input } from 'components/index'
+import { EHelpers } from 'enums'
 import { useAppDispatch, useAppSelector } from 'hooks/useAppDispatchAndSelector'
 import { requestChangePassword } from 'store/reducers/userReducer'
 import styles from 'styles/Auth/Auth.module.scss'
@@ -13,7 +14,7 @@ export const ChangePassword: FC = () => {
   const error = useAppSelector<string>(state => state.user.error)
   const dispatch = useAppDispatch()
   const [password, setPassword] = useState<string>('')
-  const minimalPasswordLength = 7
+  const minimalPasswordLength = EHelpers.Seven
   const trimmedPassword = password.trim()
   const params = useParams<'*'>()
   const token = params['*']
@@ -25,7 +26,9 @@ export const ChangePassword: FC = () => {
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>): void => {
     setPassword(e.currentTarget.value)
   }
-  if (isLoggedIn) return <Navigate to="/" />
+  if (isLoggedIn) {
+    return <Navigate to="/" />
+  }
 
   return (
     <div className={styles.login_container}>
