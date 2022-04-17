@@ -7,7 +7,6 @@ import { CardsPackT, GetPacksResponseT } from 'types/PacksType'
 const initialState = {
   currentPage: 1,
   amountOfElementsToShow: 10,
-  totalPacksCount: 4660,
   portionSizeForPages: 10,
   portionNumber: 1,
   packs: [] as CardsPackT[],
@@ -16,7 +15,7 @@ const initialState = {
   cardPacksTotalCount: 0,
   rangeValues: {
     minCardsCount: 0,
-    maxCardsCount: 0,
+    maxCardsCount: 20,
   },
   currentPack: null as unknown as PackT,
   revert: {
@@ -25,6 +24,8 @@ const initialState = {
     [EPacksSort.Date]: false,
     [EPacksSort.CardsCount]: false,
   },
+  searchPack: '',
+  actualPacks: [] as CardsPackT[],
 }
 
 const slice = createSlice({
@@ -62,6 +63,13 @@ const slice = createSlice({
     setOnePackCards: (state, action: PayloadAction<PackT>) => {
       state.currentPack = action.payload
     },
+    setSearchPacks: (state, action: PayloadAction<string>) => {
+      const { payload: filterByName } = action
+      state.searchPack = filterByName
+      state.actualPacks = state.packs.filter(
+        p => p.name.toLowerCase().includes(filterByName.toLowerCase()) && p,
+      )
+    },
   },
 })
 
@@ -75,4 +83,5 @@ export const {
   sortCards,
   setOnePackCards,
   setPortionNumber,
+  setSearchPacks,
 } = slice.actions

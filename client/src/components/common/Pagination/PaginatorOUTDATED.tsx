@@ -23,7 +23,7 @@ const options = [EHelpers.Two, EHelpers.Five, EHelpers.Ten]
 
 export const PaginatorOUTDATED = () => {
   const currentPage = useAppSelector<number>(state => state.cards.currentPage)
-  const totalItemsCount = useAppSelector<number>(state => state.cards.totalPacksCount)
+  const totalItemsCount = useAppSelector<number>(state => state.cards.cardPacksTotalCount)
   const amountOfElementsToShow = useAppSelector<number>(state => state.cards.amountOfElementsToShow)
   const pages = totalItemsCount / amountOfElementsToShow
 

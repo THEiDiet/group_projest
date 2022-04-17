@@ -2,8 +2,8 @@ import React, { ChangeEvent, FC, useState } from 'react'
 
 import { Navigate, useParams } from 'react-router-dom'
 
-import { Button } from 'components/common'
 import { Input } from 'components'
+import { Button } from 'components/common'
 import { EHelpers } from 'enums'
 import { useAppDispatch, useAppSelector } from 'hooks/useAppDispatchAndSelector'
 import { requestChangePassword } from 'store/reducers/userReducer'
@@ -26,7 +26,9 @@ export const ChangePassword: FC = () => {
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>): void => {
     setPassword(e.currentTarget.value)
   }
-  if (isLoggedIn) return <Navigate to="/" />
+  if (isLoggedIn) {
+    return <Navigate to="/" />
+  }
 
   return (
     //   <div>Set new password</div>
@@ -44,7 +46,6 @@ export const ChangePassword: FC = () => {
     //       confirm new password
     //     </button>
     //   </div>
-
     <div className={styles.login_container}>
       <h1>Restore pass</h1>
       <div>
@@ -68,3 +69,4 @@ export const ChangePassword: FC = () => {
     </div>
   )
 }
+

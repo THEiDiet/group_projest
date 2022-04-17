@@ -1,11 +1,11 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-import { setSearchPack } from 'store/reducers'
+import { setSearchPacks } from 'store/reducers/cardsReducer'
 
 function* searchPacksWorker(data: any) {
   // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
   try {
-    yield put(setSearchPack(''))
+    yield put(setSearchPacks(''))
     // yield call(userApi.login, data.values)
     // yield put(setIsLoggedInAC(true))
   } catch (e) {

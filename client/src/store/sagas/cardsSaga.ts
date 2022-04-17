@@ -1,45 +1,44 @@
+import { AxiosError, AxiosResponse } from 'axios'
 import { SagaIterator } from 'redux-saga'
 import { call, put, StrictEffect, takeEvery, takeLatest } from 'redux-saga/effects'
 
 import { cardsApi } from 'api/cardsApi'
 import { SagaActions } from 'enums/sagaActions'
 import { setOnePackCards, setPacks } from 'store/reducers'
+import { setError } from 'store/reducers/appReducer'
 import { PackT } from 'types'
-import { GetPacksWorkerT, GetPacksResponseT, GetPacksPayload } from 'types/PacksType'
+import { GetPacksWorkerT, GetPacksResponseT, GetPacksPayload, CardsPackT } from 'types/PacksType'
 
-function* packsWorker({
-  payload,
-}: GetPacksWorkerT): Generator<StrictEffect, void, GetPacksResponseT> {
+function* packsWorker({ payload }: GetPacksWorkerT): Generator<StrictEffect, void, CardsPackT[]> {
   try {
-    const response: GetPacksResponseT = yield call(cardsApi.getPacks, payload)
-    yield put(setPacks(response))
+    // @ts-ignore
+    // const response: AxiosResponse< CardsPackT[],GetPacksWorkerT> = yield call(cardsApi.getPacks, payload)
+    const response: AxiosResponse<any> = yield call(cardsApi.getPacks, payload)
+    yield put(setPacks(response.data))
   } catch (e) {
-    yield put({ type: 'error', payload: e })
+    // yield put({ type: 'error', payload: e })
+    yield put(setError((e as AxiosError)?.response?.data))
   }
 }
+type CardsT = any
+type GetCardWorkerT = any
 
-function* onePackCardsWorker({
-  payload,
-}: {
-  payload: string
-  type: string
-}): Generator<StrictEffect, void, PackT> {
-function* onePackCardsWorker({ payload }: GetCardWorkerT): Generator<StrictEffect, void, CardsT> {
+function* onePackCardsWorker({ payload }: any): Generator<StrictEffect, void, CardsT> {
   try {
-    const response: PackT = yield call(cardsApi.getOnePackCards, payload)
-    yield put(setOnePackCards(response))
+    const response: AxiosResponse<PackT> = yield call(cardsApi.getOnePackCards, payload)
+    yield put(setOnePackCards(response.data))
   } catch (e) {
-    yield put({ type: 'error', payload: e })
+    console.log(e)
+    yield put(setError((e as AxiosError)?.response?.data))
   }
 }
 
 export function* cardsWatcher(): SagaIterator {
-  yield takeEvery(SagaActions.GetPacks, packsWorker)
-  yield takeLatest('GET_ONE_PACK_CARDS', onePackCardsWorker)
+  yield takeLatest(SagaActions.GetPacks, packsWorker)
+  yield takeLatest(SagaActions.GetOnePack, onePackCardsWorker)
 }
 
 export const getPacksS = (payload?: Partial<GetPacksPayload>) =>
   ({ type: SagaActions.GetPacks, payload } as const)
 
-export const getOnePackS = (payload: GetPacksWorkerT) =>
-  ({ type: SagaActions.GetPacks, payload } as const)
+export const getOnePackS = (payload: any) => ({ type: SagaActions.GetOnePack, payload } as const)
