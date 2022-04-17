@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 
-import { Button } from '../../components/common'
-import { Radio } from '../../components/common/radio/Radio'
+import { Button } from 'components/common'
+import { Radio } from 'components/common/radio/Radio'
 
 export const TestComponent: FC = () => (
   <div>

@@ -4,8 +4,8 @@ import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 import {
   requestChangePasswordType,
   requestChangeUserInfoType,
-  setUpdatedUserInfo,
   setUserError,
+  setUserInfo,
 } from '../reducers/userReducer'
 
 import { userApi } from 'api/userApi'
@@ -20,9 +20,7 @@ export function* setNameWorker(action: requestChangeUserInfoType) {
       name,
       avatar,
     })
-    // eslint-disable-next-line no-debugger
-    debugger
-    yield put(setUpdatedUserInfo(res.data.updatedUser))
+    yield put(setUserInfo(res.data.updatedUser))
   } catch (e) {
     yield put(setUserError((e as AxiosError)?.response?.data.error))
   }

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { EHelpers, EPacksSort } from 'enums'
-import { PackT, SortT } from 'types'
+import { CardT, PackT, SortT } from 'types'
 import { CardsPackT, GetPacksResponseT } from 'types/PacksType'
 
 const initialState = {
@@ -17,7 +17,15 @@ const initialState = {
     minCardsCount: 0,
     maxCardsCount: 20,
   },
-  currentPack: null as unknown as PackT,
+  currentPack: {
+    cards: [] as CardT[],
+    cardsTotalCount: 0,
+    maxGrade: 0,
+    minGrade: 0,
+    page: 0,
+    pageCount: 0,
+    packUserId: '',
+  },
   revert: {
     [EPacksSort.Name]: false,
     [EPacksSort.UserName]: false,
@@ -50,7 +58,7 @@ const slice = createSlice({
       state.page = page
       state.pageCount = pageCount
       state.cardPacksTotalCount = cardPacksTotalCount
-      state.actualPacks = cardPacks
+      // state.actualPacks = cardPacks
     },
     sortCards: (state, action: PayloadAction<SortT>) => {
       const { payload: sortType } = action
@@ -68,21 +76,12 @@ const slice = createSlice({
     setSearchPacks: (state, action: PayloadAction<string>) => {
       const { payload: filterByName } = action
       state.searchPack = filterByName
-      state.actualPacks = state.packs.filter(
-        p => p.name.toLowerCase().includes(filterByName.toLowerCase()) && p,
-      )
     },
-    setOnlyUserPack: (state, action: PayloadAction<string>) => {
-      state.onlyUserPack = state.actualPacks.filter(p => p.user_id === action.payload)
-    },
+    setOnlyUserPack: (state, action: PayloadAction<string>) => {},
     setFixCountPack: (state, action: PayloadAction<[number, number]>) => {
       const [min, max] = action.payload
       state.rangeValues.minCardsCount = min
       state.rangeValues.maxCardsCount = max
-      state.actualPacks = state.actualPacks.slice(
-        state.rangeValues.minCardsCount,
-        state.rangeValues.maxCardsCount,
-      )
     },
   },
 })
@@ -97,6 +96,6 @@ export const {
   sortCards,
   setOnePackCards,
   setPortionNumber,
-  setSearchPacks,
   setFixCountPack,
+  setSearchPacks,
 } = slice.actions

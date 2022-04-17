@@ -1,12 +1,13 @@
+import { AxiosError, AxiosResponse } from 'axios'
 import { SagaIterator } from 'redux-saga'
-import { call, put, StrictEffect, takeEvery, takeLatest } from 'redux-saga/effects'
+import { call, put, StrictEffect, takeLatest } from 'redux-saga/effects'
 
 import { cardsApi } from 'api/cardsApi'
 import { SagaActions } from 'enums/sagaActions'
 import { setOnePackCards, setPacks } from 'store/reducers'
 import { setError } from 'store/reducers/appReducer'
 import { PackT } from 'types'
-import { GetPacksWorkerT, GetPacksResponseT, GetPacksPayload, CardsPackT } from 'types/PacksType'
+import { CardsPackT, GetPacksPayload, GetPacksWorkerT } from 'types/PacksType'
 
 function* packsWorker({ payload }: GetPacksWorkerT): Generator<StrictEffect, void, CardsPackT[]> {
   try {
@@ -37,7 +38,7 @@ export function* cardsWatcher(): SagaIterator {
   yield takeLatest(SagaActions.GetOnePack, onePackCardsWorker)
 }
 
-export const getPacksS = (payload?: Partial<GetPacksPayload>) =>
+export const getPacksS = (payload: Partial<GetPacksPayload>) =>
   ({ type: SagaActions.GetPacks, payload } as const)
 
 export const getOnePackS = (payload: any) => ({ type: SagaActions.GetOnePack, payload } as const)

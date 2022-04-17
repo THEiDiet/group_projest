@@ -11,7 +11,7 @@ import {
   setCurrentPage,
   setPortionNumber,
 } from 'store/reducers/cardsReducer'
-import { getPacksS } from 'store/sagas/cardsSaga'
+
 
 type propsType = {
   currentPage: number

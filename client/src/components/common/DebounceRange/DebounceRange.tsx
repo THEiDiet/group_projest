@@ -26,8 +26,9 @@ type DebounceViewRangePropsType = DefaultInputPropsType &
 export const DebounceRange: FC<DebounceViewRangePropsType> = memo(
   forwardRef(({ showQuantityPacks, ...restProps }, ref) => {
     const allPackLength = useAppSelector(state => state.cards.actualPacks.length)
-    const minValue = 0
-    const [values, setValues] = useState<[number, number]>([minValue, allPackLength])
+    const max = useAppSelector<number>(state => state.cards.rangeValues.maxCardsCount)
+    const min = useAppSelector<number>(state => state.cards.rangeValues.minCardsCount)
+    const [values, setValues] = useState<[number, number]>([min, max])
     const search = (value: [number, number]): void => {
       showQuantityPacks(value)
     }
@@ -45,8 +46,8 @@ export const DebounceRange: FC<DebounceViewRangePropsType> = memo(
           ref={ref}
           onChangeRange={onSearchQuestionChange}
           values={values}
-          min={minValue}
-          max={allPackLength}
+          min={min}
+          max={max}
           // eslint-disable-next-line react/jsx-props-no-spreading
           {...restProps}
         />

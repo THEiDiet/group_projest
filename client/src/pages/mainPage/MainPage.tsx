@@ -9,25 +9,20 @@ import { Table } from 'components/common/table'
 import { Paths } from 'enums'
 import { useAppSelector } from 'hooks'
 import { getPacksS } from 'store/sagas/cardsSaga'
-import { setSearchPacks } from 'store/reducers'
 
 export const MainPage = (): ReactElement => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
-  const min = useAppSelector(state => state.cards.rangeValues.minCardsCount)
-  const max = useAppSelector(state => state.cards.rangeValues.maxCardsCount)
+  const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
+  const initStatePacks = useAppSelector(state => state.cards.packs)
   useEffect(() => {
     if (!isLoggedIn) {
       navigate(Paths.Login)
+    } else {
+      dispatch(getPacksS({ packName: '' }))
     }
   }, [isLoggedIn])
-  useEffect(() => {
-    dispatch(getPacksS({ min, max }))
-  }, [])
-  const searchByPacks = useCallback((pack: string): void => {
-    dispatch(setSearchPacks(pack))
-  }, [])
+
   return (
     <div className={s.main}>
       <Table />

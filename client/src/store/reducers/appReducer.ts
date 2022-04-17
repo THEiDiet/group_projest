@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { AxiosResponse } from 'axios'
+import { AxiosError, AxiosResponse } from 'axios'
 import { SagaIterator } from 'redux-saga'
 import { call, put, takeLatest } from 'redux-saga/effects'
 
@@ -35,11 +35,12 @@ export const requestInitialize = () => ({ type: 'REQUEST_INITIALIZE' } as const)
 
 export function* setInitializeWorker(): SagaIterator {
   try {
+    // eslint-disable-next-line no-debugger
     const response: AxiosResponse<UserType> = yield call(userApi.me)
     yield put(setUserInfo(response.data))
     yield put(setIsLoggedInAC(true))
   } catch (e) {
-    console.log(e)
+    console.warn(e as AxiosError)
   } finally {
     yield put(setInitializeAC(true))
   }
