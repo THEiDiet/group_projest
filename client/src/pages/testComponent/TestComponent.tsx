@@ -1,11 +1,19 @@
 import React, { FC } from 'react'
 
-import { Button } from '../../components/common'
-import { Radio } from '../../components/common/radio/Radio'
+import CardsTable from '../../components/Cards/CardsTable'
+import { Paginator } from '../../components/common/Pagination/Paginator'
 
 export const TestComponent: FC = () => (
   <div>
-    <Button>Button</Button>
-    <Radio options={['cat', 'fish']} />
+    <CardsTable />
+    <Paginator
+      onPageChangeHandle={() => {}}
+      currentPage={1}
+      totalItemsCount={100}
+      amountOfElementsToShow={10}
+      itemName="cards"
+      portionSizeForPages={10}
+      portionNumber={1}
+    />
   </div>
 )

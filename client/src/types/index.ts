@@ -6,3 +6,5 @@ export type { TableRowProps, TableCellProps } from './TableTypes'
 export type { SortT, PackT } from './PackTypes'
 
 export type { PackType, PacksType, InitialStateType } from './PacksType'
+
+export type { UpdateORCreateCardInCurrentPackType } from './CardsType'

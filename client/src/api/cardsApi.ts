@@ -1,5 +1,8 @@
 import { AxiosResponse } from 'axios'
 
+import { UpdateORCreateCardInCurrentPackType } from '../types'
+import { CardT } from '../types/PackTypes'
+
 import { instance } from './config'
 
 import { CardsPackT, GetPacksPayload, GetPacksResponseT } from 'types/PacksType'
@@ -36,4 +39,16 @@ export const cardsApi = {
       // TODO: сделать полный набор параметров, не только cardsPack
       `cards/card?cardsPack_id=${payload}`,
     ),
+  createCardInCurrentPack: async (payload: UpdateORCreateCardInCurrentPackType) => {
+    const res: AxiosResponse<CardT> = await instance.post(`cards/card`, { card: payload })
+    return res.data
+  },
+  deleteCardFromCurrentPack: async (payload: string) => {
+    const res: AxiosResponse<CardT> = await instance.delete(`cards/card?id=${payload}`)
+    return res.data
+  },
+  updateCardInCurrentPack: async (payload: UpdateORCreateCardInCurrentPackType) => {
+    const res: AxiosResponse<CardT> = await instance.put(`cards/card`, { card: payload })
+    return res.data
+  },
 }

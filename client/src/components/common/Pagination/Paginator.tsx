@@ -42,7 +42,7 @@ export const Paginator: React.FC<propsType> = ({
   for (let i = EHelpers.One; i < pagesAmount + EHelpers.One; i += EHelpers.One) {
     pages.push(i)
   }
-  const dispatch = useDispatch()
+
   const appDispatch = useAppDispatch()
 
   const handlePortionNumberChange = (value: number): void => {

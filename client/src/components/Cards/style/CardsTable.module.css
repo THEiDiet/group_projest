@@ -1,0 +1,18 @@
+.tableHead {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+
+.tableRow {
+    align-self: self-start;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between ;
+}
+
+.tableTest  {
+    align-self: center;
+}
