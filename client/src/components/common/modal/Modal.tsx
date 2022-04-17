@@ -9,7 +9,7 @@ type ModalProps = {
   isOpen: boolean
   handleOpen: () => void
 }
-// eslint-disable-next-line consistent-return
+
 export const Modal = (props: ModalProps): any => {
   const { handleOpen, isOpen, component } = props
   const root = document.querySelector('body')

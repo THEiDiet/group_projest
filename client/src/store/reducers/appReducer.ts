@@ -21,12 +21,15 @@ const slice = createSlice({
     setInitializeAC: (state, action: PayloadAction<boolean>) => {
       state.isInitialized = action.payload
     },
+    setError: (state, action: PayloadAction<string>) => {
+      state.error = action.payload
+    },
   },
 })
 
 export const appReducer = slice.reducer
 
-export const { setInitializeAC } = slice.actions
+export const { setInitializeAC, setError } = slice.actions
 
 export const requestInitialize = () => ({ type: 'REQUEST_INITIALIZE' } as const)
 

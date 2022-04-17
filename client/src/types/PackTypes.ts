@@ -2,7 +2,7 @@ import { EPacksSort } from 'enums'
 
 export type SortT = EPacksSort.Date | EPacksSort.Name | EPacksSort.UserName | EPacksSort.CardsCount
 
-type CardT = {
+export type CardT = {
   answer: string
   question: string
   cardsPack_id: string

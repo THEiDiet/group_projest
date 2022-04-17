@@ -1,8 +1,12 @@
 import React, { ChangeEvent, FC, useState } from 'react'
 
+import { Navigate } from 'react-router-dom'
+
 import { userApi } from 'api/userApi'
 import { Input } from 'components'
 import { Button } from 'components/common/button/Button'
+import { Paths } from 'enums'
+import { useAppSelector } from 'hooks'
 import { useLoader } from 'hooks/useLoader'
 import styles from 'styles/Auth/Auth.module.scss'
 
@@ -13,7 +17,7 @@ export const RestorePassword: FC = () => {
   const [error, setError] = useState('')
   const [response, setResponse] = useState<any>(null)
   const { isLoading, startLoading, stopLoading } = useLoader()
-
+  const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setEmail(e.target.value)
   }
@@ -28,7 +32,9 @@ export const RestorePassword: FC = () => {
       stopLoading()
     }
   }
-
+  if (!isLoggedIn) {
+    return <Navigate to={Paths.Login} replace />
+  }
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -36,16 +42,9 @@ export const RestorePassword: FC = () => {
         <h2>Restore pass</h2>
         <div>
           <div>
-            <Input
-              name="email"
-              label="Email"
-              type="text"
-              onChange={handleChange}
-              value={email}
-            />
+            <Input name="email" label="Email" type="text" onChange={handleChange} value={email} />
           </div>
         </div>
-        <div className={styles.errorMessage}>{error || response}</div>
         <Button onClick={restorePassword}>Restore</Button>
         {isLoading && <span>Loading...</span>}
       </div>

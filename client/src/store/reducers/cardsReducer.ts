@@ -2,19 +2,20 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { EHelpers, EPacksSort } from 'enums'
 import { PackT, SortT } from 'types'
-import { CardsPackT, GetPackResponseT } from 'types/PacksType'
+import { CardsPackT, GetPacksResponseT } from 'types/PacksType'
 
 const initialState = {
   currentPage: 1,
   amountOfElementsToShow: 10,
-  totalPacksCount: 4660,
+  portionSizeForPages: 10,
+  portionNumber: 1,
   packs: [] as CardsPackT[],
   page: 1,
   pageCount: 0,
   cardPacksTotalCount: 0,
   rangeValues: {
     minCardsCount: 0,
-    maxCardsCount: 0,
+    maxCardsCount: 20,
   },
   currentPack: null as unknown as PackT,
   revert: {
@@ -23,6 +24,8 @@ const initialState = {
     [EPacksSort.Date]: false,
     [EPacksSort.CardsCount]: false,
   },
+  searchPack: '',
+  actualPacks: [] as CardsPackT[],
 }
 
 const slice = createSlice({
@@ -35,7 +38,10 @@ const slice = createSlice({
     setAmountOfElementsToShow(state, action: PayloadAction<number>) {
       state.amountOfElementsToShow = action.payload
     },
-    setPacks: (state, action: PayloadAction<GetPackResponseT>) => {
+    setPortionNumber(state, action: PayloadAction<number>) {
+      state.portionNumber = action.payload
+    },
+    setPacks: (state, action: PayloadAction<GetPacksResponseT>) => {
       const { cardPacks, cardPacksTotalCount, minCardsCount, maxCardsCount, pageCount, page } =
         action.payload
       state.packs = cardPacks
@@ -57,11 +63,25 @@ const slice = createSlice({
     setOnePackCards: (state, action: PayloadAction<PackT>) => {
       state.currentPack = action.payload
     },
+    setSearchPacks: (state, action: PayloadAction<string>) => {
+      const { payload: filterByName } = action
+      state.searchPack = filterByName
+      state.actualPacks = state.packs.filter(
+        p => p.name.toLowerCase().includes(filterByName.toLowerCase()) && p,
+      )
+    },
   },
 })
 
 export const cardsReducer = slice.reducer
 
 // ACTION CREATORS
-export const { setCurrentPage, setAmountOfElementsToShow, setPacks, sortCards, setOnePackCards } =
-  slice.actions
+export const {
+  setCurrentPage,
+  setAmountOfElementsToShow,
+  setPacks,
+  sortCards,
+  setOnePackCards,
+  setPortionNumber,
+  setSearchPacks,
+} = slice.actions

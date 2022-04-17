@@ -2,8 +2,7 @@ import { AxiosResponse } from 'axios'
 
 import { instance } from './config'
 
-import { CardsPackT } from 'types/PacksType'
-import { PackT } from 'types/PackTypes'
+import { CardsPackT, GetPacksPayload, GetPacksResponseT } from 'types/PacksType'
 
 export const cardsApi = {
   setPack() {
@@ -17,17 +16,24 @@ export const cardsApi = {
     const res = instance.post('cards/pack', data)
     console.log(res)
   },
-  getPack: async (payload: string = '4660') => {
-    const res: AxiosResponse<CardsPackT[]> = await instance.get(
-      `cards/pack${payload && `?pageCount=${payload}`}`,
-    )
-    return res.data
+  getPacks: (payload: GetPacksPayload): Promise<AxiosResponse<CardsPackT[]>> => {
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+    const { packName, min, sortPacks, userId, max, pageCount = 10, page } = payload
+    return instance.get<CardsPackT[]>(`cards/pack`, {
+      params: {
+        packName,
+        min,
+        max,
+        sortPacks,
+        pageCount,
+        page,
+        user_id: userId,
+      },
+    })
   },
-  getOnePackCards: async (payload: string = '') => {
-    const res: AxiosResponse<PackT> = await instance.get(
+  getOnePackCards: (payload: string = '') =>
+    instance.get(
       // TODO: сделать полный набор параметров, не только cardsPack
       `cards/card?cardsPack_id=${payload}`,
-    )
-    return res.data
-  },
+    ),
 }
