@@ -25,7 +25,7 @@ type DebounceViewRangePropsType = DefaultInputPropsType &
 
 export const DebounceRange: FC<DebounceViewRangePropsType> = memo(
   forwardRef(({ showQuantityPacks, ...restProps }, ref) => {
-    const allPackLength = useAppSelector(state => state.cards.actualPacks.length)
+    const allPackLength = useAppSelector(state => state.cards.cardPacksTotalCount)
     const max = useAppSelector<number>(state => state.cards.rangeValues.maxCardsCount)
     const min = useAppSelector<number>(state => state.cards.rangeValues.minCardsCount)
     const [values, setValues] = useState<[number, number]>([min, max])

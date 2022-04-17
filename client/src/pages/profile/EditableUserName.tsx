@@ -14,8 +14,10 @@ export const EditableUserName: FC = React.memo(() => {
   const changeName = (): void => {
     if (userAvatar) {
       dispatch(requestChangeUserInfo(name, userAvatar))
+      setEdit(false)
     } else {
       dispatch(requestChangeUserInfo(name, ''))
+      setEdit(false)
     }
   }
   return (
@@ -28,7 +30,7 @@ export const EditableUserName: FC = React.memo(() => {
             onChange={e => {
               setName(e.currentTarget.value)
             }}
-            onBlur={() => setEdit(false)}
+            // onBlur={() => setEdit(false)}
             //  eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus
           />
@@ -36,13 +38,14 @@ export const EditableUserName: FC = React.memo(() => {
       ) : (
         <span onDoubleClick={() => setEdit(true)}>{stateName || 'Enter new name'}</span>
       )}
-      <div>
+      {edit ? (
         <button type="button" onClick={changeName}>
           Confirm
         </button>
-      </div>
+      ) : (
+        ''
+      )}
+      <div />
     </div>
   )
 })
-
-

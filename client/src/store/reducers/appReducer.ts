@@ -40,6 +40,7 @@ export function* setInitializeWorker(): SagaIterator {
     yield put(setUserInfo(response.data))
     yield put(setIsLoggedInAC(true))
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.warn(e as AxiosError)
   } finally {
     yield put(setInitializeAC(true))

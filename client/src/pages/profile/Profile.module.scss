@@ -6,11 +6,19 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
+  position: relative;
 
   .avatarIcon {
     width: 100px;
     height: 100px;
     border-radius: 50%;
+  }
+  .avatarIconChange{
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    left: 30%;
+    opacity: 0;
   }
 
   .user_name {

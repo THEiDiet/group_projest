@@ -17,7 +17,7 @@ export type DefaultInputPropsType = DetailedHTMLProps<
 >
 
 type SuperDoubleRangePropsType = DefaultInputPropsType & OtherProps
-export enum noMagicNumber {
+export enum EIndexDBRange {
   null = 0,
   one = 1,
   ten = 10,
@@ -25,26 +25,26 @@ export enum noMagicNumber {
 }
 export const DoubleRangeSlider: FC<SuperDoubleRangePropsType> = props => {
   const { onChangeRange, values, className, min, max, ...rest } = props
-  const minValue = values ? values[noMagicNumber.null] : noMagicNumber.null
-  const maxValue = values ? values[noMagicNumber.one] : noMagicNumber.hundred
+  const minValue = values ? values[EIndexDBRange.null] : EIndexDBRange.null
+  const maxValue = values ? values[EIndexDBRange.one] : EIndexDBRange.hundred
   const minValueRef = useRef(null)
   const maxValueRef = useRef(null)
   const rangeRef = useRef(null)
 
-  const onHandleMinValueChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = Math.min(+e.currentTarget.value, maxValue - noMagicNumber.one)
+  const onHandleMinValueChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    const value = Math.min(+e.currentTarget.value, maxValue - EIndexDBRange.one)
     e.currentTarget.value = value.toString()
     // eslint-disable-next-line no-unused-expressions
     onChangeRange && onChangeRange([value, maxValue])
   }
 
-  const onHandleMaxValueChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = Math.max(+e.currentTarget.value, minValue + noMagicNumber.one)
+  const onHandleMaxValueChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    const value = Math.max(+e.currentTarget.value, minValue + EIndexDBRange.one)
     // eslint-disable-next-line no-unused-expressions
     onChangeRange && onChangeRange([minValue, value])
   }
   const minClassName = `${s.thumbRange} ${s.thumbRangeIndex3} ${
-    values && values[noMagicNumber.null] > values[noMagicNumber.one] - noMagicNumber.ten
+    values && values[EIndexDBRange.null] > values[EIndexDBRange.one] - EIndexDBRange.ten
       ? s.thumbRangeIndex5
       : ''
   }`
@@ -52,7 +52,7 @@ export const DoubleRangeSlider: FC<SuperDoubleRangePropsType> = props => {
   const getPercent = useCallback(
     value =>
       // @ts-ignore
-      Math.round(((value - min) / (max - min)) * noMagicNumber.hundred),
+      Math.round(((value - min) / (max - min)) * EIndexDBRange.hundred),
     [min, max],
   )
 

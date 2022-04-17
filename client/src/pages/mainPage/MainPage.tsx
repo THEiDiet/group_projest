@@ -14,7 +14,6 @@ export const MainPage = (): ReactElement => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
-  const initStatePacks = useAppSelector(state => state.cards.packs)
   useEffect(() => {
     if (!isLoggedIn) {
       navigate(Paths.Login)

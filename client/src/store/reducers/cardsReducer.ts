@@ -33,7 +33,6 @@ const initialState = {
     [EPacksSort.CardsCount]: false,
   },
   searchPack: '',
-  actualPacks: [] as CardsPackT[],
   onlyUserPack: [] as CardsPackT[],
 }
 

@@ -7,22 +7,44 @@ import { SagaActions } from 'enums/sagaActions'
 import { setOnePackCards, setPacks } from 'store/reducers'
 import { setError } from 'store/reducers/appReducer'
 import { PackT } from 'types'
-import { CardsPackT, GetPacksPayload, GetPacksWorkerT } from 'types/PacksType'
+import { CardsPackT, GetPacksPayload, GetPacksResponseT, GetPacksWorkerT } from 'types/PacksType'
 
 function* packsWorker({ payload }: GetPacksWorkerT): Generator<StrictEffect, void, CardsPackT[]> {
   try {
     // @ts-ignore
     // const response: AxiosResponse< CardsPackT[],GetPacksWorkerT> = yield call(cardsApi.getPacks, payload)
-    const response: AxiosResponse<any> = yield call(cardsApi.getPacks, payload)
+    const response: AxiosResponse<GetPacksResponseT> = yield call(cardsApi.getPacks, payload)
+    // В maxCardsCount всегда приходит 103 х(
+    // const {
+    //   cardPacks,
+    //   cardPacksTotalCount,
+    //   minCardsCount,
+    //   page,
+    //   pageCount,
+    //   token,
+    //   tokenDeathTime,
+    // } = response.data
+    // yield put(
+    //   setPacks({
+    //     cardPacks,
+    //     cardPacksTotalCount,
+    //     minCardsCount,
+    //     maxCardsCount: 20,
+    //     page,
+    //     pageCount,
+    //     token,
+    //     tokenDeathTime,
+    //   }),
+    // )
+    // eslint-disable-next-line no-debugger
+    // debugger
     yield put(setPacks(response.data))
   } catch (e) {
-    // yield put({ type: 'error', payload: e })
     yield put(setError((e as AxiosError)?.response?.data))
   }
 }
 type CardsT = any
-type GetCardWorkerT = any
-
+// type GetCardWorkerT = any
 function* onePackCardsWorker({ payload }: any): Generator<StrictEffect, void, CardsT> {
   try {
     const response: AxiosResponse<PackT> = yield call(cardsApi.getOnePackCards, payload)
