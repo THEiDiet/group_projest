@@ -1,5 +1,7 @@
 import React, { ChangeEvent } from 'react'
 
+import { useDispatch } from 'react-redux'
+
 import s from './styles/Paginator.module.css'
 
 import { EHelpers } from 'enums'
@@ -9,6 +11,7 @@ import {
   setCurrentPage,
   setPortionNumber,
 } from 'store/reducers/cardsReducer'
+import { getPacksS } from 'store/sagas/cardsSaga'
 
 type propsType = {
   currentPage: number
@@ -17,6 +20,7 @@ type propsType = {
   itemName: string
   portionSizeForPages: number
   portionNumber: number
+  onPageChangeHandle: (value: number) => void
 }
 
 const options = [EHelpers.Two, EHelpers.Five, EHelpers.Ten]
@@ -28,6 +32,7 @@ export const Paginator: React.FC<propsType> = ({
   itemName,
   portionSizeForPages,
   portionNumber,
+  onPageChangeHandle,
 }) => {
   const pagesAmount = Math.ceil(totalItemsCount / amountOfElementsToShow)
   const leftSideBorder = (portionNumber - EHelpers.One) * portionSizeForPages + EHelpers.One
@@ -37,21 +42,22 @@ export const Paginator: React.FC<propsType> = ({
   for (let i = EHelpers.One; i < pagesAmount + EHelpers.One; i += EHelpers.One) {
     pages.push(i)
   }
-
-  const dispatch = useAppDispatch()
+  const dispatch = useDispatch()
+  const appDispatch = useAppDispatch()
 
   const handlePortionNumberChange = (value: number): void => {
-    dispatch(setPortionNumber(value))
+    appDispatch(setPortionNumber(value))
   }
 
   const handlePageChange = (value: number): void => {
-    dispatch(setCurrentPage(value))
+    onPageChangeHandle(value)
+    appDispatch(setCurrentPage(value))
   }
 
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>): void => {
-    dispatch(setAmountOfElementsToShow(+event.target.value))
-    dispatch(setPortionNumber(EHelpers.One))
-    dispatch(setCurrentPage(EHelpers.One))
+    appDispatch(setAmountOfElementsToShow(+event.target.value))
+    appDispatch(setPortionNumber(EHelpers.One))
+    appDispatch(setCurrentPage(EHelpers.One))
   }
 
   return (

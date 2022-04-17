@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { EHelpers, EPacksSort } from 'enums'
 import { PackT, SortT } from 'types'
-import { CardsPackT, GetPackResponseT } from 'types/PacksType'
+import { CardsPackT, GetPacksResponseT } from 'types/PacksType'
 
 const initialState = {
   currentPage: 1,
@@ -40,7 +40,7 @@ const slice = createSlice({
     setPortionNumber(state, action: PayloadAction<number>) {
       state.portionNumber = action.payload
     },
-    setPacks: (state, action: PayloadAction<GetPackResponseT>) => {
+    setPacks: (state, action: PayloadAction<GetPacksResponseT>) => {
       const { cardPacks, cardPacksTotalCount, minCardsCount, maxCardsCount, pageCount, page } =
         action.payload
       state.packs = cardPacks

@@ -2,7 +2,7 @@ import { AxiosResponse } from 'axios'
 
 import { instance } from './config'
 
-import { CardsPackT } from 'types/PacksType'
+import { CardsPackT, GetPacksPayload } from 'types/PacksType'
 import { PackT } from 'types/PackTypes'
 
 export const cardsApi = {
@@ -17,10 +17,19 @@ export const cardsApi = {
     const res = instance.post('cards/pack', data)
     console.log(res)
   },
-  getPack: async (payload: string = '4660') => {
-    const res: AxiosResponse<CardsPackT[]> = await instance.get(
-      `cards/pack?sortPacks=0updated`,
-    )
+  getPacks: async (payload: GetPacksPayload) => {
+    const { packName, min, sortPacks, userId, max, pageCount, page } = payload
+    const res = await instance.get<CardsPackT[]>(`cards/pack`, {
+      params: {
+        packName,
+        min,
+        max,
+        sortPacks,
+        pageCount,
+        page,
+        user_id: userId,
+      },
+    })
     return res.data
   },
   getOnePackCards: async (payload: string = '') => {

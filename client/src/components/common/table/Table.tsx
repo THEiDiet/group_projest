@@ -1,45 +1,66 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useState } from 'react'
+
+import { useDispatch } from 'react-redux'
 
 import { Card } from 'components'
 import { Modal } from 'components/common/modal/Modal'
 import { Paginator } from 'components/common/Pagination/Paginator'
 import { TableCell, TableRow } from 'components/common/table'
 import s from 'components/common/table/table.module.scss'
-import { EHelpers, EPacksSort, PaginationNames } from 'enums'
+import { EHelpers, PaginationNames } from 'enums'
 import { useAppDispatch, useAppSelector } from 'hooks'
-import { sortCards } from 'store/reducers'
-import { CardsPackT } from 'types/PacksType'
+import { getPacksS } from 'store/sagas/cardsSaga'
 
 export const Table: FC = () => {
   const [isModalOpen, setModalOpen] = useState(false)
+  const [sortTitle, setSortTitle] = useState('')
+  const [oneZero, setOneZero] = useState(true)
   const packs = useAppSelector(state => state.cards.packs)
   const currentPage = useAppSelector(state => state.cards.currentPage)
   const amountOfElementsToShow = useAppSelector(state => state.cards.amountOfElementsToShow)
-  const [pieceOfPacks, setPieceOfPacks] = useState<CardsPackT[]>([])
   const portionSizeForPages = useAppSelector(state => state.cards.portionSizeForPages)
   const portionNumber = useAppSelector(state => state.cards.portionNumber)
   const totalItemsCount = useAppSelector<number>(state => state.cards.totalPacksCount)
-  // const amountOfElementsToShow = useAppSelector<number>(state => state.cards.amountOfElementsToShow)
 
-  const dispatch = useAppDispatch()
+  const appDispatch = useAppDispatch()
+  const dispatch = useDispatch()
+
+  const sortByParam = (sortName: string): void => {
+    if (sortName === sortTitle) {
+      dispatch(getPacksS({ sortPacks: `${Number(oneZero)}${sortName}`, page: currentPage }))
+      setOneZero(!oneZero)
+    }
+    if (sortName !== sortTitle) {
+      dispatch(getPacksS({ sortPacks: `${EHelpers.One}${sortName}`, page: currentPage }))
+      setOneZero(false)
+      setSortTitle(sortName)
+    }
+  }
+  const handlePageChange = (value: number): void => {
+    const obj = sortTitle
+      ? { sortPacks: `${Number(!oneZero)}${sortTitle}`, page: value }
+      : { page: value }
+    dispatch(getPacksS(obj))
+  }
   const sortByName = (): void => {
-    dispatch(sortCards(EPacksSort.Name))
+    sortByParam('name')
   }
   const sortByUserName = (): void => {
-    dispatch(sortCards(EPacksSort.UserName))
+    sortByParam('user_name')
   }
   const sortByDate = (): void => {
-    dispatch(sortCards(EPacksSort.Date))
+    sortByParam('updated')
   }
   const sortByCardsCount = (): void => {
-    dispatch(sortCards(EPacksSort.CardsCount))
+    sortByParam('cardsCount')
   }
+
   const onTableRowClick = (id: string): void => {
-    dispatch({ type: 'GET_ONE_PACK_CARDS', payload: id })
+    appDispatch({ type: 'GET_ONE_PACK_CARDS', payload: id })
     setModalOpen(true)
   }
-  const tableRows = pieceOfPacks.length
-    ? pieceOfPacks.map(({ user_name: userName, _id: id, name, updated, cardsCount }) => {
+  const tableRows = packs.length
+    ? packs.map(({ user_name: userName, _id: id, name, updated, cardsCount }) => {
         const date = new Date(updated).toLocaleDateString()
         return (
           <TableRow key={id} onClick={() => onTableRowClick(id)}>
@@ -52,14 +73,6 @@ export const Table: FC = () => {
         )
       })
     : []
-  useEffect(() => {
-    setPieceOfPacks(
-      packs.slice(
-        (currentPage - EHelpers.One) * amountOfElementsToShow,
-        currentPage * amountOfElementsToShow,
-      ),
-    )
-  }, [packs, currentPage, amountOfElementsToShow])
   return (
     <div className={s.table}>
       <div className={s.head}>
@@ -87,6 +100,7 @@ export const Table: FC = () => {
         amountOfElementsToShow={amountOfElementsToShow}
         portionSizeForPages={portionSizeForPages}
         portionNumber={portionNumber}
+        onPageChangeHandle={handlePageChange}
       />
       <Modal
         component={<Card />}
