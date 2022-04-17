@@ -1,3 +1,4 @@
 export enum EDebounceDelay {
-  Input = 1000,
+  Input = 750,
+  Range = 1000,
 }

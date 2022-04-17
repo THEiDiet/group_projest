@@ -1,19 +1,17 @@
-import React, { FC, useCallback, useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 
 import { Card } from 'components'
 import { Modal } from 'components/common/modal/Modal'
 import { Paginator } from 'components/common/Pagination/Paginator'
 import { TableCell, TableRow } from 'components/common/table'
 import s from 'components/common/table/table.module.scss'
-import { DebounceSearchInput } from 'components/DebounceSearchInput'
 import { EHelpers, EPacksSort } from 'enums'
 import { useAppDispatch, useAppSelector } from 'hooks'
-import { sortCards, setSearchPacks } from 'store/reducers'
+import { sortCards } from 'store/reducers'
 import { CardsPackT } from 'types/PacksType'
 
 export const Table: FC = () => {
   const [isModalOpen, setModalOpen] = useState(false)
-  // const packs = useAppSelector(state => state.cards.packs)
   const currentPage = useAppSelector(state => state.cards.currentPage)
   const portionSize = useAppSelector(state => state.cards.amountOfElementsToShow)
   const [pieceOfPacks, setPieceOfPacks] = useState<CardsPackT[]>([])
@@ -35,10 +33,6 @@ export const Table: FC = () => {
     dispatch({ type: 'GET_ONE_PACK_CARDS', payload: id })
     setModalOpen(true)
   }
-
-  const searchByPacks = useCallback((pack: string): void => {
-    dispatch(setSearchPacks(pack))
-  }, [])
   const tableRows = pieceOfPacks.length
     ? pieceOfPacks.map(({ user_name: userName, _id: id, name, updated, cardsCount }) => {
         const date = new Date(updated).toLocaleDateString()
@@ -60,7 +54,6 @@ export const Table: FC = () => {
   }, [packs, currentPage, portionSize])
   return (
     <div className={s.table}>
-      <DebounceSearchInput placeholder="Title" searchValue={searchByPacks} />
       <div className={s.head}>
         <TableRow head>
           <TableCell head btn onClick={sortByName}>

@@ -7,3 +7,4 @@ export {
   setCurrentPage,
   setSearchPacks,
 } from 'store/reducers/cardsReducer'
+export { setUpdatedUserInfo, setUserInfo, setUserError } from 'store/reducers/userReducer'

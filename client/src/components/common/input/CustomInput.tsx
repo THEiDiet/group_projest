@@ -22,11 +22,7 @@ export const CustomInput: React.FC<InputPropsType> = props => {
         />
         {icon && (
           <button onClick={onClick} type="button" className={styles.button}>
-            <img
-              className={styles.icon}
-              src={icon}
-              alt="Button for show/close password"
-            />
+            <img className={styles.icon} src={icon} alt="Button for show/close password" />
           </button>
         )}
       </div>

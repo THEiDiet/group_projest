@@ -25,6 +25,7 @@ const initialState = {
   },
   searchPack: '',
   actualPacks: [] as CardsPackT[],
+  onlyUserPack: [] as CardsPackT[],
 }
 
 const slice = createSlice({
@@ -67,6 +68,18 @@ const slice = createSlice({
         p => p.name.toLowerCase().includes(filterByName.toLowerCase()) && p,
       )
     },
+    setOnlyUserPack: (state, action: PayloadAction<string>) => {
+      state.onlyUserPack = state.actualPacks.filter(p => p.user_id === action.payload)
+    },
+    setFixCountPack: (state, action: PayloadAction<[number, number]>) => {
+      const [min, max] = action.payload
+      state.rangeValues.minCardsCount = min
+      state.rangeValues.maxCardsCount = max
+      state.actualPacks = state.actualPacks.slice(
+        state.rangeValues.minCardsCount,
+        state.rangeValues.maxCardsCount,
+      )
+    },
   },
 })
 
@@ -80,4 +93,5 @@ export const {
   sortCards,
   setOnePackCards,
   setSearchPacks,
+  setFixCountPack,
 } = slice.actions

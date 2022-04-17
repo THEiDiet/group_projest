@@ -15,9 +15,13 @@ export const userApi = {
       return (e as AxiosError)?.response?.data?.error || 'some error'
     }
   },
-  login: async (body: LoginParamsType) =>
-    // eslint-disable-next-line no-return-await
-    await instance.post<ResponseType>('auth/login', body),
+  login: async (body: LoginParamsType) => {
+    try {
+      return await instance.post<ResponseType>('auth/login', body)
+    } catch (e) {
+      return (e as AxiosError)?.response?.data?.error || 'some error'
+    }
+  },
   // eslint-disable-next-line no-return-await
   me: async () => await instance.post<ResponseType>('auth/me', {}),
   // eslint-disable-next-line no-return-await

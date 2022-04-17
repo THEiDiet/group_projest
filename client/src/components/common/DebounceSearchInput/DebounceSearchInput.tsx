@@ -26,17 +26,14 @@ type DebounceSearchFieldPropsType = DefaultInputPropsType &
 export const DebounceSearchInput: FC<DebounceSearchFieldPropsType> = memo(
   forwardRef(({ searchValue, ...restProps }, ref) => {
     const [value, setValue] = useState('')
-
     const search = (question: string): void => {
       searchValue(question)
     }
-
     const debounceSearch = useDebounce(search, EDebounceDelay.Input)
     const onSearchQuestionChange = useCallback((e: ChangeEvent<HTMLInputElement>): void => {
       setValue(e.currentTarget.value)
       debounceSearch(e.currentTarget.value)
     }, [])
-
     return (
       <input
         ref={ref}

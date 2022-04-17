@@ -12,6 +12,7 @@ const slice = createSlice({
   initialState,
   reducers: {
     setUpdatedUserInfo(state, action: PayloadAction<UserType>) {
+      // eslint-disable-next-line no-debugger
       state.userInfo = action.payload
     },
     setUserInfo(state, action: PayloadAction<UserType>) {
@@ -29,10 +30,10 @@ export const userReducer = slice.reducer
 
 export const { setUpdatedUserInfo, setUserInfo, setUserError } = slice.actions
 
-export const requestChangeName = (name: string) =>
+export const requestChangeUserInfo = (name: string, avatar: string) =>
   ({
-    type: 'REQUEST_CHANGE_NAME',
-    payload: name,
+    type: 'REQUEST_CHANGE_USER_INFO',
+    payload: { name, avatar },
   } as const)
 
 export const requestChangePassword = (resetPasswordToken: string, password: string) =>
@@ -43,8 +44,7 @@ export const requestChangePassword = (resetPasswordToken: string, password: stri
       password,
     },
   } as const)
-
 // TYPES
 
-export type requestChangeNameType = ReturnType<typeof requestChangeName>
+export type requestChangeUserInfoType = ReturnType<typeof requestChangeUserInfo>
 export type requestChangePasswordType = ReturnType<typeof requestChangePassword>

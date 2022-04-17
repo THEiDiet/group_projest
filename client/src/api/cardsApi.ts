@@ -18,6 +18,7 @@ export const cardsApi = {
     console.log(res)
   },
   getPack: async (payload: string = '4660') => {
+    // eslint-disable-next-line no-debugger
     const res: AxiosResponse<CardsPackT[]> = await instance.get(
       `cards/pack${payload && `?pageCount=${payload}`}`,
     )

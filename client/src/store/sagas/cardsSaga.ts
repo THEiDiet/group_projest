@@ -26,6 +26,7 @@ function* onePackCardsWorker({ payload }: GetCardWorkerT): Generator<StrictEffec
   }
 }
 
+
 export function* cardsWatcher(): SagaIterator {
   yield takeEvery('GET_CARDS', packsWorker)
   yield takeLatest('GET_ONE_PACK_CARDS', onePackCardsWorker)
