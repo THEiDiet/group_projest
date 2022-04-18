@@ -10,6 +10,8 @@ import React, {
   useState,
 } from 'react'
 
+import styles from './DebounceSearchInput.module.css'
+
 import { EDebounceDelay } from 'enums'
 import { useDebounce } from 'hooks'
 
@@ -36,6 +38,7 @@ export const DebounceSearchInput: FC<DebounceSearchFieldPropsType> = memo(
     }, [])
     return (
       <input
+        className={styles.debounceInput}
         ref={ref}
         type="text"
         value={value}

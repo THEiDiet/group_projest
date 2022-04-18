@@ -1,0 +1,10 @@
+.debounceInput {
+    width: 80%;
+    height: 30px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid #ced4da;
+    margin: 20px 0;
+    outline: none;
+    padding: 0 10px;
+}

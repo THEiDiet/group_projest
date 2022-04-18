@@ -14,30 +14,6 @@ function* packsWorker({ payload }: GetPacksWorkerT): Generator<StrictEffect, voi
     // @ts-ignore
     // const response: AxiosResponse< CardsPackT[],GetPacksWorkerT> = yield call(cardsApi.getPacks, payload)
     const response: AxiosResponse<GetPacksResponseT> = yield call(cardsApi.getPacks, payload)
-    // В maxCardsCount всегда приходит 103 х(
-    // const {
-    //   cardPacks,
-    //   cardPacksTotalCount,
-    //   minCardsCount,
-    //   page,
-    //   pageCount,
-    //   token,
-    //   tokenDeathTime,
-    // } = response.data
-    // yield put(
-    //   setPacks({
-    //     cardPacks,
-    //     cardPacksTotalCount,
-    //     minCardsCount,
-    //     maxCardsCount: 20,
-    //     page,
-    //     pageCount,
-    //     token,
-    //     tokenDeathTime,
-    //   }),
-    // )
-    // eslint-disable-next-line no-debugger
-    // debugger
     yield put(setPacks(response.data))
   } catch (e) {
     yield put(setError((e as AxiosError)?.response?.data))

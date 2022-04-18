@@ -1,38 +1,52 @@
-.wrapperUserInfo {
-  width: 250px;
-  height: 220px;
-  border: 1px solid black;
-  background-color: #D9D9F1;
+.profileWrapper {
   display: flex;
-  justify-content: center;
-  flex-direction: column;
-  position: relative;
+  height: 100vw;
 
-  .avatarIcon {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-  }
-  .avatarIconChange{
-    width: 100px;
-    height: 100px;
-    position: absolute;
-    left: 30%;
-    opacity: 0;
+  .wrapperUserInfo {
+    width: 250px;
+    height: 220px;
+    background-color: #D9D9F1;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    //margin: 25px auto;
+    position: relative;
+
+    .avatarIcon {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+    }
+
+    .avatarIconChange {
+      width: 100px;
+      height: 100px;
+      position: absolute;
+      left: 30%;
+      opacity: 0;
+    }
+
+
+    .user_name {
+      font-size: 18px;
+      line-height: 27px;
+      font-weight: 600;
+      margin: 4px 0;
+    }
   }
 
-  .user_name {
-    font-size: 18px;
-    line-height: 27px;
-    font-weight: 600;
-    margin: 4px 0;
-  }
-}
+  .userTableWrapper {
+    width: 80%;
+    height: 100vh;
+    background-color: #eeeeee;
 
-.userTable {
-  .packUserName {
-    font-size: 18px;
-    font-weight: 500;
+    .packUserName {
+      font-size: 24px;
+      font-weight: 500;
+      letter-spacing: 1.7px;
+      display: inline-block;
+      margin: 14px 0;
+    }
   }
 }
 

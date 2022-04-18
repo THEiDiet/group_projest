@@ -29,17 +29,20 @@ export const Profile: FC = () => {
   return (
     <div>
       <div>
-        <h1>Profile</h1>
+        <h1 style={{ margin: '10px 0 20px 0' }}>Profile</h1>
       </div>
-      <div className={styles.wrapperUserInfo}>
-        <UserAvatar />
-        <EditableUserName />
-      </div>
-      <div className={styles.userTable}>
-        <div>
-          <span className={styles.packUserName}> Packs list {stateName}&apos;s</span>
+      <div className={styles.profileWrapper}>
+        <div className={styles.wrapperUserInfo}>
+          <UserAvatar />
+          <EditableUserName />
         </div>
-        <Table />
+
+        <div className={styles.userTableWrapper}>
+          <div>
+            <span className={styles.packUserName}> Packs list {stateName}:</span>
+          </div>
+          <Table />
+        </div>
       </div>
     </div>
   )

@@ -24,8 +24,8 @@ export const Table: FC = React.memo(() => {
   const portionSizeForPages = useAppSelector(state => state.cards.portionSizeForPages)
   const portionNumber = useAppSelector(state => state.cards.portionNumber)
   const totalItemsCount = useAppSelector<number>(state => state.cards.cardPacksTotalCount)
-  const minCardCount = useAppSelector<number>(state => state.cards.rangeValues.minCardsCount)
-  const maxCardCount = useAppSelector<number>(state => state.cards.rangeValues.maxCardsCount)
+  const localMinRage = useAppSelector<number>(state => state.cards.localMinRage)
+  const localMaxRage = useAppSelector<number>(state => state.cards.localMaxRage)
   const searchPack = useAppSelector<string>(state => state.cards.searchPack)
 
   const appDispatch = useAppDispatch()
@@ -34,8 +34,8 @@ export const Table: FC = React.memo(() => {
     dispatch(getPacksS({ packName: searchPack }))
   }, [searchPack])
   useEffect(() => {
-    dispatch(getPacksS({ min: minCardCount, max: maxCardCount }))
-  }, [minCardCount, maxCardCount])
+    dispatch(getPacksS({ min: localMinRage, max: localMaxRage }))
+  }, [localMinRage, localMaxRage])
   const sortByParam = (sortName: string): void => {
     if (sortName === sortTitle) {
       dispatch(
@@ -65,10 +65,10 @@ export const Table: FC = React.memo(() => {
           sortPacks: `${Number(!oneZero)}${sortTitle}`,
           page: value,
           packName: searchPack,
-          min: minCardCount,
-          max: maxCardCount,
+          min: localMinRage,
+          max: localMaxRage,
         }
-      : { page: value, packName: searchPack, min: minCardCount, max: maxCardCount }
+      : { page: value, packName: searchPack, min: localMinRage, max: localMaxRage }
     dispatch(getPacksS(obj))
   }
   const sortByName = (): void => {
@@ -111,9 +111,15 @@ export const Table: FC = React.memo(() => {
 
   return (
     <div className={s.table}>
-      here
-      <DebounceSearchInput placeholder="Title" searchValue={searchByPacks} />
-      <DebounceRange showQuantityPacks={showQuantityPacks} />
+      <div>
+        <DebounceSearchInput
+          placeholder="What do you want to learn? "
+          searchValue={searchByPacks}
+        />
+      </div>
+      <div className={s.debounceRange}>
+        <DebounceRange showQuantityPacks={showQuantityPacks} />
+      </div>
       <div className={s.head}>
         <TableRow head>
           <TableCell head btn onClick={sortByName}>
