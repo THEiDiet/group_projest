@@ -1,4 +1,4 @@
-import { AxiosResponse } from 'axios'
+import {AxiosError, AxiosResponse} from 'axios'
 import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 
 import {
@@ -31,8 +31,9 @@ export function* setNewPasswordWorker(action: requestChangePasswordType) {
     const response: AxiosResponse = yield call(userApi.setNewPassword, action.payload)
     // тут должен быть login запрос?
     yield put(setIsLoggedInAC(true))
-  } catch (e: any) {
-    yield put(setUserError(e.response.data.error))
+  } catch (e ) {
+    yield put(setUserError((e as AxiosError)?.response?.data.error))
+
   }
 }
 
