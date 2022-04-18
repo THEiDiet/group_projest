@@ -8,63 +8,56 @@ import { CardTypePartial } from '../../types/PackTypes'
 import { Button } from '../common'
 
 import { AddCardInputForm } from './AddCardInputForm/AddCardInputForm'
+import { EditCardInputForm } from './AddCardInputForm/EditCardInputForm'
+import { CardTableRow } from './CardTableRow'
 import DeleteCard from './Modal/DeleteCardModal/DeleteCard'
 import ModalForCards from './Modal/ModalForCards/ModalForCards'
 import s from './style/CardsTable.module.css'
 
 const CardsTable: React.FC = () => {
+  // eslint-disable-next-line no-underscore-dangle
+  const userID = useAppSelector(state => state.user.userInfo._id)
   const currentPack = useAppSelector(state => state.cards.currentPack)
   const currentPackID = currentPack && currentPack.cards[EHelpers.Zero].cardsPack_id
   const currentPackUserID = currentPack && currentPack.cards[EHelpers.Zero].user_id
   const [whatModalIsActive, setWhatModalIsActive] = useState<string>('')
-  const [useStateId, setUseStateId] = useState<string>('')
-  // eslint-disable-next-line no-underscore-dangle
-  const userID = useAppSelector(state => state.user.userInfo._id)
+  const [useStateCardId, setUseStateCardId] = useState<string>('')
   const dispatch = useAppDispatch()
   const onClickHandler = (): void => {
     dispatch({ type: SagaActions.GetOnePack, payload: '6259a1e4e09d9d0004160611' })
   } // temporary function, потом удалить или привести в порядок.
-  const onDeleteClickHandlerInTable = (id: string) => {
-    setUseStateId(id)
-    setWhatModalIsActive('delete')
+  const onDeleteClickHandlerInTable = (cardId: string) => {
+    setUseStateCardId(cardId) // кривое решение, чтобы знать ид карточки которую передаешь вниз при модалке с вопросом точно удалить?
+    setWhatModalIsActive('delete') // открыть модалку
   }
   const onConfirmDeleteClickHandler = (id: string): void => {
-    dispatch(deleteOneCard(id))
-    setWhatModalIsActive('')
+    dispatch(deleteOneCard(id)) // в модалке, если нажал ДА ТОЧНО УДАЛИТЬ
+    setWhatModalIsActive('') // выйти из модалки
   }
-  const onDivToLearnClickHandler = (): void => {
-    setWhatModalIsActive('learn')
+  const onEditClickHandler = (cardId: string): void => {
+    setUseStateCardId(cardId)
+    setWhatModalIsActive('edit')
   }
-  const onEditClickHandler = (UpdatedCard: CardTypePartial): void => {
+  const onConfirmEditClickHandler = (UpdatedCard: CardTypePartial) => {
     dispatch(updateOneCard(UpdatedCard))
   }
-  const onCreateClickHandler = (Card: CardTypePartial) => {
-    const newCard = { ...Card, cardsPack_id: currentPackID } // прицепить CurrentPackId nado
-    dispatch(createNewCard(newCard))
+  const onConfirmCreateClickHandler = (Card: CardTypePartial) => {
+    // прицепить CurrentPackId nado ?
+    dispatch(createNewCard({ ...Card, cardsPack_id: currentPackID })) // потом надо перезапросить карточки
   }
-  const shouldElementBeShown = () => userID !== currentPackUserID // Используется для колонки с кнопками удаления и едита, если не твои карточки - не увидишь
+  const shouldElementBeShown = () => userID !== currentPackUserID // Используется для колонки с кнопками удаления и едита, если не твои карточки - не увидишь( наверное надо и для кнопки добавления )
   const tableRows =
     currentPack &&
+    // eslint-disable-next-line no-underscore-dangle
     currentPack.cards.map(m => (
-        // eslint-disable-next-line no-underscore-dangle,jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
-      <div className={s.tableRow} key={m._id} >
-        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
-
-          <div className={s.tableTest}>{m.question}</div>
-          <div className={s.tableTest}>{m.answer}</div>
-          <div className={s.tableTest}>{m.grade}</div>
-
-        {shouldElementBeShown() && (
-          <div className={s.tableTest}>
-            {/* eslint-disable-next-line no-underscore-dangle */}
-            <Button red type="button" onClick={() => onDeleteClickHandlerInTable(m._id)}>
-              Delete
-            </Button>
-            {/* eslint-disable-next-line no-underscore-dangle */}
-            <Button onClick={() => onEditClickHandler({ _id: m._id })}>Edit</Button>
-          </div>
-        )}
-      </div>
+      <CardTableRow
+        card={m}
+        shouldElementBeShown={shouldElementBeShown}
+        onDeleteClickHandlerInTable={onDeleteClickHandlerInTable}
+        onEditClickHandler={onEditClickHandler}
+        // eslint-disable-next-line no-underscore-dangle
+        key={m._id}
+      />
     ))
   return (
     <div>
@@ -103,21 +96,22 @@ const CardsTable: React.FC = () => {
           <DeleteCard
             setWhatModalIsActive={setWhatModalIsActive}
             onConfirmDeleteClickHandler={onConfirmDeleteClickHandler}
-            useStateId={useStateId}
+            useStateId={useStateCardId}
           />
         )}
         {whatModalIsActive === 'addCard' && (
           <AddCardInputForm
             setAddNewCardModal={setWhatModalIsActive}
-            createCard={onCreateClickHandler}
+            createCard={onConfirmCreateClickHandler}
           />
         )}
-          {whatModalIsActive === 'learn' && (
-              <AddCardInputForm
-                  setAddNewCardModal={setWhatModalIsActive}
-                  createCard={onCreateClickHandler}
-              />
-          )}
+        {whatModalIsActive === 'edit' && (
+          <EditCardInputForm
+            setAddNewCardModal={setWhatModalIsActive}
+            editCard={onConfirmEditClickHandler}
+            cardId={useStateCardId}
+          />
+        )}
       </ModalForCards>
     </div>
   )

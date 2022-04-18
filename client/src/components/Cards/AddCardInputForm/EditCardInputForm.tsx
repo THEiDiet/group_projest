@@ -2,6 +2,8 @@ import React from 'react'
 
 import { useFormik } from 'formik'
 
+import { EHelpers } from '../../../enums'
+import { useAppSelector } from '../../../hooks'
 import { CardTypePartial } from '../../../types/PackTypes'
 import { Button } from '../../common'
 import { Input } from '../../index'
@@ -12,17 +14,24 @@ import styles from 'styles/Auth/Auth.module.scss'
 
 type propsType = {
   setAddNewCardModal: (value: string) => void
-  createCard: (card: CardTypePartial) => void
+  editCard: (card: CardTypePartial) => void
+  cardId: string
 }
 
-export const AddCardInputForm: React.FC<propsType> = ({ setAddNewCardModal, createCard }) => {
+export const EditCardInputForm: React.FC<propsType> = ({ setAddNewCardModal, editCard, cardId }) => {
+  const card = useAppSelector(
+    // eslint-disable-next-line no-underscore-dangle
+    state => state.cards.currentPack.cards.filter(f => cardId === f._id)[EHelpers.Zero],
+  )
+  // const questionValue = card.question
+  // const answerValue = card.answer
   const formik = useFormik({
     initialValues: {
-      question: '',
-      answer: '',
+      question: card.question,
+      answer: card.answer,
     },
     onSubmit: values => {
-      createCard(values)
+      editCard(values)
       setAddNewCardModal('')
     },
   })
