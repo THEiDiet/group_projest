@@ -14,7 +14,7 @@ const initialState = {
   pageCount: 0,
   cardPacksTotalCount: 0,
   rangeValues: {
-    minCardsCount: 5,
+    minCardsCount: 0,
     maxCardsCount: 25,
   },
   currentPack: {
@@ -34,10 +34,9 @@ const initialState = {
   },
   searchPack: '',
   onlyUserPack: [] as CardsPackT[],
-  localMinRage: 1,
-  localMaxRage: 20,
+  localMinRage: 0,
+  localMaxRage: 25,
 }
-
 const slice = createSlice({
   name: 'cards',
   initialState,
@@ -56,6 +55,7 @@ const slice = createSlice({
         action.payload
       state.packs = cardPacks
       state.rangeValues = { minCardsCount, maxCardsCount }
+      console.log(state.rangeValues)
       state.page = page
       state.pageCount = pageCount
       state.cardPacksTotalCount = cardPacksTotalCount
@@ -77,8 +77,7 @@ const slice = createSlice({
       const { payload: filterByName } = action
       state.searchPack = filterByName
     },
-    setOnlyUserPack: (state, action: PayloadAction<string>) => {},
-    setFixCountPack: (state, action: PayloadAction<[number, number]>) => {
+    setMinMaxCardInPacks: (state, action: PayloadAction<[number, number]>) => {
       const [min, max] = action.payload
       state.localMinRage = min
       state.localMaxRage = max
@@ -96,6 +95,6 @@ export const {
   sortCards,
   setOnePackCards,
   setPortionNumber,
-  setFixCountPack,
+  setMinMaxCardInPacks,
   setSearchPacks,
 } = slice.actions

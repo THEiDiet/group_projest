@@ -12,7 +12,6 @@ import { CardsPackT, GetPacksPayload, GetPacksResponseT, GetPacksWorkerT } from 
 function* packsWorker({ payload }: GetPacksWorkerT): Generator<StrictEffect, void, CardsPackT[]> {
   try {
     // @ts-ignore
-    // const response: AxiosResponse< CardsPackT[],GetPacksWorkerT> = yield call(cardsApi.getPacks, payload)
     const response: AxiosResponse<GetPacksResponseT> = yield call(cardsApi.getPacks, payload)
     yield put(setPacks(response.data))
   } catch (e) {

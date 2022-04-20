@@ -28,7 +28,9 @@ export const DebounceRange: FC<DebounceViewRangePropsType> = memo(
     const allPackLength = useAppSelector(state => state.cards.cardPacksTotalCount)
     const max = useAppSelector<number>(state => state.cards.rangeValues.maxCardsCount)
     const min = useAppSelector<number>(state => state.cards.rangeValues.minCardsCount)
-    const [values, setValues] = useState<[number, number]>([min, max])
+    const localMinRage = useAppSelector<number>(state => state.cards.localMinRage)
+    const localMaxRage = useAppSelector<number>(state => state.cards.localMaxRage)
+    const [values, setValues] = useState<[number, number]>([localMinRage, localMaxRage])
     const search = (value: [number, number]): void => {
       showQuantityPacks(value)
     }
@@ -37,7 +39,6 @@ export const DebounceRange: FC<DebounceViewRangePropsType> = memo(
       const index0 = 0
       const index1 = 1
       setValues([newValues[index0], newValues[index1]])
-      // console.log(newValues)
       debounceSearch([newValues[index0], newValues[index1]])
     }, [])
     return (

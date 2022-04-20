@@ -26,7 +26,7 @@
   "rules": {
     "no-shadow": "off",
     "no-alert": "error",
-    "no-debugger": "error",
+    "no-debugger": "warn",
     "no-plusplus": "error",
     "no-unused-vars": "off",
     "no-unused-expressions": "warn",

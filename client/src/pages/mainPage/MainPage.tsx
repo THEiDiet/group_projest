@@ -8,7 +8,6 @@ import s from './mainPage.module.scss'
 import { Table } from 'components/common/table'
 import { Paths } from 'enums'
 import { useAppSelector } from 'hooks'
-import { getPacksS } from 'store/sagas/cardsSaga'
 
 export const MainPage = (): ReactElement => {
   const dispatch = useDispatch()
@@ -17,8 +16,6 @@ export const MainPage = (): ReactElement => {
   useEffect(() => {
     if (!isLoggedIn) {
       navigate(Paths.Login)
-    } else {
-      dispatch(getPacksS({ packName: '' }))
     }
   }, [isLoggedIn])
 

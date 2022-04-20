@@ -28,11 +28,7 @@ export const UserAvatar = React.memo(() => {
   return (
     <div>
       <img className={styles.avatarIcon} src={userAvatar || noAvatar} alt="User Avatar" />
-      <input
-        className={styles.avatarIconChange}
-        type="file"
-        onChange={onAvatarPhotoChange}
-      />
+      <input className={styles.avatarIconChange} type="file" onChange={onAvatarPhotoChange} />
     </div>
   )
 })

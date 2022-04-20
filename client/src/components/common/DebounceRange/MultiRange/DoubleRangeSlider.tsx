@@ -9,6 +9,7 @@ import React, {
 } from 'react'
 
 import s from 'components/common/DebounceRange/MultiRange/DoubleRangeSlider.module.scss'
+import { EIndexDBRange } from 'enums'
 import { OtherProps } from 'types'
 
 export type DefaultInputPropsType = DetailedHTMLProps<
@@ -17,13 +18,8 @@ export type DefaultInputPropsType = DetailedHTMLProps<
 >
 
 type SuperDoubleRangePropsType = DefaultInputPropsType & OtherProps
-export enum EIndexDBRange {
-  null = 0,
-  one = 1,
-  ten = 10,
-  hundred = 100,
-}
-export const DoubleRangeSlider: FC<SuperDoubleRangePropsType> = props => {
+
+export const DoubleRangeSlider: FC<SuperDoubleRangePropsType> = React.memo(props => {
   const { onChangeRange, values, className, min, max, ...rest } = props
   const minValue = values ? values[EIndexDBRange.null] : EIndexDBRange.null
   const maxValue = values ? values[EIndexDBRange.one] : EIndexDBRange.hundred
@@ -123,4 +119,5 @@ export const DoubleRangeSlider: FC<SuperDoubleRangePropsType> = props => {
       </div>
     </div>
   )
-}
+})
+DoubleRangeSlider.displayName = 'DoubleRangeSlider'

@@ -5,7 +5,7 @@ export {
   setOnePackCards,
   setAmountOfElementsToShow,
   setCurrentPage,
-  setFixCountPack,
+  setMinMaxCardInPacks,
   setSearchPacks,
 } from 'store/reducers/cardsReducer'
 export { setUserInfo, setUserError } from 'store/reducers/userReducer'
