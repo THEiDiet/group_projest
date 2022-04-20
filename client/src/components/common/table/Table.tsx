@@ -1,6 +1,9 @@
 import React, { FC, useCallback, useState } from 'react'
 
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+
+import { setCurrentPackId } from '../../../store/reducers/cardsReducer'
 
 import { Card } from 'components'
 import { Modal } from 'components/common/modal/Modal'
@@ -10,8 +13,7 @@ import s from 'components/common/table/table.module.scss'
 import { DebounceSearchInput } from 'components/DebounceSearchInput'
 import { EHelpers, PaginationNames } from 'enums'
 import { useAppDispatch, useAppSelector } from 'hooks'
-import { setSearchPacks } from 'store/reducers'
-import { getOnePackS, getPacksS } from 'store/sagas/cardsSaga'
+import {getOnePackS, getPacksS} from 'store/sagas/cardsSaga'
 
 export const Table: FC = () => {
   const [isModalOpen, setModalOpen] = useState(false)
@@ -63,6 +65,12 @@ export const Table: FC = () => {
     appDispatch(getOnePackS(id))
     setModalOpen(true)
   }
+  // const navigate = useNavigate()
+  // const onTableRowClick = (id: string): void => {
+  //   appDispatch(setCurrentPackId(id))
+  //   navigate('/test')
+  // }
+
   const tableRows = packs.length
     ? packs.map(({ user_name: userName, _id: id, name, updated, cardsCount }) => {
         const date = new Date(updated).toLocaleDateString()

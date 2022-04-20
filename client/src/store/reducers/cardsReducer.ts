@@ -18,6 +18,7 @@ const initialState = {
     maxCardsCount: 20,
   },
   currentPack: null as unknown as PackT,
+  currentPackId: '', // FIX IT NEED TO SET SOMEWHERE THIS
   revert: {
     [EPacksSort.Name]: false,
     [EPacksSort.UserName]: false,
@@ -70,6 +71,9 @@ const slice = createSlice({
         p => p.name.toLowerCase().includes(filterByName.toLowerCase()) && p,
       )
     },
+    setCurrentPackId: (state, action: PayloadAction<string>) => {
+      state.currentPackId = action.payload
+    }
   },
 })
 
@@ -84,4 +88,5 @@ export const {
   setOnePackCards,
   setPortionNumber,
   setSearchPacks,
+  setCurrentPackId
 } = slice.actions

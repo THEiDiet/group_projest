@@ -33,10 +33,10 @@ export const cardsApi = {
       },
     })
   },
-  getOnePackCards: (payload: string = '') =>
+  getOnePackCards: (payload: any = '') =>
     instance.get(
       // TODO: сделать полный набор параметров, не только cardsPack
-      `cards/card?cardsPack_id=${payload}`,
+      `cards/card?cardsPack_id=${payload.cardsPack_id}&page=1&pageCount=${payload.max}`,
     ),
   createCardInCurrentPack: async (payload: CardTypePartial) => {
     const res: AxiosResponse<CardT> = await instance.post(`cards/card`, { card: payload })

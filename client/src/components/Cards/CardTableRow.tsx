@@ -18,10 +18,10 @@ export const CardTableRow: React.FC<CardTableRowPropsType> = ({
   onEditClickHandler,
 }) => (
   // eslint-disable-next-line no-underscore-dangle,jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
-  <div className={s.tableRow} key={card._id}>
-    <div className={s.tableTest}>{card.question}</div>
-    <div className={s.tableTest}>{card.answer}</div>
-    <div className={s.tableTest}>{card.grade}</div>
+  <div className={shouldElementBeShown() ? `${s.tableRow}` : s.tableRowFor3} key={card._id}>
+    <div>{card.question}</div>
+    <div>{card.answer}</div>
+    <div>{card.grade}</div>
     {shouldElementBeShown() && (
       <div className={s.tableTest}>
         {/* eslint-disable-next-line no-underscore-dangle */}

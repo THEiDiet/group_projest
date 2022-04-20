@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-import { EHelpers } from '../../enums'
 import { SagaActions } from '../../enums/sagaActions'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import { createNewCard, deleteOneCard, updateOneCard } from '../../store/sagas/cardsSaga'
@@ -18,37 +17,44 @@ const CardsTable: React.FC = () => {
   // eslint-disable-next-line no-underscore-dangle
   const userID = useAppSelector(state => state.user.userInfo._id)
   const currentPack = useAppSelector(state => state.cards.currentPack)
-  const currentPackID = currentPack && currentPack.cards[EHelpers.Zero].cardsPack_id
-  const currentPackUserID = currentPack && currentPack.cards[EHelpers.Zero].user_id
+  const currentPackID = useAppSelector(state => state.cards.currentPackId) // FIX IT потому что я не знаю где брать пакИД ?
+  const currentPackUserID = currentPack && currentPack.packUserId
+  const cardsTotalCount = currentPack && currentPack.cardsTotalCount
   const [whatModalIsActive, setWhatModalIsActive] = useState<string>('')
-  const [useStateCardId, setUseStateCardId] = useState<string>('')
+  const [useStateCardId, setUseStateCardId] = useState<string>('') //  кривое решение, чтобы знать ид карточки которую передаешь вниз при модалке с вопросом точно удалить?
   const dispatch = useAppDispatch()
-  const onClickHandler = (): void => {
-    dispatch({ type: SagaActions.GetOnePack, payload: '6259a1e4e09d9d0004160611' })
-  } // temporary function, потом удалить или привести в порядок.
+
+  useEffect(() => {
+    dispatch({
+      type: SagaActions.GetOnePack,
+      payload: { cardsPack_id: currentPackID, max: cardsTotalCount },
+    })
+  }, [cardsTotalCount])
+
   const onDeleteClickHandlerInTable = (cardId: string) => {
     setUseStateCardId(cardId) // кривое решение, чтобы знать ид карточки которую передаешь вниз при модалке с вопросом точно удалить?
     setWhatModalIsActive('delete') // открыть модалку
   }
   const onConfirmDeleteClickHandler = (id: string): void => {
     dispatch(deleteOneCard(id)) // в модалке, если нажал ДА ТОЧНО УДАЛИТЬ
-    setWhatModalIsActive('') // выйти из модалки
+    setWhatModalIsActive('')
   }
   const onEditClickHandler = (cardId: string): void => {
     setUseStateCardId(cardId)
     setWhatModalIsActive('edit')
   }
   const onConfirmEditClickHandler = (UpdatedCard: CardTypePartial) => {
-    dispatch(updateOneCard(UpdatedCard))
+    dispatch(updateOneCard({ ...UpdatedCard, _id: useStateCardId }))
+  }
+  const onCreateClickHandler = (): void => {
+    setWhatModalIsActive('addCard')
   }
   const onConfirmCreateClickHandler = (Card: CardTypePartial) => {
-    // прицепить CurrentPackId nado ?
-    dispatch(createNewCard({ ...Card, cardsPack_id: currentPackID })) // потом надо перезапросить карточки
+    dispatch(createNewCard({ ...Card, cardsPack_id: currentPackID }))
   }
-  const shouldElementBeShown = () => userID !== currentPackUserID // Используется для колонки с кнопками удаления и едита, если не твои карточки - не увидишь( наверное надо и для кнопки добавления )
+  const shouldElementBeShown = () => userID === currentPackUserID // Используется для колонки с кнопками удаления и едита, если не твои карточки - не увидишь( наверное надо и для кнопки добавления )
   const tableRows =
     currentPack &&
-    // eslint-disable-next-line no-underscore-dangle
     currentPack.cards.map(m => (
       <CardTableRow
         card={m}
@@ -61,36 +67,15 @@ const CardsTable: React.FC = () => {
     ))
   return (
     <div>
-      <Button onClick={onClickHandler}> Click me</Button>
-      <Button onClick={() => setWhatModalIsActive('addCard')}> Add new card</Button>
-      <div className={s.tableHead}>
+      {/* все названия кнопок и строк в константы? */}
+      {shouldElementBeShown() && <Button onClick={onCreateClickHandler}> Add new card</Button>}
+      <div className={shouldElementBeShown() ? `${s.tableHead}` : s.tableHeadFor3}>
         <span>Question</span>
         <span>Answer</span>
         <span>Grade</span>
         {shouldElementBeShown() && <span>Actions</span>}
       </div>
       {tableRows}
-      {/* <ModalForCards */}
-      {/*  isActive={isModalForAddingCardActive} */}
-      {/*  setIsActive={setIsModalForAddingCardActive} */}
-      {/* > */}
-      {/*  <AddCardInputForm */}
-      {/*    setAddNewCardModal={setIsModalForAddingCardActive} */}
-      {/*    createCard={onCreateClickHandler} */}
-      {/*  /> */}
-      {/* </ModalForCards> */}
-      {/* <ModalForCards */}
-      {/*  isActive={isModalForDeleteCardActive} */}
-      {/*  setIsActive={setIsModalForDeleteCardActive} */}
-      {/* > */}
-      {/*  <div> Are you sure you want to delete this card ?</div> */}
-      {/*  <button type="button" onClick={() => setIsModalForDeleteCardActive(false)}> */}
-      {/*    No */}
-      {/*  </button>{' '} */}
-      {/*  <button type="button" onClick={() => onConfirmDeleteClickHandler(useStateId)}> */}
-      {/*    Yes */}
-      {/*  </button> */}
-      {/* </ModalForCards> */}
       <ModalForCards isActive={whatModalIsActive} setIsActive={setWhatModalIsActive}>
         {whatModalIsActive === 'delete' && (
           <DeleteCard

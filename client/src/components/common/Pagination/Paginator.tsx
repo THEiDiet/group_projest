@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react'
+import React, { ChangeEvent, useEffect } from 'react'
 
 import { useDispatch } from 'react-redux'
 
@@ -44,6 +44,9 @@ export const Paginator: React.FC<propsType> = ({
   }
 
   const appDispatch = useAppDispatch()
+  /*  useEffect(()=> {
+    appDispatch(setCurrentPage(EHelpers.One))
+  }, []) */
 
   const handlePortionNumberChange = (value: number): void => {
     appDispatch(setPortionNumber(value))
