@@ -3,7 +3,7 @@ import React from 'react'
 import styles from 'components/common/input/styles/Input.module.scss'
 import { InputPropsType } from 'types/InputPropsType'
 
-export const CustomInput: React.FC<InputPropsType> = props => {
+export const Input: React.FC<InputPropsType> = props => {
   const { label, onClick, icon, type, id, name, onChange, value, ...rest } = props
   return (
     <div className={styles.input_container}>

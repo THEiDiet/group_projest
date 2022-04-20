@@ -12,6 +12,7 @@ import { GenericReturnType, UserType } from 'types'
 const initialState = {
   isInitialized: false,
   error: '',
+  isEditMode: false,
 }
 
 const slice = createSlice({
@@ -24,12 +25,16 @@ const slice = createSlice({
     setError: (state, action: PayloadAction<string>) => {
       state.error = action.payload
     },
+    setEditMode: (state, action: PayloadAction<boolean>) => {
+      debugger
+      state.isEditMode = action.payload
+    },
   },
 })
 
 export const appReducer = slice.reducer
 
-export const { setInitializeAC, setError } = slice.actions
+export const { setInitializeAC, setError, setEditMode } = slice.actions
 
 export const requestInitialize = () => ({ type: 'REQUEST_INITIALIZE' } as const)
 

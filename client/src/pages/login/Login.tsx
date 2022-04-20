@@ -40,7 +40,6 @@ export const Login: React.FC = () => {
       navigate(Paths.Profile)
     }
   }, [isLoggedIn])
-  // if (isLoggedIn) return <Navigate to={Paths.Profile} />
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>

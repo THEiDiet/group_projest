@@ -11,6 +11,7 @@ import { requestInitialize, setInitializeWorker } from 'store/reducers/appReduce
 const App = (): ReactElement => {
   const isInitialized = useAppSelector<boolean>(state => state.app.isInitialized)
   const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
+  const isEditMode = useAppSelector<boolean>(state => state.app.isEditMode)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -27,7 +28,7 @@ const App = (): ReactElement => {
   }
 
   return (
-    <div className={s.app}>
+    <div className={isEditMode ? `${s.appScrollHidden} ${s.app}` : s.app}>
       {/** mojno bilo perenesti v routes OUtlet
        */}
       <Router />

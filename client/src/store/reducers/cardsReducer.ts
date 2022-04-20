@@ -55,7 +55,6 @@ const slice = createSlice({
         action.payload
       state.packs = cardPacks
       state.rangeValues = { minCardsCount, maxCardsCount }
-      console.log(state.rangeValues)
       state.page = page
       state.pageCount = pageCount
       state.cardPacksTotalCount = cardPacksTotalCount

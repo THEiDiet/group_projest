@@ -43,10 +43,10 @@ export const userReducer = slice.reducer
 
 export const { setUserInfo, setUserError } = slice.actions
 
-export const requestChangeUserInfo = (name: string, avatar: string) =>
+export const requestChangeUserInfo = (name: string, avatar: string, email: string) =>
   ({
     type: 'REQUEST_CHANGE_USER_INFO',
-    payload: { name, avatar },
+    payload: { name, avatar, email },
   } as const)
 
 export const requestChangePassword = (resetPasswordToken: string, password: string) =>

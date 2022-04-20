@@ -9,8 +9,9 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
-    //margin: 25px auto;
     position: relative;
+    padding: 20px;
+
 
     .avatarIcon {
       width: 100px;
@@ -18,26 +19,32 @@
       border-radius: 50%;
     }
 
-    .avatarIconChange {
-      width: 100px;
-      height: 100px;
-      position: absolute;
-      left: 30%;
-      opacity: 0;
-    }
-
-
     .user_name {
       font-size: 18px;
       line-height: 27px;
       font-weight: 600;
       margin: 4px 0;
     }
+    & button{
+      background-color: darkblue;
+      outline: none;
+      color: #ced4da;
+      font-size: 14px;
+      border: 2px solid darkblue;
+      border-radius: 10px;
+      margin-top: 5px;
+      padding: 5px 0;
+      font-weight: 600;
+      cursor: pointer;
+      }
+    & button:hover{
+      border: 2px solid #ffffff;
+    }
   }
 
   .userTableWrapper {
     width: 80%;
-    height: 100vh;
+    height: 85vh;
     background-color: #eeeeee;
 
     .packUserName {

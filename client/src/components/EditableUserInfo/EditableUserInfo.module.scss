@@ -1,0 +1,53 @@
+.wrapper {
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 5;
+  //position: absolute;
+  left: 0;
+  top: 0;
+  position: fixed;
+
+  .editableWrapper {
+    width: 415px;
+    height: 600px;
+    background-color: white;
+    margin: 150px auto 0 auto;
+    border-radius: 9px;
+
+    @media (min-width: 481px) and (max-width: 991px) {
+      width: 350px;
+    }
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    .avatarIcon {
+      margin-top: 50px;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 2px dotted rgba(0, 0, 0, 0.11);
+    }
+
+    .avatarIconChange {
+      margin-top: 50px;
+      width: 140px;
+      height: 140px;
+      position: absolute;
+      left: 33%;
+      //border: black 1px solid;
+      opacity: 0;
+    }
+
+    .customInput {
+      margin: 15px;
+    }
+
+    .buttonContainer {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 50px;
+    }
+  }
+}

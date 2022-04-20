@@ -1,6 +1,7 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
 
 import { useDispatch } from 'react-redux'
+import { useLocation } from 'react-router-dom'
 
 import { Card } from 'components'
 import { Button } from 'components/common/button/Button'
@@ -10,7 +11,7 @@ import { Modal } from 'components/common/modal/Modal'
 import { Paginator } from 'components/common/Pagination/Paginator'
 import { TableCell, TableRow } from 'components/common/table'
 import s from 'components/common/table/table.module.scss'
-import { EHelpers, PaginationNames } from 'enums'
+import { EHelpers, PaginationNames, Paths } from 'enums'
 import { useAppDispatch, useAppSelector } from 'hooks'
 import { setMinMaxCardInPacks, setSearchPacks } from 'store/reducers'
 import { getOnePackS, getPacksS } from 'store/sagas/cardsSaga'
@@ -31,6 +32,7 @@ export const Table: FC = React.memo(() => {
   const userId = useAppSelector<string>(state => state.user.userInfo.userId)
   const appDispatch = useAppDispatch()
   const dispatch = useDispatch()
+  const location = useLocation()
   useEffect(() => {
     dispatch(getPacksS({ packName: searchPack, min: localMinRage, max: localMaxRage }))
   }, [localMinRage, localMaxRage, searchPack, userId])
@@ -120,7 +122,6 @@ export const Table: FC = React.memo(() => {
         )
       })
     : []
-
   return (
     <div className={s.table}>
       <div>
@@ -134,7 +135,9 @@ export const Table: FC = React.memo(() => {
       </div>
       <div>
         <Button onClick={setOnlyUserPacks}> My Packs</Button>
-        <Button onClick={setAllPacks}> All Packs</Button>
+        {location.pathname === Paths.Profile ? (
+          <Button onClick={setAllPacks}> All Packs</Button>
+        ) : null}
       </div>
       <div className={s.head}>
         <TableRow head>
