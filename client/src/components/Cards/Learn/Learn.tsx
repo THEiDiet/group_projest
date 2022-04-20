@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
 
-import { useParams } from 'react-router-dom'
-
 import { EHelpers } from '../../../enums'
+import { SagaActions } from '../../../enums/sagaActions'
 import { useAppDispatch, useAppSelector } from '../../../hooks'
+import { getOnePackS } from '../../../store/sagas/cardsSaga'
 import { CardT } from '../../../types/PackTypes'
 import { Button } from '../../common'
 
 const grades = ['не знал', 'забыл', 'долго думал', 'перепутал', 'знал']
 
-const getCard = (cards: CardT[]):CardT => {
+const getCard = (cards: CardT[]): CardT => {
   const sum = cards.reduce(
     (acc, card) => acc + (EHelpers.Six - card.grade) * (EHelpers.Six - card.grade),
     EHelpers.Zero,
@@ -30,42 +30,35 @@ const getCard = (cards: CardT[]):CardT => {
 const LearnPage: React.FC = () => {
   const [isChecked, setIsChecked] = useState<boolean>(false)
   const [first, setFirst] = useState<boolean>(true)
-  const cards = useAppSelector(state => state.cards.currentPack?.cards)
+  const currentPackID = useAppSelector(state => state.cards.currentPackId)
+  const cards = useAppSelector(state => state.cards.currentPack?.cards) // FIX IT потому что я не знаю где брать пакИД ?
+  const cardsTotalCount = useAppSelector(state => state.cards.currentPack?.cardsTotalCount)
 
-  const [card, setCard] = useState<CardT>({
-    _id: 'fake',
-    cardsPack_id: '',
-    answer: 'answer fake',
-    question: 'question fake',
-    grade: 0,
-    shots: 0,
-    user_id: '',
-    created: '',
-    updated: '',
-  })
+  const [card, setCard] = useState<CardT>({} as CardT)
 
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    console.log('LearnContainer useEffect')
     if (first) {
-      // dispatch((id))
+      dispatch({
+        type: SagaActions.GetOnePack,
+        payload: { cardsPack_id: currentPackID, max: cardsTotalCount },
+      })
       setFirst(false)
     }
-
     console.log('cards', cards)
-    if (cards.length > EHelpers.Zero) setCard(getCard(cards))
+    if (cards?.length > EHelpers.Zero) setCard(getCard(cards))
 
     return () => {
       console.log('LearnContainer useEffect off')
     }
   }, [dispatch, cards, first])
 
-  const onNext = ():void => {
+  const onNext = (): void => {
     setIsChecked(false)
-
+    // dispatch оценки
     if (cards.length > EHelpers.Zero) {
-      // dispatch
+      // dispatch CHEGO ?
       setCard(getCard(cards))
     } else {
       console.log('and?')
@@ -84,6 +77,8 @@ const LearnPage: React.FC = () => {
           <div>{card.answer}</div>
 
           {grades.map((g, i) => (
+            // куда-то записать оценку надо
+            // eslint-disable-next-line react/no-array-index-key
             <Button key={`grade-${i}`} onClick={() => {}}>
               {g}
             </Button>

@@ -61,15 +61,15 @@ export const Table: FC = () => {
   const searchByPacks = useCallback((packName: string): void => {
     dispatch(getPacksS({ packName }))
   }, [])
-  const onTableRowClick = (id: string): void => {
-    appDispatch(getOnePackS(id))
-    setModalOpen(true)
-  }
-  // const navigate = useNavigate()
   // const onTableRowClick = (id: string): void => {
-  //   appDispatch(setCurrentPackId(id))
-  //   navigate('/test')
+  //   appDispatch(getOnePackS(id))
+  //   setModalOpen(true)
   // }
+  const navigate = useNavigate()
+  const onTableRowClick = (id: string): void => {
+    appDispatch(setCurrentPackId(id))
+    navigate('/test')
+  }
 
   const tableRows = packs.length
     ? packs.map(({ user_name: userName, _id: id, name, updated, cardsCount }) => {

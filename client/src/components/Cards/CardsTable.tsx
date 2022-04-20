@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
+import { useNavigate } from 'react-router-dom'
+
 import { SagaActions } from '../../enums/sagaActions'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import { createNewCard, deleteOneCard, updateOneCard } from '../../store/sagas/cardsSaga'
@@ -8,10 +10,12 @@ import { Button } from '../common'
 
 import { AddCardInputForm } from './AddCardInputForm/AddCardInputForm'
 import { EditCardInputForm } from './AddCardInputForm/EditCardInputForm'
+import CardsHeader from './CardsHeader'
+import CardsTableHeader from './CardsTableHeader'
 import { CardTableRow } from './CardTableRow'
+import LearnPage from './Learn/Learn'
 import DeleteCard from './Modal/DeleteCardModal/DeleteCard'
 import ModalForCards from './Modal/ModalForCards/ModalForCards'
-import s from './style/CardsTable.module.css'
 
 const CardsTable: React.FC = () => {
   // eslint-disable-next-line no-underscore-dangle
@@ -23,6 +27,7 @@ const CardsTable: React.FC = () => {
   const [whatModalIsActive, setWhatModalIsActive] = useState<string>('')
   const [useStateCardId, setUseStateCardId] = useState<string>('') //  кривое решение, чтобы знать ид карточки которую передаешь вниз при модалке с вопросом точно удалить?
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
   useEffect(() => {
     dispatch({
@@ -31,28 +36,32 @@ const CardsTable: React.FC = () => {
     })
   }, [cardsTotalCount])
 
-  const onDeleteClickHandlerInTable = (cardId: string) => {
+  const handleReturnHomeClick = (): void => {
+    navigate('/')
+  }
+
+  const onDeleteClickHandlerInTable = (cardId: string): void => {
     setUseStateCardId(cardId) // кривое решение, чтобы знать ид карточки которую передаешь вниз при модалке с вопросом точно удалить?
     setWhatModalIsActive('delete') // открыть модалку
   }
   const onConfirmDeleteClickHandler = (id: string): void => {
     dispatch(deleteOneCard(id)) // в модалке, если нажал ДА ТОЧНО УДАЛИТЬ
-    setWhatModalIsActive('')
+    setWhatModalIsActive('') // close modal
   }
   const onEditClickHandler = (cardId: string): void => {
     setUseStateCardId(cardId)
     setWhatModalIsActive('edit')
   }
-  const onConfirmEditClickHandler = (UpdatedCard: CardTypePartial) => {
-    dispatch(updateOneCard({ ...UpdatedCard, _id: useStateCardId }))
+  const onConfirmEditClickHandler = (UpdatedCard: CardTypePartial): void => {
+    dispatch(updateOneCard({ ...UpdatedCard, _id: useStateCardId })) // цепляю ид карточки из юз стейта
   }
   const onCreateClickHandler = (): void => {
     setWhatModalIsActive('addCard')
   }
-  const onConfirmCreateClickHandler = (Card: CardTypePartial) => {
-    dispatch(createNewCard({ ...Card, cardsPack_id: currentPackID }))
+  const onConfirmCreateClickHandler = (Card: CardTypePartial): void => {
+    dispatch(createNewCard({ ...Card, cardsPack_id: currentPackID })) // цепляю ид каррент пака
   }
-  const shouldElementBeShown = () => userID === currentPackUserID // Используется для колонки с кнопками удаления и едита, если не твои карточки - не увидишь( наверное надо и для кнопки добавления )
+  const shouldElementBeShown = (): boolean => userID === currentPackUserID // Используется для колонки с кнопками удаления и едита, если не твои карточки - не увидишь( наверное надо и для кнопки добавления )
   const tableRows =
     currentPack &&
     currentPack.cards.map(m => (
@@ -67,14 +76,13 @@ const CardsTable: React.FC = () => {
     ))
   return (
     <div>
-      {/* все названия кнопок и строк в константы? */}
-      {shouldElementBeShown() && <Button onClick={onCreateClickHandler}> Add new card</Button>}
-      <div className={shouldElementBeShown() ? `${s.tableHead}` : s.tableHeadFor3}>
-        <span>Question</span>
-        <span>Answer</span>
-        <span>Grade</span>
-        {shouldElementBeShown() && <span>Actions</span>}
-      </div>
+      <Button onClick={() => setWhatModalIsActive('learn')} > Learn </Button>
+      <CardsHeader
+        handleReturnHomeClick={handleReturnHomeClick}
+        shouldElementBeShown={shouldElementBeShown()}
+        onCreateClickHandler={onCreateClickHandler}
+      />
+      <CardsTableHeader shouldElementBeShown={shouldElementBeShown()} />
       {tableRows}
       <ModalForCards isActive={whatModalIsActive} setIsActive={setWhatModalIsActive}>
         {whatModalIsActive === 'delete' && (
@@ -97,6 +105,7 @@ const CardsTable: React.FC = () => {
             cardId={useStateCardId}
           />
         )}
+        {whatModalIsActive === 'learn' && <LearnPage />}
       </ModalForCards>
     </div>
   )

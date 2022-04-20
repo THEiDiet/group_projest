@@ -40,7 +40,7 @@ function* onePackCardsWorker({ payload }: any): Generator<StrictEffect, void, Ca
 export const getPacksS = (payload?: Partial<GetPacksPayload>) =>
   ({ type: SagaActions.GetPacks, payload } as const)
 
-export const getOnePackS = (payload: any) => ({ type: SagaActions.GetOnePack, payload } as const)
+export const getOnePackS = (payload: CardTypePartial) => ({ type: SagaActions.GetOnePack, payload } as const)
 
 export const deleteOneCard = (payload: string) =>
   ({ type: SagaActions.DeleteCard, payload } as const)
