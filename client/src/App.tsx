@@ -28,8 +28,6 @@ const App = (): ReactElement => {
 
   return (
     <div className={s.app}>
-      {/** mojno bilo perenesti v routes OUtlet
-       */}
       <Router />
     </div>
   )

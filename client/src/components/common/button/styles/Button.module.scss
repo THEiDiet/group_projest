@@ -1,7 +1,3 @@
-
-.red {
-    background: red;
-}
 /*--------------default styles--------------------*/
 @keyframes button {
     0%{
@@ -24,12 +20,13 @@
 .button {
     padding: 10px 15px;
     border: none;
-    border-radius: 5px;
-    margin-bottom: 15px;
+    border-radius: 2px;
     outline: none;
+    background: #fff;
+    font-weight: 500;
 }
 .default {
-    color: #3f5d52;
+    color: #453f5d;
     position: relative;
     overflow: hidden;
     box-sizing: border-box;
@@ -48,7 +45,7 @@
     height: 5px;
     top: 50%;
     left: 50%;
-    background: #37706d;
+    background: #c2b8d7;
     opacity: 0.2;
     transform: rotate(45deg);
     border-radius: 100%;
@@ -63,7 +60,7 @@
     animation: buttonActive 300ms ease-in forwards;
 }
 .primary {
-    background: #b8dee7;
+    background: #ffffff;
     color: #365a67;
 }
 

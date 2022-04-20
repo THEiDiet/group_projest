@@ -51,6 +51,7 @@ const slice = createSlice({
       state.pageCount = pageCount
       state.cardPacksTotalCount = cardPacksTotalCount
     },
+    // delete
     sortCards: (state, action: PayloadAction<SortT>) => {
       const { payload: sortType } = action
       if (state.revert[sortType]) {
@@ -73,7 +74,7 @@ const slice = createSlice({
     },
     setCurrentPackId: (state, action: PayloadAction<string>) => {
       state.currentPackId = action.payload
-    }
+    },
   },
 })
 
@@ -88,5 +89,5 @@ export const {
   setOnePackCards,
   setPortionNumber,
   setSearchPacks,
-  setCurrentPackId
+  setCurrentPackId,
 } = slice.actions

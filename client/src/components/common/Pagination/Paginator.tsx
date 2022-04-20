@@ -1,9 +1,7 @@
-import React, { ChangeEvent, useEffect } from 'react'
+import React, { ChangeEvent } from 'react'
 
-import { useDispatch } from 'react-redux'
-
-import s from './styles/Paginator.module.css'
-
+import { Button } from 'components/common/button/Button'
+import s from 'components/common/Pagination/styles/Paginator.module.scss'
 import { EHelpers } from 'enums'
 import { useAppDispatch } from 'hooks'
 import {
@@ -11,7 +9,6 @@ import {
   setCurrentPage,
   setPortionNumber,
 } from 'store/reducers/cardsReducer'
-import { getPacksS } from 'store/sagas/cardsSaga'
 
 type propsType = {
   currentPage: number
@@ -44,9 +41,9 @@ export const Paginator: React.FC<propsType> = ({
   }
 
   const appDispatch = useAppDispatch()
-  /*  useEffect(()=> {
-    appDispatch(setCurrentPage(EHelpers.One))
-  }, []) */
+  // useEffect(() => {
+  //   appDispatch(setCurrentPage(EHelpers.One))
+  // }, [])
 
   const handlePortionNumberChange = (value: number): void => {
     appDispatch(setPortionNumber(value))
@@ -67,17 +64,16 @@ export const Paginator: React.FC<propsType> = ({
     <div className={s.pages}>
       {portionNumber > EHelpers.One && (
         <>
-          {' '}
-          {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
-          <span
+          <button
+            type="button"
             className={s.button}
             onClick={() => handlePortionNumberChange(portionNumber - EHelpers.One)}
             onKeyPress={() => {}}
           >
             Prev
-          </span>
-          {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
-          <span
+          </button>
+          <button
+            type="button"
             className={s.page}
             onClick={() => {
               handlePortionNumberChange(EHelpers.One)
@@ -87,7 +83,7 @@ export const Paginator: React.FC<propsType> = ({
           >
             {' '}
             1{' '}
-          </span>
+          </button>
         </>
       )}
       <div className={s.pageContainer}>
@@ -95,7 +91,8 @@ export const Paginator: React.FC<propsType> = ({
           .filter(f => leftSideBorder <= f && f <= rightSideBorder)
           .map(m => (
             // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-            <span
+            <Button
+              type="button"
               className={`${s.page} ${currentPage === m ? s.currentPage : ''}`}
               key={m}
               onClick={() => handlePageChange(m)}
@@ -103,13 +100,14 @@ export const Paginator: React.FC<propsType> = ({
             >
               {' '}
               {m}
-            </span>
+            </Button>
           ))}
       </div>
 
       {portionCount > portionNumber && portionNumber > EHelpers.One && (
         // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-        <span
+        <Button
+          type="button"
           className={s.page}
           onClick={() => {
             handlePortionNumberChange(portionCount)
@@ -119,18 +117,19 @@ export const Paginator: React.FC<propsType> = ({
         >
           {' '}
           {pagesAmount}{' '}
-        </span>
+        </Button>
       )}
 
       {portionCount > portionNumber && (
         // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-        <span
+        <Button
+          type="button"
           className={s.button}
           onClick={() => handlePortionNumberChange(portionNumber + EHelpers.One)}
           onKeyPress={() => {}}
         >
           Next
-        </span>
+        </Button>
       )}
 
       <span className={s.space}> Show:</span>

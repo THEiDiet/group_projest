@@ -1,21 +1,22 @@
 import React, { FC, useCallback, useState } from 'react'
 
+import { TableHead } from '@mui/material'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-import { setCurrentPackId } from '../../../store/reducers/cardsReducer'
-
-import { Card } from 'components'
-import { Modal } from 'components/common/modal/Modal'
 import { Paginator } from 'components/common/Pagination/Paginator'
-import { TableCell, TableRow } from 'components/common/table'
 import s from 'components/common/table/table.module.scss'
+import { TableCell } from 'components/common/table/TableCell'
+import { TableHeader } from 'components/common/table/TableHeader'
+import { TableItem } from 'components/common/table/TableItem'
+import { TableRow } from 'components/common/table/TableRow'
 import { DebounceSearchInput } from 'components/DebounceSearchInput'
 import { EHelpers, PaginationNames } from 'enums'
 import { useAppDispatch, useAppSelector } from 'hooks'
-import {getOnePackS, getPacksS} from 'store/sagas/cardsSaga'
+import { setCurrentPackId } from 'store/reducers/cardsReducer'
+import { getPacksS } from 'store/sagas/cardsSaga'
 
-export const Table: FC = () => {
+export const TablePage: FC = () => {
   const [isModalOpen, setModalOpen] = useState(false)
   const [sortTitle, setSortTitle] = useState('')
   const [oneZero, setOneZero] = useState(true)
@@ -25,7 +26,6 @@ export const Table: FC = () => {
   const portionSizeForPages = useAppSelector(state => state.cards.portionSizeForPages)
   const portionNumber = useAppSelector(state => state.cards.portionNumber)
   const totalItemsCount = useAppSelector<number>(state => state.cards.cardPacksTotalCount)
-
   const appDispatch = useAppDispatch()
   const dispatch = useDispatch()
 
@@ -71,42 +71,25 @@ export const Table: FC = () => {
     navigate('/test')
   }
 
-  const tableRows = packs.length
-    ? packs.map(({ user_name: userName, _id: id, name, updated, cardsCount }) => {
-        const date = new Date(updated).toLocaleDateString()
-        return (
-          <TableRow key={id} onClick={() => onTableRowClick(id)}>
-            <TableCell head>{name}</TableCell>
-            <TableCell>{cardsCount}</TableCell>
-            <TableCell>{date}</TableCell>
-            <TableCell>{userName}</TableCell>
-            <TableCell>text</TableCell>
-          </TableRow>
-        )
-      })
-    : []
-
+  const tableRows = packs.map(({ user_name: userName, _id: id, name, updated, cardsCount }) => (
+    <TableItem
+      name={name}
+      id={id}
+      userName={userName}
+      updated={updated}
+      cardsCount={cardsCount}
+      key={id}
+    />
+  ))
   return (
     <div className={s.table}>
-      here
-      <DebounceSearchInput placeholder="Title" searchValue={searchByPacks} />
-      <div className={s.head}>
-        <TableRow head>
-          <TableCell head btn onClick={sortByName}>
-            Name
-          </TableCell>
-          <TableCell head btn onClick={sortByCardsCount}>
-            Cards
-          </TableCell>
-          <TableCell head btn onClick={sortByDate}>
-            Last updated
-          </TableCell>
-          <TableCell head btn onClick={sortByUserName}>
-            Created by
-          </TableCell>
-          <TableCell head>Action</TableCell>
-        </TableRow>
-      </div>
+      <DebounceSearchInput placeholder="Search..." searchValue={searchByPacks} />
+      <TableHeader
+        sortByName={sortByName}
+        sortByCardsCount={sortByCardsCount}
+        sortByUserName={sortByUserName}
+        sortByDate={sortByDate}
+      />
       <div className={s.body}>{tableRows}</div>
       <Paginator
         currentPage={currentPage}
@@ -116,13 +99,6 @@ export const Table: FC = () => {
         portionSizeForPages={portionSizeForPages}
         portionNumber={portionNumber}
         onPageChangeHandle={handlePageChange}
-      />
-      <Modal
-        component={<Card />}
-        handleOpen={() => {
-          setModalOpen(!isModalOpen)
-        }}
-        isOpen={isModalOpen}
       />
     </div>
   )

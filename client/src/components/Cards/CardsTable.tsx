@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import { SagaActions } from '../../enums/sagaActions'
 import { useAppDispatch, useAppSelector } from '../../hooks'
-import { createNewCard, deleteOneCard, updateOneCard } from '../../store/sagas/cardsSaga'
+import { createNewCard, deleteOneCard, getPacksS, updateOneCard } from '../../store/sagas/cardsSaga'
 import { CardTypePartial } from '../../types/PackTypes'
 import { Button } from '../common'
 
@@ -35,8 +36,9 @@ const CardsTable: React.FC = () => {
       payload: { cardsPack_id: currentPackID, max: cardsTotalCount },
     })
   }, [cardsTotalCount])
-
+  const page = useAppSelector(state => state.cards.currentPage)
   const handleReturnHomeClick = (): void => {
+    dispatch(getPacksS({ page }))
     navigate('/')
   }
 
@@ -52,14 +54,14 @@ const CardsTable: React.FC = () => {
     setUseStateCardId(cardId)
     setWhatModalIsActive('edit')
   }
-  const onConfirmEditClickHandler = (UpdatedCard: CardTypePartial): void => {
-    dispatch(updateOneCard({ ...UpdatedCard, _id: useStateCardId })) // цепляю ид карточки из юз стейта
+  const onConfirmEditClickHandler = (updatedCard: CardTypePartial): void => {
+    dispatch(updateOneCard({ ...updatedCard, _id: useStateCardId })) // цепляю ид карточки из юз стейта
   }
   const onCreateClickHandler = (): void => {
     setWhatModalIsActive('addCard')
   }
-  const onConfirmCreateClickHandler = (Card: CardTypePartial): void => {
-    dispatch(createNewCard({ ...Card, cardsPack_id: currentPackID })) // цепляю ид каррент пака
+  const onConfirmCreateClickHandler = (card: CardTypePartial): void => {
+    dispatch(createNewCard({ ...card, cardsPack_id: currentPackID })) // цепляю ид каррент пака
   }
   const shouldElementBeShown = (): boolean => userID === currentPackUserID // Используется для колонки с кнопками удаления и едита, если не твои карточки - не увидишь( наверное надо и для кнопки добавления )
   const tableRows =
@@ -76,7 +78,7 @@ const CardsTable: React.FC = () => {
     ))
   return (
     <div>
-      <Button onClick={() => setWhatModalIsActive('learn')} > Learn </Button>
+      <Button onClick={() => setWhatModalIsActive('learn')}> Learn </Button>
       <CardsHeader
         handleReturnHomeClick={handleReturnHomeClick}
         shouldElementBeShown={shouldElementBeShown()}

@@ -5,10 +5,11 @@ import { useNavigate } from 'react-router-dom'
 
 import s from './mainPage.module.scss'
 
-import { Table } from 'components/common/table'
+import { TablePage } from 'components/common/table/TablePage'
 import { Paths } from 'enums'
 import { useAppSelector } from 'hooks'
 import { getPacksS } from 'store/sagas/cardsSaga'
+// import { Table } from 'components/common/table'
 
 export const MainPage = (): ReactElement => {
   const dispatch = useDispatch()
@@ -28,7 +29,7 @@ export const MainPage = (): ReactElement => {
 
   return (
     <div className={s.main}>
-      <Table />
+      <TablePage />
     </div>
   )
 }

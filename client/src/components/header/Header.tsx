@@ -2,6 +2,7 @@ import React, { FC, ReactElement, useCallback, useEffect, useState } from 'react
 
 import { Link, NavLink, Outlet } from 'react-router-dom'
 
+import { Button } from 'components/common'
 import s from 'components/header/style/header.module.scss'
 import { Paths } from 'enums'
 import { AuthTypeSaga } from 'enums/AuthTypeSaga'
@@ -53,9 +54,9 @@ export const Header = (): ReactElement => {
             <HeaderLink path={link.path} title={link.name} key={link.name} />
           ))}
           {isAuthorized && (
-            <button type="submit" onClick={logoutHandler}>
+            <Button type="submit" onClick={logoutHandler}>
               LogOut
-            </button>
+            </Button>
           )}
         </div>
       </header>

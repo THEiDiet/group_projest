@@ -40,7 +40,8 @@ function* onePackCardsWorker({ payload }: any): Generator<StrictEffect, void, Ca
 export const getPacksS = (payload?: Partial<GetPacksPayload>) =>
   ({ type: SagaActions.GetPacks, payload } as const)
 
-export const getOnePackS = (payload: CardTypePartial) => ({ type: SagaActions.GetOnePack, payload } as const)
+export const getOnePackS = (payload: CardTypePartial) =>
+  ({ type: SagaActions.GetOnePack, payload } as const)
 
 export const deleteOneCard = (payload: string) =>
   ({ type: SagaActions.DeleteCard, payload } as const)
@@ -57,7 +58,7 @@ function* deleteOneCardFromPackWorker({ payload }: any): Generator<StrictEffect,
     const cardsPack_id = yield select(getCurrentPackId)
     const max = yield select(getCardsTotalCount)
     // eslint-disable-next-line camelcase
-    yield put({ type: SagaActions.GetOnePack, payload: {cardsPack_id, max  }})
+    yield put({ type: SagaActions.GetOnePack, payload: { cardsPack_id, max } })
   } catch (e) {
     yield put(setError((e as AxiosError)?.response?.data))
   }
@@ -71,7 +72,7 @@ function* updateOneCardFromPackWorker({ payload }: any): Generator<StrictEffect,
     const cardsPack_id = yield select(getCurrentPackId)
     const max = yield select(getCardsTotalCount)
     // eslint-disable-next-line camelcase
-    yield put({ type: SagaActions.GetOnePack, payload: {cardsPack_id, max  }})
+    yield put({ type: SagaActions.GetOnePack, payload: { cardsPack_id, max } })
   } catch (e) {
     yield put(setError((e as AxiosError)?.response?.data))
   }
@@ -87,7 +88,7 @@ function* createNewCardInPackWorker({ payload }: any): Generator<StrictEffect, v
     const cardsPack_id = yield select(getCurrentPackId)
     const max = yield select(getCardsTotalCount)
     // eslint-disable-next-line camelcase
-    yield put({ type: SagaActions.GetOnePack, payload: {cardsPack_id, max  }})
+    yield put({ type: SagaActions.GetOnePack, payload: { cardsPack_id, max } })
   } catch (e) {
     console.log(e)
     yield put(setError((e as AxiosError)?.response?.data.error))

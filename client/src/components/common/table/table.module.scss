@@ -1,23 +1,43 @@
 .table {
   width: 100%;
-  border: 1px solid;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 14px rgba(45, 46, 70, 0.15);
   border-radius: 4px;
 
   .head {
     width: 100%;
     padding: 0 10px;
+    display: flex;
 
     &__row {
       display: flex;
       width: 100%;
+      padding: 0 10px;
+      button {
+        display: block;
+        appearance: none;
+        outline: none;
+        border: none;
+        background: #F8F7FD;
+      }
 
-      div:nth-child(1) {
+      button:nth-child(1) {
         flex: 0 0 30%;
       }
 
-      div:nth-child(2) {
+      button:nth-child(2) {
         flex: 0 0 10%;
+      }
+
+      button:nth-child(3) {
+        flex: 0 0 10%;
+      }
+
+      button:nth-child(4) {
+        flex: 0 0 30%;
+      }
+
+      div {
+        flex: 0 0 20%;
       }
     }
 
@@ -32,9 +52,16 @@
     &__row {
       display: flex;
       width: 100%;
+      padding: 10px;
 
       &:nth-child(odd) {
-        background: darken(rgba(0, 0, 0, 0.1), 0.2);
+        background: #eee7f4;
+      }
+
+      div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
       div:nth-child(1) {
@@ -43,6 +70,22 @@
 
       div:nth-child(2) {
         flex: 0 0 10%;
+      }
+
+      div:nth-child(3) {
+        flex: 0 0 10%;
+      }
+
+      div:nth-child(4) {
+        flex: 0 0 30%;
+      }
+
+      div:nth-child(5) {
+        flex: 0 0 20%;
+
+        button:not(:last-child) {
+          margin-right: 10px;
+        }
       }
     }
   }
@@ -54,7 +97,7 @@
   .col {
     flex: 1 0 20%;
     padding: 10px 0;
-    
+
     &_bold {
       font-weight: 600;
     }
