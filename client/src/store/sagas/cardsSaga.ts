@@ -2,30 +2,27 @@ import { AxiosError, AxiosResponse } from 'axios'
 import { SagaIterator } from 'redux-saga'
 import { call, put, select, StrictEffect, takeLatest } from 'redux-saga/effects'
 
-import { CardTypePartial } from '../../types/PackTypes'
+import { CardTypePartial } from 'types/PackTypes'
 import { RootState } from '../config'
+import { call, put, StrictEffect, takeLatest } from 'redux-saga/effects'
 
 import { cardsApi } from 'api/cardsApi'
 import { SagaActions } from 'enums/sagaActions'
 import { setOnePackCards, setPacks } from 'store/reducers'
 import { setError } from 'store/reducers/appReducer'
 import { PackT } from 'types'
-import { CardsPackT, GetPacksPayload, GetPacksWorkerT } from 'types/PacksType'
+import { CardsPackT, GetPacksPayload, GetPacksResponseT, GetPacksWorkerT } from 'types/PacksType'
 
 function* packsWorker({ payload }: GetPacksWorkerT): Generator<StrictEffect, void, CardsPackT[]> {
   try {
     // @ts-ignore
-    // const response: AxiosResponse< CardsPackT[],GetPacksWorkerT> = yield call(cardsApi.getPacks, payload)
-    const response: AxiosResponse<any> = yield call(cardsApi.getPacks, payload)
+    const response: AxiosResponse<GetPacksResponseT> = yield call(cardsApi.getPacks, payload)
     yield put(setPacks(response.data))
   } catch (e) {
-    // yield put({ type: 'error', payload: e })
-    yield put(setError((e as AxiosError)?.response?.data.error))
+    yield put(setError((e as AxiosError)?.response?.data))
   }
 }
-
 type CardsT = any
-type GetCardWorkerT = any
 
 function* onePackCardsWorker({ payload }: any): Generator<StrictEffect, void, CardsT> {
   try {
@@ -36,9 +33,6 @@ function* onePackCardsWorker({ payload }: any): Generator<StrictEffect, void, Ca
     yield put(setError((e as AxiosError)?.response?.data))
   }
 }
-
-export const getPacksS = (payload?: Partial<GetPacksPayload>) =>
-  ({ type: SagaActions.GetPacks, payload } as const)
 
 export const getOnePackS = (payload: CardTypePartial) =>
   ({ type: SagaActions.GetOnePack, payload } as const)
@@ -104,3 +98,8 @@ export function* cardsWatcher(): SagaIterator {
   yield takeLatest(SagaActions.UpdateCard, updateOneCardFromPackWorker)
   yield takeLatest(SagaActions.CreateCard, createNewCardInPackWorker)
 }
+
+export const getPacksS = (payload: Partial<GetPacksPayload>) =>
+  ({ type: SagaActions.GetPacks, payload } as const)
+
+export const getOnePackS = (payload: any) => ({ type: SagaActions.GetOnePack, payload } as const)

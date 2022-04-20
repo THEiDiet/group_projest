@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { EHelpers, EPacksSort } from 'enums'
-import { PackT, SortT } from 'types'
+import { CardT, PackT, SortT } from 'types'
 import { CardsPackT, GetPacksResponseT } from 'types/PacksType'
 
 const initialState = {
@@ -15,10 +15,17 @@ const initialState = {
   cardPacksTotalCount: 0,
   rangeValues: {
     minCardsCount: 0,
-    maxCardsCount: 20,
+    maxCardsCount: 25,
   },
-  currentPack: null as unknown as PackT,
-  currentPackId: '', // FIX IT NEED TO SET SOMEWHERE THIS
+  currentPack: {
+    cards: [] as CardT[],
+    cardsTotalCount: 0,
+    maxGrade: 0,
+    minGrade: 0,
+    page: 0,
+    pageCount: 0,
+    packUserId: '',
+  },
   revert: {
     [EPacksSort.Name]: false,
     [EPacksSort.UserName]: false,
@@ -26,7 +33,9 @@ const initialState = {
     [EPacksSort.CardsCount]: false,
   },
   searchPack: '',
-  actualPacks: [] as CardsPackT[],
+  onlyUserPack: [] as CardsPackT[],
+  localMinRage: 0,
+  localMaxRage: 25,
 }
 
 const slice = createSlice({
@@ -68,9 +77,11 @@ const slice = createSlice({
     setSearchPacks: (state, action: PayloadAction<string>) => {
       const { payload: filterByName } = action
       state.searchPack = filterByName
-      state.actualPacks = state.packs.filter(
-        p => p.name.toLowerCase().includes(filterByName.toLowerCase()) && p,
-      )
+    },
+    setMinMaxCardInPacks: (state, action: PayloadAction<[number, number]>) => {
+      const [min, max] = action.payload
+      state.localMinRage = min
+      state.localMaxRage = max
     },
     setCurrentPackId: (state, action: PayloadAction<string>) => {
       state.currentPackId = action.payload
@@ -88,6 +99,7 @@ export const {
   sortCards,
   setOnePackCards,
   setPortionNumber,
+  setMinMaxCardInPacks,
   setSearchPacks,
   setCurrentPackId,
 } = slice.actions

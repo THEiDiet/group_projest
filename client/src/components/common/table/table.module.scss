@@ -3,6 +3,12 @@
   box-shadow: 0 4px 14px rgba(45, 46, 70, 0.15);
   border-radius: 4px;
 
+  .debounceRange {
+    width: 300px;
+    margin: 10px auto 20px auto;
+
+  }
+
   .head {
     width: 100%;
     padding: 0 10px;
@@ -97,7 +103,7 @@
   .col {
     flex: 1 0 20%;
     padding: 10px 0;
-
+    
     &_bold {
       font-weight: 600;
     }

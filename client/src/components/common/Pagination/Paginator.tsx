@@ -10,6 +10,7 @@ import {
   setPortionNumber,
 } from 'store/reducers/cardsReducer'
 
+
 type propsType = {
   currentPage: number
   totalItemsCount: number
@@ -41,9 +42,6 @@ export const Paginator: React.FC<propsType> = ({
   }
 
   const appDispatch = useAppDispatch()
-  // useEffect(() => {
-  //   appDispatch(setCurrentPage(EHelpers.One))
-  // }, [])
 
   const handlePortionNumberChange = (value: number): void => {
     appDispatch(setPortionNumber(value))
