@@ -5,6 +5,7 @@ import { CardT, PackT, SortT } from 'types'
 import { CardsPackT, GetPacksResponseT } from 'types/PacksType'
 
 const initialState = {
+  currentPackId: '',
   currentPage: 1,
   amountOfElementsToShow: 10,
   portionSizeForPages: 10,

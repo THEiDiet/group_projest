@@ -1,6 +1,6 @@
 export { Button } from 'components/common/button/Button'
 export { CustomInput } from './input/CustomInput'
-export { TablePage } from './table/TablePage'
 export { Modal } from './modal/Modal'
 export { DebounceRange } from './DebounceRange/DebounceRange'
 export { DebounceSearchInput } from './DebounceSearchInput/DebounceSearchInput'
+export { TablePage } from './table/TablePage'

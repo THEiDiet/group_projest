@@ -1,26 +1,21 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
 
-import { TableHead } from '@mui/material'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
+import { DebounceSearchInput } from '../DebounceSearchInput/DebounceSearchInput'
+
 import { Card } from 'components'
-import { Button } from 'components/common/button/Button'
-import { DebounceRange } from 'components/common/DebounceRange/DebounceRange'
 import { Modal } from 'components/common/modal/Modal'
 import { Paginator } from 'components/common/Pagination/Paginator'
 import s from 'components/common/table/table.module.scss'
-import { TableCell } from 'components/common/table/TableCell'
 import { TableHeader } from 'components/common/table/TableHeader'
 import { TableItem } from 'components/common/table/TableItem'
-import { TableRow } from 'components/common/table/TableRow'
-import { DebounceSearchInput } from 'components/DebounceSearchInput'
 import { EHelpers, PaginationNames } from 'enums'
 import { useAppDispatch, useAppSelector } from 'hooks'
+import { setSearchPacks } from 'store/reducers'
 import { setCurrentPackId } from 'store/reducers/cardsReducer'
 import { getPacksS } from 'store/sagas/cardsSaga'
-import { setMinMaxCardInPacks, setSearchPacks } from 'store/reducers'
-import { getOnePackS, getPacksS } from 'store/sagas/cardsSaga'
 
 export const TablePage: FC = () => {
   const [isModalOpen, setModalOpen] = useState(false)
@@ -102,6 +97,7 @@ export const TablePage: FC = () => {
   const sortByCardsCount = (): void => {
     sortByParam('cardsCount')
   }
+  const navigate = useNavigate()
   const searchByPacks = useCallback((packName: string): void => {
     dispatch(getPacksS({ packName }))
     dispatch(setSearchPacks(packName))
@@ -110,7 +106,7 @@ export const TablePage: FC = () => {
     appDispatch(setCurrentPackId(id))
     navigate('/test')
   }
-  const navigate = useNavigate()
+
   const tableRows = packs.map(({ user_name: userName, _id: id, name, updated, cardsCount }) => (
     <TableItem
       name={name}
@@ -149,4 +145,4 @@ export const TablePage: FC = () => {
       />
     </div>
   )
-})
+}

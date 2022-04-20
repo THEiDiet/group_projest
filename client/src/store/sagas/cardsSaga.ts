@@ -2,9 +2,7 @@ import { AxiosError, AxiosResponse } from 'axios'
 import { SagaIterator } from 'redux-saga'
 import { call, put, select, StrictEffect, takeLatest } from 'redux-saga/effects'
 
-import { CardTypePartial } from 'types/PackTypes'
 import { RootState } from '../config'
-import { call, put, StrictEffect, takeLatest } from 'redux-saga/effects'
 
 import { cardsApi } from 'api/cardsApi'
 import { SagaActions } from 'enums/sagaActions'
@@ -12,6 +10,7 @@ import { setOnePackCards, setPacks } from 'store/reducers'
 import { setError } from 'store/reducers/appReducer'
 import { PackT } from 'types'
 import { CardsPackT, GetPacksPayload, GetPacksResponseT, GetPacksWorkerT } from 'types/PacksType'
+import { CardTypePartial } from 'types/PackTypes'
 
 function* packsWorker({ payload }: GetPacksWorkerT): Generator<StrictEffect, void, CardsPackT[]> {
   try {
@@ -76,7 +75,6 @@ export const updateOneCard = (payload: CardTypePartial) =>
 
 function* createNewCardInPackWorker({ payload }: any): Generator<StrictEffect, void, CardsT> {
   try {
-    console.log(payload)
     yield call(cardsApi.createCardInCurrentPack, payload)
     // eslint-disable-next-line camelcase
     const cardsPack_id = yield select(getCurrentPackId)
@@ -84,7 +82,6 @@ function* createNewCardInPackWorker({ payload }: any): Generator<StrictEffect, v
     // eslint-disable-next-line camelcase
     yield put({ type: SagaActions.GetOnePack, payload: { cardsPack_id, max } })
   } catch (e) {
-    console.log(e)
     yield put(setError((e as AxiosError)?.response?.data.error))
   }
 }
@@ -102,4 +99,4 @@ export function* cardsWatcher(): SagaIterator {
 export const getPacksS = (payload: Partial<GetPacksPayload>) =>
   ({ type: SagaActions.GetPacks, payload } as const)
 
-export const getOnePackS = (payload: any) => ({ type: SagaActions.GetOnePack, payload } as const)
+// export const getOnePackS = (payload: any) => ({ type: SagaActions.GetOnePack, payload } as const)
