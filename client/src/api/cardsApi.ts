@@ -29,14 +29,13 @@ export const cardsApi = {
         sortPacks,
         pageCount,
         page,
-        user_id: userId,
       },
     })
   },
   getOnePackCards: (payload: any = '') =>
     instance.get(
       // TODO: сделать полный набор параметров, не только cardsPack
-        // Я добавил зачем-то чтобы запрашивались все карточки из пака сразу.
+      // Я добавил зачем-то чтобы запрашивались все карточки из пака сразу.
       `cards/card?cardsPack_id=${payload.cardsPack_id}&page=1&pageCount=${payload.max}`,
     ),
   createCardInCurrentPack: async (payload: CardTypePartial) => {

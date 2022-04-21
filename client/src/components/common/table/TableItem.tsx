@@ -10,10 +10,11 @@ type TableItemProps = {
   userName: string
   updated: string
   cardsCount: number
+  onLookButtonClickHandler: (id: string) => void
 }
 
 export const TableItem: FC<TableItemProps> = props => {
-  const { userName, name, updated, cardsCount, id } = props
+  const { userName, name, updated, cardsCount, id, onLookButtonClickHandler } = props
   const date = new Date(updated).toLocaleDateString()
   return (
     <div className={`${s.body__row} ${s.row}`}>
@@ -23,7 +24,7 @@ export const TableItem: FC<TableItemProps> = props => {
       <div>{userName}</div>
       <div>
         <Button>Learn</Button>
-        <Button>Look</Button>
+        <Button onClick={() => onLookButtonClickHandler(id)}>Look</Button>
       </div>
     </div>
   )

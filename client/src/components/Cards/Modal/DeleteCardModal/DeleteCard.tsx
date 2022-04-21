@@ -1,5 +1,8 @@
 import React from 'react'
 
+import s from 'components/Cards/AddCardInputForm/style/AddCardInputForm.module.css'
+import { Button } from 'components/common'
+
 type propsType = {
   setWhatModalIsActive: (value: string) => void
   onConfirmDeleteClickHandler: (id: string) => void
@@ -13,13 +16,13 @@ const DeleteCard: React.FC<propsType> = ({
 }) => (
   <>
     {' '}
-    <div> Are you sure you want to delete this card ?</div>
-    <button type="button" onClick={() => setWhatModalIsActive('')}>
+    <div style={{margin:'20px', fontWeight: 'bold'}}> Are you sure you want to delete this card ?</div>
+    <Button className={s.cancelButton} type="button" onClick={() => setWhatModalIsActive('')}>
       No
-    </button>
-    <button type="button" onClick={() => onConfirmDeleteClickHandler(useStateId)}>
+    </Button>
+    <Button className={s.confirmButton} type="button" onClick={() => onConfirmDeleteClickHandler(useStateId)}>
       Yes
-    </button>{' '}
+    </Button>{' '}
   </>
 )
 

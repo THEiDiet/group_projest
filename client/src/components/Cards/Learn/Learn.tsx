@@ -3,9 +3,12 @@ import React, { useEffect, useState } from 'react'
 import { EHelpers } from '../../../enums'
 import { SagaActions } from '../../../enums/sagaActions'
 import { useAppDispatch, useAppSelector } from '../../../hooks'
-import { getOnePackS } from '../../../store/sagas/cardsSaga'
 import { CardT } from '../../../types/PackTypes'
 import { Button } from '../../common'
+
+import s from './Learn.module.css'
+
+import styles from 'styles/Auth/Auth.module.scss'
 
 const grades = ['не знал', 'забыл', 'долго думал', 'перепутал', 'знал']
 
@@ -27,7 +30,11 @@ const getCard = (cards: CardT[]): CardT => {
   return cards[res.id + EHelpers.One]
 }
 
-const LearnPage: React.FC = () => {
+type PropsType = {
+  deactivateModal: (value: string) => void
+}
+
+const LearnPage: React.FC<PropsType> = ({ deactivateModal }) => {
   const [isChecked, setIsChecked] = useState<boolean>(false)
   const [first, setFirst] = useState<boolean>(true)
   const currentPackID = useAppSelector(state => state.cards.currentPackId)
@@ -62,30 +69,41 @@ const LearnPage: React.FC = () => {
       setCard(getCard(cards))
     } else {
       console.log('and?')
+      // cheto tut nado delat?
     }
   }
 
   return (
-    <div>
-      LearnPage
-      <div>{card.question}</div>
-      <div>
-        <Button onClick={() => setIsChecked(true)}>check</Button>
-      </div>
+    /* можно тут если тру , то стили менять карточки, тогда вроде норм будет? */
+    <div className={s.container}>
+      <div>Q: {card.question}</div>
+      {!isChecked && (
+        <div>
+          <Button onClick={() => setIsChecked(true)}>Show Answer</Button>
+        </div>
+      )}
       {isChecked && (
         <>
-          <div>{card.answer}</div>
+          <div>A: {card.answer}</div>
+          <div
+            style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
+          >
+            {grades.map((g, i) => (
+              // куда-то записать оценку надо
+              // eslint-disable-next-line react/no-array-index-key
+              <Button key={`grade-${i}`} onClick={() => {}}>
+                {g}
+              </Button>
+            ))}
+          </div>
 
-          {grades.map((g, i) => (
-            // куда-то записать оценку надо
-            // eslint-disable-next-line react/no-array-index-key
-            <Button key={`grade-${i}`} onClick={() => {}}>
-              {g}
+          <div className={s.buttonContainer}>
+            <Button className={s.cancelButton} onClick={() => deactivateModal('')}>
+              Cancel
             </Button>
-          ))}
-
-          <div>
-            <Button onClick={onNext}>next</Button>
+            <Button className={s.nextButton} onClick={onNext}>
+              Next
+            </Button>
           </div>
         </>
       )}

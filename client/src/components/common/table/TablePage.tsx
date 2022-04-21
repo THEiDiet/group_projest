@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
 
 import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { DebounceSearchInput } from '../DebounceSearchInput/DebounceSearchInput'
 
@@ -102,9 +102,13 @@ export const TablePage: FC = () => {
     dispatch(getPacksS({ packName }))
     dispatch(setSearchPacks(packName))
   }, [])
-  const onTableRowClick = (id: string): void => {
-    appDispatch(setCurrentPackId(id))
-    navigate('/test')
+  const [searchParams, setSearchParams] = useSearchParams()
+  const onLookButtonClickHandler = (id: string): void => {
+    if (id) {
+      setSearchParams({ packId: id })
+    } else {
+      setSearchParams({})
+    }
   }
 
   const tableRows = packs.map(({ user_name: userName, _id: id, name, updated, cardsCount }) => (
@@ -115,6 +119,7 @@ export const TablePage: FC = () => {
       updated={updated}
       cardsCount={cardsCount}
       key={id}
+      onLookButtonClickHandler={onLookButtonClickHandler}
     />
   ))
   return (

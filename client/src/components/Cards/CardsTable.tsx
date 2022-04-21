@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 
-import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 
 import { SagaActions } from '../../enums/sagaActions'
 import { useAppDispatch, useAppSelector } from '../../hooks'
+import { setCurrentPackId } from '../../store/reducers/cardsReducer'
 import { createNewCard, deleteOneCard, getPacksS, updateOneCard } from '../../store/sagas/cardsSaga'
 import { CardTypePartial } from '../../types/PackTypes'
 import { Button } from '../common'
@@ -19,17 +19,18 @@ import DeleteCard from './Modal/DeleteCardModal/DeleteCard'
 import ModalForCards from './Modal/ModalForCards/ModalForCards'
 
 const CardsTable: React.FC = () => {
-  // eslint-disable-next-line no-underscore-dangle
-  const userID = useAppSelector(state => state.user.userInfo._id)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const userID = useAppSelector(state => state.user.userInfo.userId)
   const currentPack = useAppSelector(state => state.cards.currentPack)
-  const currentPackID = useAppSelector(state => state.cards.currentPackId) // FIX IT потому что я не знаю где брать пакИД ?
+  const currentPackID = searchParams.get('packId') || ''
   const currentPackUserID = currentPack && currentPack.packUserId
   const cardsTotalCount = currentPack && currentPack.cardsTotalCount
   const [whatModalIsActive, setWhatModalIsActive] = useState<string>('')
   const [useStateCardId, setUseStateCardId] = useState<string>('') //  кривое решение, чтобы знать ид карточки которую передаешь вниз при модалке с вопросом точно удалить?
   const dispatch = useAppDispatch()
-  const navigate = useNavigate()
-
+  useEffect(() => {
+    dispatch(setCurrentPackId(currentPackID)) // так как теперь я не сетаю при переходе этот ИД , мне он нужен в стейте для запроса при селекте
+  }, [])
   useEffect(() => {
     dispatch({
       type: SagaActions.GetOnePack,
@@ -38,8 +39,8 @@ const CardsTable: React.FC = () => {
   }, [cardsTotalCount])
   const page = useAppSelector(state => state.cards.currentPage)
   const handleReturnHomeClick = (): void => {
-    dispatch(getPacksS({ page }))
-    navigate('/')
+    dispatch(getPacksS({ page })) // TODO didn't work
+    setSearchParams({})
   }
 
   const onDeleteClickHandlerInTable = (cardId: string): void => {
@@ -107,7 +108,7 @@ const CardsTable: React.FC = () => {
             cardId={useStateCardId}
           />
         )}
-        {whatModalIsActive === 'learn' && <LearnPage />}
+        {whatModalIsActive === 'learn' && <LearnPage deactivateModal={setWhatModalIsActive} />}
       </ModalForCards>
     </div>
   )

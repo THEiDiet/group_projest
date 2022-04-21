@@ -59,10 +59,10 @@ export const AddCardInputForm: React.FC<propsType> = ({ setAddNewCardModal, crea
             />
           </div>
           <div className={s.btn}>
-            <Button type="button" onClick={() => setAddNewCardModal('')}>
+            <Button className={s.cancelButton} type="button" onClick={() => setAddNewCardModal('')}>
               Cancel
             </Button>
-            <Button type="submit">Save</Button>
+            <Button className={s.confirmButton} type="submit">Save</Button>
           </div>
         </form>
       </div>

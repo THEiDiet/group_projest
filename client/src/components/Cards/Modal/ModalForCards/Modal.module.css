@@ -1,7 +1,7 @@
 .modalContainer {
     height: 100vh;
     width: 100vw;
-    background-color: rgba(185, 166, 215,0.4);
+    background-color: rgba(185, 166, 215, 0.4);
     position: fixed;
     top:0px;
     left: 0px;
@@ -10,7 +10,6 @@
     justify-content: center;
     opacity: 1;
     transform: scale(0);
-
 }
 
 .modalContainer.active {
@@ -21,5 +20,4 @@
     padding: 20px;
     border-radius: 12px;
     background-color: white;
-
 }
