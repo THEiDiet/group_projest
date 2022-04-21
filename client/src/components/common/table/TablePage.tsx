@@ -1,14 +1,13 @@
 import React, { ChangeEvent, FC, useCallback, useEffect, useRef, useState } from 'react'
 
 import { Checkbox, FormControlLabel } from '@mui/material'
-import { useDispatch } from 'react-redux'
-import { useNavigate, useSearchParams,useLocation } from 'react-router-dom'
+import { useLocation, useSearchParams } from 'react-router-dom'
 
 import { DebounceSearchInput } from '../DebounceSearchInput/DebounceSearchInput'
 
 import { AddPackT } from 'api/cardsApi'
+import { Input } from 'components'
 import { Button } from 'components/common/button/Button'
-import { Card } from 'components'
 import { DebounceRange } from 'components/common/DebounceRange/DebounceRange'
 import { Modal } from 'components/common/modal/Modal'
 import ModalButton from 'components/common/modalButton/ModalButton'
@@ -16,7 +15,7 @@ import { Paginator } from 'components/common/Pagination/Paginator'
 import s from 'components/common/table/table.module.scss'
 import { TableHeader } from 'components/common/table/TableHeader'
 import { TableItem } from 'components/common/table/TableItem'
-import { EHelpers, PaginationNames,Paths } from 'enums'
+import { EHelpers, PaginationNames, Paths } from 'enums'
 import { useAppDispatch, useAppSelector } from 'hooks'
 import { setMinMaxCardInPacks, setSearchPacks } from 'store/reducers'
 import { getPacksS } from 'store/sagas/cardsSaga'
@@ -42,18 +41,17 @@ export const TablePage: FC = () => {
   const location = useLocation()
   useEffect(() => {
     appDispatch(getPacksS({ packName: searchPack, min: localMinRage, max: localMaxRage }))
-  }, [localMinRage, localMaxRage, searchPack, userId])
+  }, [localMinRage, localMaxRage, searchPack])
 
-  const onChangeCheckbox = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChangeCheckbox = (e: ChangeEvent<HTMLInputElement>): void => {
     setCheckboxValue(Boolean(e.target.value))
   }
   const onChangePackValue = (e: ChangeEvent<HTMLInputElement>): void => {
     setAddPackValue(e.target.value)
   }
   const setOnlyUserPacks = (): void => {
-    appDispatch(getPacksS({ packName: searchPack, min: 0, max: localMaxRage, userId }))
+    appDispatch(getPacksS({ packName: searchPack, min: localMinRage, max: localMaxRage, userId }))
   }
-
   const setAllPacks = (): void => {
     appDispatch(
       getPacksS({ userId: '', packName: searchPack, min: localMinRage, max: localMaxRage }),
@@ -96,9 +94,8 @@ export const TablePage: FC = () => {
           packName: searchPack,
           min: localMinRage,
           max: localMaxRage,
-          userId,
         }
-      : { page: value, packName: searchPack, min: localMinRage, max: localMaxRage, userId }
+      : { page: value, packName: searchPack, min: localMinRage, max: localMaxRage }
     appDispatch(getPacksS(obj))
   }
   const sortByName = (): void => {
@@ -133,7 +130,7 @@ export const TablePage: FC = () => {
         private: checkboxValue,
       },
     }
-    dispatch(addPackS(payload))
+    appDispatch(addPackS(payload))
     setAddPackValue('')
     setCheckboxValue(false)
     setModalOpen(false)
@@ -151,14 +148,14 @@ export const TablePage: FC = () => {
         private: checkboxValue,
       },
     }
-    dispatch(addPackS(payload))
+    appDispatch(addPackS(payload))
     setAddPackValue('')
     setCheckboxValue(false)
     setModalOpen(false)
   }
   const currentPackRef = useRef('')
   const [editPackValue, setEditPackValue] = useState('')
-  const onEditPackChangeValue = (e: ChangeEvent<HTMLInputElement>) => {
+  const onEditPackChangeValue = (e: ChangeEvent<HTMLInputElement>): void => {
     setEditPackValue(e.target.value)
   }
   const [checkboxEditValue, setCheckboxEditValue] = useState(false)
@@ -171,11 +168,11 @@ export const TablePage: FC = () => {
     setCheckboxEditValue(currentPack.private)
     setEditModalOpen(true)
   }
-  const onChangeCheckboxEdit = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChangeCheckboxEdit = (e: ChangeEvent<HTMLInputElement>): void => {
     setCheckboxEditValue(Boolean(e.target.value))
   }
   const onDelPack = (packId: string): void => {
-    dispatch(delPackS(packId))
+    appDispatch(delPackS(packId))
   }
   const tableRows = packs.map(
     ({ user_name: userName, _id: id, name, updated, cardsCount, user_id: idUser }) => (
@@ -201,7 +198,7 @@ export const TablePage: FC = () => {
         private: checkboxEditValue,
       },
     }
-    dispatch(updatePackS(payload))
+    appDispatch(updatePackS(payload))
     setEditModalOpen(false)
   }
   return (
@@ -227,7 +224,7 @@ export const TablePage: FC = () => {
           control={<Checkbox value={checkboxValue} onChange={onChangeCheckbox} />}
           label="private?"
         />
-        <Button onClick={addNewPack}>add</Button>
+        <Button onClick={addNewPack}>Add</Button>
       </ModalButton>
       <DebounceSearchInput placeholder="Search..." searchValue={searchByPacks} />
       <TableHeader

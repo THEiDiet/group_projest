@@ -10,7 +10,7 @@ import React, {
 } from 'react'
 
 import { DoubleRangeSlider } from 'components/common/DebounceRange/MultiRange/DoubleRangeSlider'
-import { EDebounceDelay } from 'enums'
+import { EDebounceDelay, EHelpers } from 'enums'
 import { useAppSelector, useDebounce } from 'hooks'
 
 type DefaultInputPropsType = DetailedHTMLProps<
@@ -36,10 +36,8 @@ export const DebounceRange: FC<DebounceViewRangePropsType> = memo(
     }
     const debounceSearch = useDebounce(search, EDebounceDelay.Range)
     const onSearchQuestionChange = useCallback((newValues: [number, number]): void => {
-      const index0 = 0
-      const index1 = 1
-      setValues([newValues[index0], newValues[index1]])
-      debounceSearch([newValues[index0], newValues[index1]])
+      setValues([newValues[EHelpers.Zero], newValues[EHelpers.One]])
+      debounceSearch([newValues[EHelpers.Zero], newValues[EHelpers.One]])
     }, [])
     return (
       <div>

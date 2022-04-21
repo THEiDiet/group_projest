@@ -28,14 +28,15 @@
       margin: 4px 0;
     }
     & button{
-      transition: 0.3s;
+      width: 150px;
+      margin: 10px auto;
+      transition: 0.5s;
       background-color: darkblue;
       outline: none;
       color: #ced4da;
       font-size: 14px;
       border: 2px solid darkblue;
       border-radius: 10px;
-      margin-top: 5px;
       padding: 5px 0;
       font-weight: 600;
       cursor: pointer;

@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react'
 
 import { useFormik } from 'formik'
-import { Navigate, NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 
 import { userApi } from 'api/userApi'
 import Security from 'assets/icons/security.svg'
@@ -32,7 +32,6 @@ export const Auth: FC = () => {
 
   const onSubmitForm = async (values: Omit<LoginParamsType, 'rememberMe'>): Promise<any> => {
     const res: AuthResponse = await userApi.register(values)
-    console.log(res)
     if (typeof res === 'string') {
       setError(res)
     }

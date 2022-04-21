@@ -3,16 +3,14 @@ import React, { FC, useEffect } from 'react'
 import { Navigate, useLocation, useSearchParams } from 'react-router-dom'
 
 import CardsTable from '../../components/Cards/CardsTable'
-import { TablePage } from '../../components/common/table/TablePage'
 
-import styles from './Profile.module.scss'
+import s from './Profile.module.scss'
 
 import noAvatar from 'assets/user-no-avatar.png'
+import { TablePage } from 'components/common/table/TablePage'
 import { EditableUserInfo } from 'components/EditableUserInfo/EditableUserInfo'
 import { Paths } from 'enums'
 import { useAppDispatch, useAppSelector } from 'hooks'
-import { EditableUserName } from 'pages/profile/EditableUserName'
-import { UserAvatar } from 'pages/profile/UserAvatar'
 import { setEditMode } from 'store/reducers'
 
 export const Profile: FC = () => {
@@ -26,9 +24,9 @@ export const Profile: FC = () => {
   useEffect(() => {
     setSearchParams({})
   }, [])
-
+  const appDispatch = useAppDispatch()
   const changeEditMode = (): void => {
-    useAppDispatch(setEditMode(!isEditMode))
+    appDispatch(setEditMode(!isEditMode))
   }
 
   if (!isLoggedIn) {
@@ -37,12 +35,12 @@ export const Profile: FC = () => {
   return (
     <div>
       {isEditMode ? <EditableUserInfo changeEditMode={changeEditMode} /> : ''}
-      <div className={styles.profileWrapper}>
-        <div className={styles.wrapperUserInfo}>
+      <div className={s.profileWrapper}>
+        <div className={s.wrapperUserInfo}>
           <div>
-            <img className={styles.avatarIcon} src={userAvatar || noAvatar} alt="User Avatar" />
+            <img className={s.avatarIcon} src={userAvatar || noAvatar} alt="User Avatar" />
           </div>
-          <div className={styles.user_name}>
+          <div className={s.user_name}>
             <span>{userName || 'Enter your name'}</span>
           </div>
           <button type="button" onClick={changeEditMode}>
@@ -50,9 +48,9 @@ export const Profile: FC = () => {
           </button>
         </div>
 
-        <div className={styles.userTableWrapper}>
+        <div className={s.userTableWrapper}>
           <div>
-            <span className={styles.packUserName}> Packs list {userName}:</span>
+            <span className={s.packUserName}> Packs list {userName}:</span>
           </div>
           {trueOrFalse ? <CardsTable /> : <TablePage />}
         </div>

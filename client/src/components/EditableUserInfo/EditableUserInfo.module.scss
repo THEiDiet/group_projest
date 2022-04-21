@@ -30,6 +30,13 @@
       border: 2px dotted rgba(0, 0, 0, 0.11);
     }
 
+    .avatarAdd {
+      position: absolute;
+      top: 26%;
+      left: 59%;
+      width: 30px;
+    }
+
     .avatarIconChange {
       margin-top: 50px;
       width: 140px;
@@ -38,6 +45,7 @@
       left: 33%;
       //border: black 1px solid;
       opacity: 0;
+      cursor: pointer;
     }
 
     .customInput {

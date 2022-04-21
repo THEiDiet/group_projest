@@ -16,7 +16,6 @@ export const cardsApi = {
       },
     }
     const res = instance.post('cards/pack', data)
-    console.log(res)
   },
   getPacks: (payload: GetPacksPayload): Promise<AxiosResponse<CardsPackT[]>> => {
     // eslint-disable-next-line @typescript-eslint/no-magic-numbers

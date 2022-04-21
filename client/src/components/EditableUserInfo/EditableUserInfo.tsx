@@ -1,5 +1,6 @@
 import React, { ChangeEvent, FC, useCallback, useState } from 'react'
 
+import addPhoto from 'assets/icons/addPhoto.svg'
 import noAvatar from 'assets/user-no-avatar.png'
 import { Button } from 'components/common'
 import s from 'components/EditableUserInfo/EditableUserInfo.module.scss'
@@ -53,6 +54,7 @@ export const EditableUserInfo: FC<EditableUserInfoPropsType> = React.memo(({ cha
       <div className={s.editableWrapper}>
         <div>
           <img className={s.avatarIcon} src={userAvatar || noAvatar} alt="User Avatar" />
+          <img className={s.avatarAdd} src={addPhoto} alt="Add new avatar" />
           <input className={s.avatarIconChange} type="file" onChange={onAvatarPhotoChange} />
         </div>
         <div>

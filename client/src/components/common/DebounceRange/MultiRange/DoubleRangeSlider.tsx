@@ -9,7 +9,7 @@ import React, {
 } from 'react'
 
 import s from 'components/common/DebounceRange/MultiRange/DoubleRangeSlider.module.scss'
-import { EIndexDBRange } from 'enums'
+import { EHelpers } from 'enums'
 import { OtherProps } from 'types'
 
 export type DefaultInputPropsType = DetailedHTMLProps<
@@ -21,34 +21,32 @@ type SuperDoubleRangePropsType = DefaultInputPropsType & OtherProps
 
 export const DoubleRangeSlider: FC<SuperDoubleRangePropsType> = React.memo(props => {
   const { onChangeRange, values, className, min, max, ...rest } = props
-  const minValue = values ? values[EIndexDBRange.null] : EIndexDBRange.null
-  const maxValue = values ? values[EIndexDBRange.one] : EIndexDBRange.hundred
+  const minValue = values ? values[EHelpers.Zero] : EHelpers.Zero
+  const maxValue = values ? values[EHelpers.One] : EHelpers.Hundred
   const minValueRef = useRef(null)
   const maxValueRef = useRef(null)
   const rangeRef = useRef(null)
 
   const onHandleMinValueChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    const value = Math.min(+e.currentTarget.value, maxValue - EIndexDBRange.one)
+    const value = Math.min(+e.currentTarget.value, maxValue - EHelpers.One)
     e.currentTarget.value = value.toString()
     // eslint-disable-next-line no-unused-expressions
     onChangeRange && onChangeRange([value, maxValue])
   }
 
   const onHandleMaxValueChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    const value = Math.max(+e.currentTarget.value, minValue + EIndexDBRange.one)
+    const value = Math.max(+e.currentTarget.value, minValue + EHelpers.One)
     // eslint-disable-next-line no-unused-expressions
     onChangeRange && onChangeRange([minValue, value])
   }
   const minClassName = `${s.thumbRange} ${s.thumbRangeIndex3} ${
-    values && values[EIndexDBRange.null] > values[EIndexDBRange.one] - EIndexDBRange.ten
-      ? s.thumbRangeIndex5
-      : ''
+    values && values[EHelpers.Zero] > values[EHelpers.One] - EHelpers.Ten ? s.thumbRangeIndex5 : ''
   }`
   const maxClassName = `${s.thumbRange} ${s.thumbRangeIndex4}`
   const getPercent = useCallback(
     value =>
       // @ts-ignore
-      Math.round(((value - min) / (max - min)) * EIndexDBRange.hundred),
+      Math.round(((value - min) / (max - min)) * EHelpers.Hundred),
     [min, max],
   )
 
