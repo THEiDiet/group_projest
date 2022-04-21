@@ -1,24 +1,24 @@
-import React, {FC, useEffect} from 'react'
+import React, { FC, useEffect } from 'react'
 
-import {Navigate, useLocation, useSearchParams} from 'react-router-dom'
+import { Navigate, useLocation, useSearchParams } from 'react-router-dom'
+
+import CardsTable from '../../components/Cards/CardsTable'
+import { TablePage } from '../../components/common/table/TablePage'
 
 import styles from './Profile.module.scss'
-
 
 import { Paths } from 'enums'
 import { useAppDispatch, useAppSelector } from 'hooks'
 import { EditableUserName } from 'pages/profile/EditableUserName'
 import { UserAvatar } from 'pages/profile/UserAvatar'
-import {TablePage} from '../../components/common/table/TablePage';
-import CardsTable from '../../components/Cards/CardsTable';
 
 export const Profile: FC = () => {
   const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
   const stateName = useAppSelector<string>(state => state.user.userInfo.name)
   const location = useLocation()
-  const [searchParams, setSearchParams ] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams()
   const trueOrFalse = searchParams.has('packId')
-  useEffect(()=> {
+  useEffect(() => {
     setSearchParams({})
   }, [])
 
@@ -37,7 +37,7 @@ export const Profile: FC = () => {
           <div>
             <span className={styles.packUserName}> Packs list {stateName}:</span>
           </div>
-          {trueOrFalse? <CardsTable /> : <TablePage />  }
+          {trueOrFalse ? <CardsTable /> : <TablePage />}
         </div>
       </div>
     </div>

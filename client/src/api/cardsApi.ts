@@ -32,6 +32,14 @@ export const cardsApi = {
       },
     })
   },
+  addPack: (payload: AddPackT): Promise<AxiosResponse> => instance.post(`cards/pack`, payload),
+  updatePack: (payload: AddPackT): Promise<AxiosResponse> => instance.put(`cards/pack`, payload),
+  deletePack: (payload: string): Promise<AxiosResponse> =>
+    instance.delete(`cards/pack`, {
+      params: {
+        id: payload,
+      },
+    }),
   getOnePackCards: (payload: any = '') =>
     instance.get(
       // TODO: сделать полный набор параметров, не только cardsPack
@@ -50,4 +58,12 @@ export const cardsApi = {
     const res: AxiosResponse<CardT> = await instance.put(`cards/card`, { card: payload })
     return res.data
   },
+}
+export type AddPackT = {
+  cardsPack: {
+    _id?: string
+    name: string
+    deckCover?: string
+    private: boolean
+  }
 }

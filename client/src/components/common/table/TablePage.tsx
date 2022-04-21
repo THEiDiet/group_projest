@@ -1,12 +1,16 @@
-import React, { FC, useCallback, useEffect, useState } from 'react'
+import React, { ChangeEvent, FC, useCallback, useEffect, useRef, useState } from 'react'
 
+import { Checkbox, FormControlLabel } from '@mui/material'
 import { useDispatch } from 'react-redux'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { DebounceSearchInput } from '../DebounceSearchInput/DebounceSearchInput'
 
-import { Card } from 'components'
+import { AddPackT } from 'api/cardsApi'
+import { Card, Input } from 'components'
+import { Button } from 'components/common/button/Button'
 import { Modal } from 'components/common/modal/Modal'
+import ModalButton from 'components/common/modalButton/ModalButton'
 import { Paginator } from 'components/common/Pagination/Paginator'
 import s from 'components/common/table/table.module.scss'
 import { TableHeader } from 'components/common/table/TableHeader'
@@ -16,11 +20,14 @@ import { useAppDispatch, useAppSelector } from 'hooks'
 import { setSearchPacks } from 'store/reducers'
 import { setCurrentPackId } from 'store/reducers/cardsReducer'
 import { getPacksS } from 'store/sagas/cardsSaga'
+import { addPackS, delPackS, updatePackS } from 'store/sagas/packsSaga'
 
 export const TablePage: FC = () => {
   const [isModalOpen, setModalOpen] = useState(false)
   const [sortTitle, setSortTitle] = useState('')
   const [oneZero, setOneZero] = useState(true)
+  const [addPackValue, setAddPackValue] = useState('')
+  const [checkboxValue, setCheckboxValue] = useState(false)
   const packs = useAppSelector(state => state.cards.packs)
   const currentPage = useAppSelector(state => state.cards.currentPage)
   const amountOfElementsToShow = useAppSelector(state => state.cards.amountOfElementsToShow)
@@ -37,6 +44,12 @@ export const TablePage: FC = () => {
     dispatch(getPacksS({ packName: searchPack, min: localMinRage, max: localMaxRage }))
   }, [localMinRage, localMaxRage, searchPack, userId])
 
+  const onChangeCheckbox = (e: ChangeEvent<HTMLInputElement>) => {
+    setCheckboxValue(Boolean(e.target.value))
+  }
+  const onChangePackValue = (e: ChangeEvent<HTMLInputElement>): void => {
+    setAddPackValue(e.target.value)
+  }
   const setOnlyUserPacks = (): void => {
     dispatch(getPacksS({ packName: searchPack, min: 0, max: localMaxRage, userId }))
   }
@@ -110,20 +123,97 @@ export const TablePage: FC = () => {
       setSearchParams({})
     }
   }
+  const addNewPack = (): void => {
+    const payload: AddPackT = {
+      cardsPack: {
+        name: addPackValue,
+        deckCover: '',
+        private: checkboxValue,
+      },
+    }
+    dispatch(addPackS(payload))
+    setAddPackValue('')
+    setCheckboxValue(false)
+    setModalOpen(false)
+  }
 
-  const tableRows = packs.map(({ user_name: userName, _id: id, name, updated, cardsCount }) => (
-    <TableItem
-      name={name}
-      id={id}
-      userName={userName}
-      updated={updated}
-      cardsCount={cardsCount}
-      key={id}
-      onLookButtonClickHandler={onLookButtonClickHandler}
-    />
-  ))
+  const updatePack = (): void => {
+    const payload: AddPackT = {
+      cardsPack: {
+        _id: '',
+        name: addPackValue,
+        deckCover: '',
+        private: checkboxValue,
+      },
+    }
+    dispatch(addPackS(payload))
+    setAddPackValue('')
+    setCheckboxValue(false)
+    setModalOpen(false)
+  }
+  const currentPackRef = useRef('')
+  const [editPackValue, setEditPackValue] = useState('')
+  const onEditPackChangeValue = (e: ChangeEvent<HTMLInputElement>) => {
+    setEditPackValue(e.target.value)
+  }
+  const [checkboxEditValue, setCheckboxEditValue] = useState(false)
+  const [isEditModalOpen, setEditModalOpen] = useState(false)
+  const onEditClick = (packId: string): void => {
+    // eslint-disable-next-line no-underscore-dangle
+    const currentPack = packs.filter(pack => pack._id === packId)[EHelpers.Zero]
+    setEditPackValue(currentPack.name)
+    currentPackRef.current = packId
+    setCheckboxEditValue(currentPack.private)
+    setEditModalOpen(true)
+  }
+  const onChangeCheckboxEdit = (e: ChangeEvent<HTMLInputElement>) => {
+    setCheckboxEditValue(Boolean(e.target.value))
+  }
+  const onDelPack = (packId: string): void => {
+    dispatch(delPackS(packId))
+  }
+  const tableRows = packs.map(
+    ({ user_name: userName, _id: id, name, updated, cardsCount, user_id: idUser }) => (
+      <TableItem
+        name={name}
+        id={id}
+        userName={userName}
+        updated={updated}
+        cardsCount={cardsCount}
+        key={id}
+        userId={idUser}
+        onEditClick={onEditClick}
+        onDeleteClick={onDelPack}
+        onLookButtonClickHandler={onLookButtonClickHandler}
+      />
+    ),
+  )
+  const updateCurrentPack = (): void => {
+    const payload: AddPackT = {
+      cardsPack: {
+        _id: currentPackRef.current,
+        name: editPackValue,
+        private: checkboxEditValue,
+      },
+    }
+    dispatch(updatePackS(payload))
+    setEditModalOpen(false)
+  }
   return (
     <div className={s.table}>
+      {/* <Button onClick={addNewPack}>add pack</Button> */}
+      <ModalButton
+        isOpen={isModalOpen}
+        handleOpen={() => setModalOpen(!isModalOpen)}
+        title="add pack"
+      >
+        <Input name="add pack" type="text" onChange={onChangePackValue} value={addPackValue} />
+        <FormControlLabel
+          control={<Checkbox value={checkboxValue} onChange={onChangeCheckbox} />}
+          label="private?"
+        />
+        <Button onClick={addNewPack}>add</Button>
+      </ModalButton>
       <DebounceSearchInput placeholder="Search..." searchValue={searchByPacks} />
       <TableHeader
         sortByName={sortByName}
@@ -142,12 +232,23 @@ export const TablePage: FC = () => {
         onPageChangeHandle={handlePageChange}
       />
       <Modal
-        component={<Card />}
         handleOpen={() => {
-          setModalOpen(!isModalOpen)
+          setEditModalOpen(!isEditModalOpen)
         }}
-        isOpen={isModalOpen}
-      />
+        isOpen={isEditModalOpen}
+      >
+        <Input
+          name="edit pack"
+          type="text"
+          onChange={onEditPackChangeValue}
+          value={editPackValue}
+        />
+        <FormControlLabel
+          control={<Checkbox value={checkboxEditValue} onChange={onChangeCheckboxEdit} />}
+          label="private?"
+        />
+        <Button onClick={updateCurrentPack}>update</Button>
+      </Modal>
     </div>
   )
 }

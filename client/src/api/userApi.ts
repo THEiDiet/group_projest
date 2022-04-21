@@ -5,11 +5,9 @@ import { Responses } from 'enums/EResponse'
 import { LoginParamsType, ResponseType, SetNewPasswordRequestType } from 'types'
 
 export const userApi = {
-  // eslint-disable-next-line no-return-await
-  ping: async () => await instance.get('ping'),
   register: async (body: Omit<LoginParamsType, 'rememberMe'>) => {
     try {
-      const res = await instance.post('auth/register', JSON.stringify(body))
+      const res = await instance.post('auth/register', body)
       return res.data
     } catch (e) {
       return (e as AxiosError)?.response?.data?.error || 'some error'

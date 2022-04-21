@@ -5,4 +5,7 @@ export enum SagaActions {
   DeleteCard = 'DeleteCard',
   UpdateCard = 'UpdateCard',
   CreateCard = 'CreateCard',
+  AddPack = 'AddPack',
+  UpdatePack = 'UpdatePack',
+  DeletePack = 'DeletePack',
 }
