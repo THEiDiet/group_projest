@@ -25,3 +25,17 @@ export type PackT = {
   pageCount: number
   packUserId: string
 }
+export type UpdatedGradeT = {
+  _id: string
+  cardsPack_id: string
+  card_id: string
+  user_id: string
+  grade: number
+  shots: number
+}
+
+export type UpdatedGradeRequestT = {
+  card_id: string
+  grade: number
+}
+

@@ -9,6 +9,7 @@ import { Button } from '../../common'
 import s from './Learn.module.css'
 
 import styles from 'styles/Auth/Auth.module.scss'
+import {rateCard} from '../../../store/sagas/cardsSaga';
 
 const grades = ['не знал', 'забыл', 'долго думал', 'перепутал', 'знал']
 
@@ -40,6 +41,7 @@ const LearnPage: React.FC<PropsType> = ({ deactivateModal }) => {
   const currentPackID = useAppSelector(state => state.cards.currentPackId)
   const cards = useAppSelector(state => state.cards.currentPack?.cards) // FIX IT потому что я не знаю где брать пакИД ?
   const cardsTotalCount = useAppSelector(state => state.cards.currentPack?.cardsTotalCount)
+  const [rateCardInfo, setRateCardInfo] = useState<{cardId: string, grade:number}>({cardId: '', grade: 0})
 
   const [card, setCard] = useState<CardT>({} as CardT)
 
@@ -63,9 +65,8 @@ const LearnPage: React.FC<PropsType> = ({ deactivateModal }) => {
 
   const onNext = (): void => {
     setIsChecked(false)
-    // dispatch оценки
+    dispatch(rateCard({card_id: rateCardInfo.cardId, grade: rateCardInfo.grade}))
     if (cards.length > EHelpers.Zero) {
-      // dispatch CHEGO ?
       setCard(getCard(cards))
     } else {
       console.log('and?')
@@ -89,9 +90,9 @@ const LearnPage: React.FC<PropsType> = ({ deactivateModal }) => {
             style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
           >
             {grades.map((g, i) => (
-              // куда-то записать оценку надо
-              // eslint-disable-next-line react/no-array-index-key
-              <Button key={`grade-${i}`} onClick={() => {}}>
+
+                // eslint-disable-next-line react/no-array-index-key,no-underscore-dangle
+                <Button key={`grade-${i}`} onClick={() => {setRateCardInfo({cardId: card._id, grade: i+EHelpers.One})}}>
                 {g}
               </Button>
             ))}

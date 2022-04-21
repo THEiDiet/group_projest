@@ -17,6 +17,7 @@ import { CardTableRow } from './CardTableRow'
 import LearnPage from './Learn/Learn'
 import DeleteCard from './Modal/DeleteCardModal/DeleteCard'
 import ModalForCards from './Modal/ModalForCards/ModalForCards'
+import {EHelpers} from '../../enums';
 
 const CardsTable: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -79,7 +80,7 @@ const CardsTable: React.FC = () => {
     ))
   return (
     <div>
-      <Button onClick={() => setWhatModalIsActive('learn')}> Learn </Button>
+      <Button onClick={() => setWhatModalIsActive('learn')} disabled={currentPack.cards.length === EHelpers.Zero}> Learn </Button>
       <CardsHeader
         handleReturnHomeClick={handleReturnHomeClick}
         shouldElementBeShown={shouldElementBeShown()}

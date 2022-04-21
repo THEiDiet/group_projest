@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios'
 
-import { CardT, CardTypePartial } from '../types/PackTypes'
+import {CardT, CardTypePartial, UpdatedGradeRequestT, UpdatedGradeT} from '../types/PackTypes'
 
 import { instance } from './config'
 
@@ -29,6 +29,7 @@ export const cardsApi = {
         sortPacks,
         pageCount,
         page,
+        userId
       },
     })
   },
@@ -56,6 +57,10 @@ export const cardsApi = {
   },
   updateCardInCurrentPack: async (payload: CardTypePartial) => {
     const res: AxiosResponse<CardT> = await instance.put(`cards/card`, { card: payload })
+    return res.data
+  },
+  rateCard: async (payload: UpdatedGradeRequestT) => {
+    const res: AxiosResponse<UpdatedGradeT> = await instance.put(`cards/grade`, payload)
     return res.data
   },
 }
