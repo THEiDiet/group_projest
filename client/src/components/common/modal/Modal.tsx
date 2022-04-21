@@ -26,5 +26,5 @@ export const Modal = (props: ModalProps): any => {
   if (root && isOpen) {
     return createPortal(wrapper, root)
   }
-  return null
+  return <>...</>
 }

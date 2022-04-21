@@ -14,6 +14,8 @@ export type CardT = {
   _id: string
 }
 
+export type CardTypePartial = Partial<CardT>
+
 export type PackT = {
   cards: CardT[]
   cardsTotalCount: number

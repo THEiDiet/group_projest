@@ -7,7 +7,7 @@ import Stack from '@mui/material/Stack'
 
 import { EHelpers } from '../../../enums'
 
-import s from './styles/Paginator.module.css'
+import s from 'components/common/Pagination/styles/Paginator.module.scss'
 
 import { useAppDispatch, useAppSelector } from 'hooks'
 import { setAmountOfElementsToShow, setCurrentPage } from 'store/reducers/cardsReducer'

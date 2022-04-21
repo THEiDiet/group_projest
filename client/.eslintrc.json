@@ -90,7 +90,7 @@
     "import/extensions": "off",
     "import/prefer-default-export": "off",
     "import/order": [
-      "error",
+      "warn",
       {
         "newlines-between": "always",
         "pathGroupsExcludedImportTypes": [

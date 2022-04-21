@@ -1,8 +1,10 @@
 import { AxiosResponse } from 'axios'
 
+import { CardT, CardTypePartial } from '../types/PackTypes'
+
 import { instance } from './config'
 
-import { CardsPackT, GetPacksPayload, GetPacksResponseT } from 'types/PacksType'
+import { CardsPackT, GetPacksPayload } from 'types/PacksType'
 
 export const cardsApi = {
   setPack() {
@@ -27,13 +29,25 @@ export const cardsApi = {
         sortPacks,
         pageCount,
         page,
-        user_id: userId,
       },
     })
   },
-  getOnePackCards: (payload: string = '') =>
+  getOnePackCards: (payload: any = '') =>
     instance.get(
       // TODO: сделать полный набор параметров, не только cardsPack
-      `cards/card?cardsPack_id=${payload}`,
+      // Я добавил зачем-то чтобы запрашивались все карточки из пака сразу.
+      `cards/card?cardsPack_id=${payload.cardsPack_id}&page=1&pageCount=${payload.max}`,
     ),
+  createCardInCurrentPack: async (payload: CardTypePartial) => {
+    const res: AxiosResponse<CardT> = await instance.post(`cards/card`, { card: payload })
+    return res.data
+  },
+  deleteCardFromCurrentPack: async (payload: string) => {
+    const res: AxiosResponse<CardT> = await instance.delete(`cards/card?id=${payload}`)
+    return res.data
+  },
+  updateCardInCurrentPack: async (payload: CardTypePartial) => {
+    const res: AxiosResponse<CardT> = await instance.put(`cards/card`, { card: payload })
+    return res.data
+  },
 }

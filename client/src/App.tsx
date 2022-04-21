@@ -29,8 +29,6 @@ const App = (): ReactElement => {
 
   return (
     <div className={isEditMode ? `${s.appScrollHidden} ${s.app}` : s.app}>
-      {/** mojno bilo perenesti v routes OUtlet
-       */}
       <Router />
     </div>
   )

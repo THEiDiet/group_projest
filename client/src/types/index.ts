@@ -7,3 +7,5 @@ export type { SortT, PackT, CardT } from './PackTypes'
 
 export type { PackType, PacksType, InitialStateType } from './PacksType'
 export type { OtherProps } from './OtherPropsDoubleRange'
+
+export type { UpdateORCreateCardInCurrentPackType } from './CardsType'

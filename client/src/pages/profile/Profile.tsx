@@ -1,16 +1,20 @@
-import React, { FC, useState } from 'react'
+import React, {FC, useEffect} from 'react'
 
+import {Navigate, useLocation, useSearchParams} from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { Navigate, useLocation } from 'react-router-dom'
 
 import styles from './Profile.module.scss'
 
+
 import noAvatar from 'assets/user-no-avatar.png'
-import { Table } from 'components/common'
 import { EditableUserInfo } from 'components/EditableUserInfo/EditableUserInfo'
 import { Paths } from 'enums'
-import { useAppSelector } from 'hooks'
+import { useAppDispatch, useAppSelector } from 'hooks'
 import { setEditMode } from 'store/reducers'
+import { EditableUserName } from 'pages/profile/EditableUserName'
+import { UserAvatar } from 'pages/profile/UserAvatar'
+import {TablePage} from '../../components/common/table/TablePage';
+import CardsTable from '../../components/Cards/CardsTable';
 
 export const Profile: FC = () => {
   const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
@@ -18,6 +22,11 @@ export const Profile: FC = () => {
   const userAvatar = useAppSelector<string | undefined>(state => state.user.userInfo.avatar)
   const isEditMode = useAppSelector<boolean>(state => state.app.isEditMode)
   const location = useLocation()
+  const [searchParams, setSearchParams ] = useSearchParams();
+  const trueOrFalse = searchParams.has('packId')
+  useEffect(()=> {
+    setSearchParams({})
+  }, [])
   const dispatch = useDispatch()
   const changeEditMode = (): void => {
     dispatch(setEditMode(!isEditMode))
@@ -29,9 +38,6 @@ export const Profile: FC = () => {
   return (
     <div>
       {isEditMode ? <EditableUserInfo changeEditMode={changeEditMode} /> : ''}
-      <div>
-        <h1 style={{ margin: '10px 0 20px 0' }}>Profile</h1>
-      </div>
       <div className={styles.profileWrapper}>
         <div className={styles.wrapperUserInfo}>
           <div>
@@ -49,7 +55,7 @@ export const Profile: FC = () => {
           <div>
             <span className={styles.packUserName}> Packs list {userName}:</span>
           </div>
-          <Table />
+          {trueOrFalse? <CardsTable /> : <TablePage />  }
         </div>
       </div>
     </div>

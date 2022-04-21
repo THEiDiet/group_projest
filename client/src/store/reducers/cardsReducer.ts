@@ -5,6 +5,7 @@ import { CardT, PackT, SortT } from 'types'
 import { CardsPackT, GetPacksResponseT } from 'types/PacksType'
 
 const initialState = {
+  currentPackId: '',
   currentPage: 1,
   amountOfElementsToShow: 10,
   portionSizeForPages: 10,
@@ -37,6 +38,7 @@ const initialState = {
   localMinRage: 0,
   localMaxRage: 25,
 }
+
 const slice = createSlice({
   name: 'cards',
   initialState,
@@ -59,6 +61,7 @@ const slice = createSlice({
       state.pageCount = pageCount
       state.cardPacksTotalCount = cardPacksTotalCount
     },
+    // delete
     sortCards: (state, action: PayloadAction<SortT>) => {
       const { payload: sortType } = action
       if (state.revert[sortType]) {
@@ -81,6 +84,9 @@ const slice = createSlice({
       state.localMinRage = min
       state.localMaxRage = max
     },
+    setCurrentPackId: (state, action: PayloadAction<string>) => {
+      state.currentPackId = action.payload
+    },
   },
 })
 
@@ -96,4 +102,5 @@ export const {
   setPortionNumber,
   setMinMaxCardInPacks,
   setSearchPacks,
+  setCurrentPackId,
 } = slice.actions

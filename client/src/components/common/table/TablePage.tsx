@@ -1,22 +1,24 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
 
 import { useDispatch } from 'react-redux'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+
+import { DebounceSearchInput } from '../DebounceSearchInput/DebounceSearchInput'
 import { useLocation } from 'react-router-dom'
 
 import { Card } from 'components'
-import { Button } from 'components/common/button/Button'
-import { DebounceRange } from 'components/common/DebounceRange/DebounceRange'
-import { DebounceSearchInput } from 'components/common/DebounceSearchInput/DebounceSearchInput'
 import { Modal } from 'components/common/modal/Modal'
 import { Paginator } from 'components/common/Pagination/Paginator'
-import { TableCell, TableRow } from 'components/common/table'
 import s from 'components/common/table/table.module.scss'
-import { EHelpers, PaginationNames, Paths } from 'enums'
+import { TableHeader } from 'components/common/table/TableHeader'
+import { TableItem } from 'components/common/table/TableItem'
+import { EHelpers, PaginationNames } from 'enums'
 import { useAppDispatch, useAppSelector } from 'hooks'
-import { setMinMaxCardInPacks, setSearchPacks } from 'store/reducers'
-import { getOnePackS, getPacksS } from 'store/sagas/cardsSaga'
+import { setSearchPacks } from 'store/reducers'
+import { setCurrentPackId } from 'store/reducers/cardsReducer'
+import { getPacksS } from 'store/sagas/cardsSaga'
 
-export const Table: FC = React.memo(() => {
+export const TablePage: FC = () => {
   const [isModalOpen, setModalOpen] = useState(false)
   const [sortTitle, setSortTitle] = useState('')
   const [oneZero, setOneZero] = useState(true)
@@ -97,65 +99,49 @@ export const Table: FC = React.memo(() => {
   const sortByCardsCount = (): void => {
     sortByParam('cardsCount')
   }
+  const navigate = useNavigate()
   const searchByPacks = useCallback((packName: string): void => {
+    dispatch(getPacksS({ packName }))
     dispatch(setSearchPacks(packName))
   }, [])
-  const onTableRowClick = (id: string): void => {
-    appDispatch(getOnePackS(id))
-    setModalOpen(true)
-  }
-  const showQuantityPacks = useCallback((value: [number, number]): void => {
-    dispatch(setMinMaxCardInPacks(value))
-  }, [])
+    const [searchParams, setSearchParams] = useSearchParams()
+    const onLookButtonClickHandler = (id: string): void => {
+        if (id) {
+            setSearchParams({ packId: id })
+        } else {
+            setSearchParams({})
+        }
+    }
+  // const onTableRowClick = (id: string): void => {
+  //   appDispatch(getOnePackS(id))
+  //   setModalOpen(true)
+  // }
+  // const showQuantityPacks = useCallback((value: [number, number]): void => {
+  //   dispatch(setMinMaxCardInPacks(value))
+  // }, [])
 
-  const tableRows = packs.length
-    ? packs.map(({ user_name: userName, _id: id, name, updated, cardsCount }) => {
-        const date = new Date(updated).toLocaleDateString()
-        return (
-          <TableRow key={id} onClick={() => onTableRowClick(id)}>
-            <TableCell head>{name}</TableCell>
-            <TableCell>{cardsCount}</TableCell>
-            <TableCell>{date}</TableCell>
-            <TableCell>{userName}</TableCell>
-            <TableCell>text</TableCell>
-          </TableRow>
-        )
-      })
-    : []
+  const tableRows = packs.map(({ user_name: userName, _id: id, name, updated, cardsCount }) => (
+    <TableItem
+      name={name}
+      id={id}
+      userName={userName}
+      updated={updated}
+      cardsCount={cardsCount}
+      key={id}
+      onLookButtonClickHandler={onLookButtonClickHandler}
+    />
+  ))
   return (
+
     <div className={s.table}>
-      <div>
-        <DebounceSearchInput
-          placeholder="What do you want to learn? "
-          searchValue={searchByPacks}
-        />
-      </div>
-      <div className={s.debounceRange}>
-        <DebounceRange showQuantityPacks={showQuantityPacks} />
-      </div>
-      <div>
-        <Button onClick={setOnlyUserPacks}> My Packs</Button>
-        {location.pathname === Paths.Profile ? (
-          <Button onClick={setAllPacks}> All Packs</Button>
-        ) : null}
-      </div>
-      <div className={s.head}>
-        <TableRow head>
-          <TableCell head btn onClick={sortByName}>
-            Name
-          </TableCell>
-          <TableCell head btn onClick={sortByCardsCount}>
-            Cards
-          </TableCell>
-          <TableCell head btn onClick={sortByDate}>
-            Last updated
-          </TableCell>
-          <TableCell head btn onClick={sortByUserName}>
-            Created by
-          </TableCell>
-          <TableCell head>Action</TableCell>
-        </TableRow>
-      </div>
+      <DebounceSearchInput placeholder="Search..." searchValue={searchByPacks} />
+
+      <TableHeader
+        sortByName={sortByName}
+        sortByCardsCount={sortByCardsCount}
+        sortByUserName={sortByUserName}
+        sortByDate={sortByDate}
+      />
       <div className={s.body}>{tableRows}</div>
       <Paginator
         currentPage={currentPage}
@@ -175,4 +161,4 @@ export const Table: FC = React.memo(() => {
       />
     </div>
   )
-})
+}

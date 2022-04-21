@@ -1,7 +1,7 @@
 .header {
     width: 100%;
     height: 60px;
-    background: #365a67;
+    background: #EBE0E9;
     position: fixed;
     top: 0;
     left: 0;
@@ -16,17 +16,17 @@
     justify-content: space-between;
     padding: 0 30px;
     a{
-        color: #dde9ec;
+        color: #fff;
     }
 }
 .main {
     width: 100%;
     min-height: calc(100vh - 60px);
-    height: 100%;
+    height: calc(100% - 60px);
     position: relative;
     top: 60px;
     left: 0;
-    background: #dde9ec;
+    background: #F8F7FD;
     .mainContainer{
         width: 70%;
         margin: 0 auto;

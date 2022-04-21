@@ -6,4 +6,5 @@ export enum EHelpers {
   Five = 5,
   Ten = 10,
   Seven = 7,
+  Six = 6
 }

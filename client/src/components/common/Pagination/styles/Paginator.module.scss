@@ -4,6 +4,8 @@
     align-items: center;
     margin-top: 10px;
     flex-direction: row;
+    min-width: 100%;
+    padding-bottom: 10px;
 }
 .select {
     width: 50px;
@@ -15,17 +17,17 @@
 
 
 .page {
-    border: 1px solid lightgreen;
-    padding: 7px;
-    border-radius: 10px;
-    margin: 1px;
+    padding: 10px;
+    border-radius: 2px;
+    margin-right: 10px;
+    background: #fff;
 }
 
 
 
 .currentPage {
     font-weight: bold;
-    background-color: lightblue;
+    background-color: #eee7f4;
 }
 
 .button {
