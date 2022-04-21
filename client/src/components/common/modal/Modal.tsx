@@ -1,17 +1,17 @@
-import React, { ReactElement } from 'react'
+import React, { FC, ReactElement } from 'react'
 
 import { createPortal } from 'react-dom'
 
 import s from './styles/Modal.module.scss'
 
 type ModalProps = {
-  component: ReactElement
+  component?: ReactElement
   isOpen: boolean
   handleOpen: () => void
 }
 
-export const Modal = (props: ModalProps): any => {
-  const { handleOpen, isOpen, component } = props
+export const Modal: FC<ModalProps> = props => {
+  const { handleOpen, isOpen, component, children } = props
   const root = document.querySelector('body')
   const wrapper = (
     <div className={s.wrapper}>
@@ -19,7 +19,7 @@ export const Modal = (props: ModalProps): any => {
         <button type="button" onClick={handleOpen}>
           close
         </button>
-        {component}
+        {children}
       </div>
     </div>
   )
@@ -27,4 +27,7 @@ export const Modal = (props: ModalProps): any => {
     return createPortal(wrapper, root)
   }
   return <>...</>
+}
+Modal.defaultProps = {
+  component: <div>modal</div>,
 }

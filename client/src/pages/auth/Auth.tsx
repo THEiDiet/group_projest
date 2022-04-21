@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react'
 
 import { useFormik } from 'formik'
-import {Navigate, NavLink} from 'react-router-dom'
+import { Navigate, NavLink, useNavigate } from 'react-router-dom'
 
 import { userApi } from 'api/userApi'
 import Security from 'assets/icons/security.svg'
@@ -25,33 +25,29 @@ export const Auth: FC = () => {
   const [error, setError] = useState('')
   const [isSecurity, setIsSecurity] = useState(false)
   const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
+  const navigate = useNavigate()
   const changeSecurity = (): void => {
     setIsSecurity(value => !value)
   }
 
-  const onSubmitForm = async (
-    values: Omit<LoginParamsType, 'rememberMe'>,
-  ): Promise<HandleResponseT> => {
+  const onSubmitForm = async (values: Omit<LoginParamsType, 'rememberMe'>): Promise<any> => {
     const res: AuthResponse = await userApi.register(values)
+    console.log(res)
     if (typeof res === 'string') {
       setError(res)
-      return { error: res }
     }
-    setUserName(res.addedUser.name)
-    return { name: res.addedUser.name }
+    navigate(Paths.Login)
   }
 
   const formik = useFormik({
-    validate: validatePassAndEmail,
+    validate: values => validatePassAndEmail(values),
     initialValues: {
       email: '',
       password: '',
     },
     onSubmit: (values: Omit<LoginParamsType, 'rememberMe'>) => {
-      onSubmitForm(values).then((res: HandleResponseT) => {
-        if (res?.name) {
-          formik.resetForm()
-        }
+      onSubmitForm(values).then(() => {
+        formik.resetForm()
       })
     },
   })

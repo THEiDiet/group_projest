@@ -1,17 +1,18 @@
 import React, { FC, useEffect } from 'react'
 
-import { useDispatch } from 'react-redux'
 import { Navigate, useLocation, useSearchParams } from 'react-router-dom'
 
 import CardsTable from '../../components/Cards/CardsTable'
+import { TablePage } from '../../components/common/table/TablePage'
 
 import styles from './Profile.module.scss'
 
 import noAvatar from 'assets/user-no-avatar.png'
-import { TablePage } from 'components/common/table/TablePage'
 import { EditableUserInfo } from 'components/EditableUserInfo/EditableUserInfo'
 import { Paths } from 'enums'
-import { useAppSelector } from 'hooks'
+import { useAppDispatch, useAppSelector } from 'hooks'
+import { EditableUserName } from 'pages/profile/EditableUserName'
+import { UserAvatar } from 'pages/profile/UserAvatar'
 import { setEditMode } from 'store/reducers'
 
 export const Profile: FC = () => {
@@ -25,9 +26,9 @@ export const Profile: FC = () => {
   useEffect(() => {
     setSearchParams({})
   }, [])
-  const dispatch = useDispatch()
+
   const changeEditMode = (): void => {
-    dispatch(setEditMode(!isEditMode))
+    useAppDispatch(setEditMode(!isEditMode))
   }
 
   if (!isLoggedIn) {
