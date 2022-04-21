@@ -27,9 +27,6 @@ export const Profile: FC = () => {
   }
   return (
     <div>
-      <div>
-        <h1 style={{ margin: '10px 0 20px 0' }}>Profile</h1>
-      </div>
       <div className={styles.profileWrapper}>
         <div className={styles.wrapperUserInfo}>
           <UserAvatar />
