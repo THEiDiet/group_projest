@@ -1,21 +1,20 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
 
-import { useDispatch } from 'react-redux'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useLocation, useSearchParams } from 'react-router-dom'
 
 import { DebounceSearchInput } from '../DebounceSearchInput/DebounceSearchInput'
-import { useLocation } from 'react-router-dom'
 
 import { Card } from 'components'
+import { Button } from 'components/common/button/Button'
+import { DebounceRange } from 'components/common/DebounceRange/DebounceRange'
 import { Modal } from 'components/common/modal/Modal'
 import { Paginator } from 'components/common/Pagination/Paginator'
 import s from 'components/common/table/table.module.scss'
 import { TableHeader } from 'components/common/table/TableHeader'
 import { TableItem } from 'components/common/table/TableItem'
-import { EHelpers, PaginationNames } from 'enums'
+import { EHelpers, PaginationNames, Paths } from 'enums'
 import { useAppDispatch, useAppSelector } from 'hooks'
-import { setSearchPacks } from 'store/reducers'
-import { setCurrentPackId } from 'store/reducers/cardsReducer'
+import { setMinMaxCardInPacks, setSearchPacks } from 'store/reducers'
 import { getPacksS } from 'store/sagas/cardsSaga'
 
 export const TablePage: FC = () => {
@@ -33,21 +32,23 @@ export const TablePage: FC = () => {
   const searchPack = useAppSelector<string>(state => state.cards.searchPack)
   const userId = useAppSelector<string>(state => state.user.userInfo.userId)
   const appDispatch = useAppDispatch()
-  const dispatch = useDispatch()
   const location = useLocation()
   useEffect(() => {
-    dispatch(getPacksS({ packName: searchPack, min: localMinRage, max: localMaxRage }))
+    appDispatch(getPacksS({ packName: searchPack, min: localMinRage, max: localMaxRage }))
   }, [localMinRage, localMaxRage, searchPack, userId])
 
   const setOnlyUserPacks = (): void => {
-    dispatch(getPacksS({ packName: searchPack, min: 0, max: localMaxRage, userId }))
+    appDispatch(getPacksS({ packName: searchPack, min: 0, max: localMaxRage, userId }))
   }
+
   const setAllPacks = (): void => {
-    dispatch(getPacksS({ userId: '', packName: searchPack, min: localMinRage, max: localMaxRage }))
+    appDispatch(
+      getPacksS({ userId: '', packName: searchPack, min: localMinRage, max: localMaxRage }),
+    )
   }
   const sortByParam = (sortName: string): void => {
     if (sortName === sortTitle) {
-      dispatch(
+      appDispatch(
         getPacksS({
           sortPacks: `${Number(oneZero)}${sortName}`,
           page: currentPage,
@@ -60,7 +61,7 @@ export const TablePage: FC = () => {
       setOneZero(!oneZero)
     }
     if (sortName !== sortTitle) {
-      dispatch(
+      appDispatch(
         getPacksS({
           sortPacks: `${EHelpers.One}${sortName}`,
           page: currentPage,
@@ -85,7 +86,7 @@ export const TablePage: FC = () => {
           userId,
         }
       : { page: value, packName: searchPack, min: localMinRage, max: localMaxRage, userId }
-    dispatch(getPacksS(obj))
+    appDispatch(getPacksS(obj))
   }
   const sortByName = (): void => {
     sortByParam('name')
@@ -99,26 +100,21 @@ export const TablePage: FC = () => {
   const sortByCardsCount = (): void => {
     sortByParam('cardsCount')
   }
-  const navigate = useNavigate()
   const searchByPacks = useCallback((packName: string): void => {
-    dispatch(getPacksS({ packName }))
-    dispatch(setSearchPacks(packName))
+    appDispatch(getPacksS({ packName }))
+    appDispatch(setSearchPacks(packName))
   }, [])
-    const [searchParams, setSearchParams] = useSearchParams()
-    const onLookButtonClickHandler = (id: string): void => {
-        if (id) {
-            setSearchParams({ packId: id })
-        } else {
-            setSearchParams({})
-        }
+  const [searchParams, setSearchParams] = useSearchParams()
+  const onLookButtonClickHandler = (id: string): void => {
+    if (id) {
+      setSearchParams({ packId: id })
+    } else {
+      setSearchParams({})
     }
-  // const onTableRowClick = (id: string): void => {
-  //   appDispatch(getOnePackS(id))
-  //   setModalOpen(true)
-  // }
-  // const showQuantityPacks = useCallback((value: [number, number]): void => {
-  //   dispatch(setMinMaxCardInPacks(value))
-  // }, [])
+  }
+  const showQuantityPacks = useCallback((value: [number, number]): void => {
+    appDispatch(setMinMaxCardInPacks(value))
+  }, [])
 
   const tableRows = packs.map(({ user_name: userName, _id: id, name, updated, cardsCount }) => (
     <TableItem
@@ -132,10 +128,18 @@ export const TablePage: FC = () => {
     />
   ))
   return (
-
     <div className={s.table}>
-      <DebounceSearchInput placeholder="Search..." searchValue={searchByPacks} />
+      {location.pathname === Paths.Profile ? (
+        <div className={s.buttonContainer}>
+          <Button onClick={setOnlyUserPacks}> My Packs</Button>
+          <Button onClick={setAllPacks}> All Packs</Button>
+        </div>
+      ) : null}
 
+      <div className={s.debounceRange}>
+        <DebounceRange showQuantityPacks={showQuantityPacks} />
+      </div>
+      <DebounceSearchInput placeholder="Search..." searchValue={searchByPacks} />
       <TableHeader
         sortByName={sortByName}
         sortByCardsCount={sortByCardsCount}

@@ -2,7 +2,7 @@ import React, { ChangeEvent, FC, useCallback, useState } from 'react'
 
 import noAvatar from 'assets/user-no-avatar.png'
 import { Button } from 'components/common'
-import styles from 'components/EditableUserInfo/EditableUserInfo.module.scss'
+import s from 'components/EditableUserInfo/EditableUserInfo.module.scss'
 import { Input } from 'components/index'
 import { useAppDispatch, useAppSelector } from 'hooks'
 import { requestChangeUserInfo } from 'store/reducers/userReducer'
@@ -33,7 +33,6 @@ export const EditableUserInfo: FC<EditableUserInfoPropsType> = React.memo(({ cha
     if (e.target.files) {
       const index = 0
       const reader = new FileReader()
-      const file = e.target.files[index]
       reader.readAsDataURL(e.target.files[index])
       reader.onloadend = event => {
         if (typeof event?.target?.result === 'string') {
@@ -50,17 +49,17 @@ export const EditableUserInfo: FC<EditableUserInfoPropsType> = React.memo(({ cha
   }
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.editableWrapper}>
+    <div className={s.wrapper}>
+      <div className={s.editableWrapper}>
         <div>
-          <img className={styles.avatarIcon} src={userAvatar || noAvatar} alt="User Avatar" />
-          <input className={styles.avatarIconChange} type="file" onChange={onAvatarPhotoChange} />
+          <img className={s.avatarIcon} src={userAvatar || noAvatar} alt="User Avatar" />
+          <input className={s.avatarIconChange} type="file" onChange={onAvatarPhotoChange} />
         </div>
         <div>
-          <div className={styles.customInput}>
+          <div className={s.customInput}>
             <Input label="Name" name="Name" type="text" onChange={changeUserName} value={name} />
           </div>
-          <div className={styles.customInput}>
+          <div className={s.customInput}>
             <Input
               label="Email"
               name="Email"
@@ -70,7 +69,7 @@ export const EditableUserInfo: FC<EditableUserInfoPropsType> = React.memo(({ cha
             />
           </div>
         </div>
-        <div className={styles.buttonContainer}>
+        <div className={s.buttonContainer}>
           <Button type="button" onClick={changeEditMode}>
             Cancel
           </Button>

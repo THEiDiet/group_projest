@@ -2,11 +2,16 @@
   width: 100%;
   box-shadow: 0 4px 14px rgba(45, 46, 70, 0.15);
   border-radius: 4px;
+.buttonContainer{
+  display: flex;
+  justify-content: space-around;
+  padding-top: 30px;
+}
 
   .debounceRange {
-    width: 300px;
-    margin: 10px auto 20px auto;
-
+    width: 150px;
+    margin: 0 auto;
+    padding-top: 50px;
   }
 
   .head {
@@ -18,6 +23,7 @@
       display: flex;
       width: 100%;
       padding: 0 10px;
+
       button {
         display: block;
         appearance: none;
@@ -103,7 +109,7 @@
   .col {
     flex: 1 0 20%;
     padding: 10px 0;
-    
+
     &_bold {
       font-weight: 600;
     }

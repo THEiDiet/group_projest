@@ -1,20 +1,18 @@
-import React, {FC, useEffect} from 'react'
+import React, { FC, useEffect } from 'react'
 
-import {Navigate, useLocation, useSearchParams} from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import { Navigate, useLocation, useSearchParams } from 'react-router-dom'
+
+import CardsTable from '../../components/Cards/CardsTable'
 
 import styles from './Profile.module.scss'
 
-
 import noAvatar from 'assets/user-no-avatar.png'
+import { TablePage } from 'components/common/table/TablePage'
 import { EditableUserInfo } from 'components/EditableUserInfo/EditableUserInfo'
 import { Paths } from 'enums'
-import { useAppDispatch, useAppSelector } from 'hooks'
+import { useAppSelector } from 'hooks'
 import { setEditMode } from 'store/reducers'
-import { EditableUserName } from 'pages/profile/EditableUserName'
-import { UserAvatar } from 'pages/profile/UserAvatar'
-import {TablePage} from '../../components/common/table/TablePage';
-import CardsTable from '../../components/Cards/CardsTable';
 
 export const Profile: FC = () => {
   const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
@@ -22,9 +20,9 @@ export const Profile: FC = () => {
   const userAvatar = useAppSelector<string | undefined>(state => state.user.userInfo.avatar)
   const isEditMode = useAppSelector<boolean>(state => state.app.isEditMode)
   const location = useLocation()
-  const [searchParams, setSearchParams ] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams()
   const trueOrFalse = searchParams.has('packId')
-  useEffect(()=> {
+  useEffect(() => {
     setSearchParams({})
   }, [])
   const dispatch = useDispatch()
@@ -55,7 +53,7 @@ export const Profile: FC = () => {
           <div>
             <span className={styles.packUserName}> Packs list {userName}:</span>
           </div>
-          {trueOrFalse? <CardsTable /> : <TablePage />  }
+          {trueOrFalse ? <CardsTable /> : <TablePage />}
         </div>
       </div>
     </div>

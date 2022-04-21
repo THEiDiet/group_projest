@@ -29,6 +29,7 @@ export const cardsApi = {
         sortPacks,
         pageCount,
         page,
+        user_id: userId,
       },
     })
   },

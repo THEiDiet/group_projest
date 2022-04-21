@@ -26,7 +26,6 @@ const slice = createSlice({
       state.error = action.payload
     },
     setEditMode: (state, action: PayloadAction<boolean>) => {
-      debugger
       state.isEditMode = action.payload
     },
   },
