@@ -1,7 +1,7 @@
 .container {
-    min-height: 300px ;
+    min-height: 300px;
     min-width: 300px;
-    background-color: green;
+    background-color: white;
     border-radius: 9px;
     display: flex;
     justify-content: space-evenly;
@@ -12,13 +12,18 @@
 }
 
 
-
 .buttonContainer {
-
     display: flex;
     justify-content: space-evenly;
     flex-direction: row;
     align-items: center;
+}
+
+.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
 }
 
 .cancelButton {
@@ -29,7 +34,7 @@
     text-decoration: none;
     font-size: 16px;
     margin-right: 25px;
-    align-items:center;
+    align-items: center;
     background: #D7D8EF;
     border-radius: 30px;
 }
@@ -42,8 +47,47 @@
     text-decoration: none;
     font-size: 16px;
     margin-left: 25px;
-    align-items:center;
+    align-items: center;
     background: #21268F;
     box-shadow: 0px 4px 18px rgba(33, 38, 143, 0.35), inset 0px 1px 0px rgba(255, 255, 255, 0.3);
     border-radius: 30px;
+}
+
+.text {
+    font-family: 'SF UI Display';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    color: #2D2E46;
+    margin: 5px;
+    padding: 5px;
+}
+
+.optionText {
+    font-family: 'Calibri Light';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 16px;
+    display: flex;
+    align-items: center;
+    color: #2D2E46;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    justifyContent: space-between;
+    margin-bottom: 20px;
+
+}
+
+.option {
+    margin:5px;
+    padding: 5px;
+
+    text-align: left;
 }

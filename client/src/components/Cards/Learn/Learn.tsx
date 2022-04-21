@@ -8,10 +8,9 @@ import { Button } from '../../common'
 
 import s from './Learn.module.css'
 
-import styles from 'styles/Auth/Auth.module.scss'
 import {rateCard} from '../../../store/sagas/cardsSaga';
 
-const grades = ['не знал', 'забыл', 'долго думал', 'перепутал', 'знал']
+const grades = ['No clue', 'Forgot', 'Not sure', 'Close enough', 'GOTCHA']
 
 const getCard = (cards: CardT[]): CardT => {
   const sum = cards.reduce(
@@ -26,8 +25,6 @@ const getCard = (cards: CardT[]): CardT => {
     },
     { sum: 0, id: -1 },
   )
-  console.log('test: ', sum, rand, res)
-
   return cards[res.id + EHelpers.One]
 }
 
@@ -55,54 +52,48 @@ const LearnPage: React.FC<PropsType> = ({ deactivateModal }) => {
       })
       setFirst(false)
     }
-    console.log('cards', cards)
     if (cards?.length > EHelpers.Zero) setCard(getCard(cards))
 
     return () => {
-      console.log('LearnContainer useEffect off')
     }
   }, [dispatch, cards, first])
 
   const onNext = (): void => {
     setIsChecked(false)
+    setRateCardInfo({cardId: '', grade: 0})
     dispatch(rateCard({card_id: rateCardInfo.cardId, grade: rateCardInfo.grade}))
     if (cards.length > EHelpers.Zero) {
       setCard(getCard(cards))
-    } else {
-      console.log('and?')
-      // cheto tut nado delat?
     }
   }
 
   return (
     /* можно тут если тру , то стили менять карточки, тогда вроде норм будет? */
     <div className={s.container}>
-      <div>Q: {card.question}</div>
+      <div className={s.text}>Q: {card.question}</div>
       {!isChecked && (
-        <div>
+        <div className={s.show}>
           <Button onClick={() => setIsChecked(true)}>Show Answer</Button>
         </div>
       )}
       {isChecked && (
         <>
-          <div>A: {card.answer}</div>
-          <div
-            style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
-          >
-            {grades.map((g, i) => (
+          <div className={s.text}>A: {card.answer}</div>
+          <div className={s.options}>
+            <span className={s.text}>Rate Yourself:</span>
 
+            {grades.map((g, i) => (
                 // eslint-disable-next-line react/no-array-index-key,no-underscore-dangle
-                <Button key={`grade-${i}`} onClick={() => {setRateCardInfo({cardId: card._id, grade: i+EHelpers.One})}}>
-                {g}
+                <Button className={s.option} key={`grade-${i}`} onClick={() => {setRateCardInfo({cardId: card._id, grade: i+EHelpers.One})}}>
+                  <span className={s.optionText}>{g}</span>
               </Button>
             ))}
           </div>
-
           <div className={s.buttonContainer}>
             <Button className={s.cancelButton} onClick={() => deactivateModal('')}>
               Cancel
             </Button>
-            <Button className={s.nextButton} onClick={onNext}>
+            <Button className={s.nextButton} onClick={onNext} disabled={!rateCardInfo.cardId}>
               Next
             </Button>
           </div>

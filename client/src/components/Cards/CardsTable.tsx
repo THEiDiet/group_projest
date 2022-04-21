@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { useSearchParams } from 'react-router-dom'
 
+import { EHelpers } from '../../enums'
 import { SagaActions } from '../../enums/sagaActions'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import { setCurrentPackId } from '../../store/reducers/cardsReducer'
@@ -17,7 +18,6 @@ import { CardTableRow } from './CardTableRow'
 import LearnPage from './Learn/Learn'
 import DeleteCard from './Modal/DeleteCardModal/DeleteCard'
 import ModalForCards from './Modal/ModalForCards/ModalForCards'
-import {EHelpers} from '../../enums';
 
 const CardsTable: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -68,8 +68,9 @@ const CardsTable: React.FC = () => {
   const shouldElementBeShown = (): boolean => userID === currentPackUserID // Используется для колонки с кнопками удаления и едита, если не твои карточки - не увидишь( наверное надо и для кнопки добавления )
   const tableRows =
     currentPack &&
-    currentPack.cards.map(m => (
+    currentPack.cards.map((m, i) => (
       <CardTableRow
+        index={i}
         card={m}
         shouldElementBeShown={shouldElementBeShown}
         onDeleteClickHandlerInTable={onDeleteClickHandlerInTable}
@@ -80,7 +81,13 @@ const CardsTable: React.FC = () => {
     ))
   return (
     <div>
-      <Button onClick={() => setWhatModalIsActive('learn')} disabled={currentPack.cards.length === EHelpers.Zero}> Learn </Button>
+      <Button
+        onClick={() => setWhatModalIsActive('learn')}
+        disabled={currentPack.cards.length === EHelpers.Zero}
+      >
+        {' '}
+        Learn{' '}
+      </Button>
       <CardsHeader
         handleReturnHomeClick={handleReturnHomeClick}
         shouldElementBeShown={shouldElementBeShown()}
