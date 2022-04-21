@@ -32,8 +32,8 @@ export const RestorePassword: FC = () => {
       stopLoading()
     }
   }
-  if (!isLoggedIn) {
-    return <Navigate to={Paths.Login} replace />
+  if (isLoggedIn) {
+    return <Navigate to={Paths.Profile} replace />
   }
   return (
     <div className={styles.wrapper}>
