@@ -21,3 +21,7 @@
     border-radius: 12px;
     background-color: white;
 }
+
+.invis {
+    background-color: rgba(185, 166, 215, 1);
+}

@@ -3,6 +3,7 @@ import { SagaIterator } from 'redux-saga'
 import { call, put, select, StrictEffect, takeLatest } from 'redux-saga/effects'
 
 import { RootState } from '../config'
+import { setCardUpdatedGrade } from '../reducers/cardsReducer'
 
 import { cardsApi } from 'api/cardsApi'
 import { SagaActions } from 'enums/sagaActions'
@@ -10,7 +11,7 @@ import { setOnePackCards, setPacks } from 'store/reducers'
 import { setError } from 'store/reducers/appReducer'
 import { PackT } from 'types'
 import { CardsPackT, GetPacksPayload, GetPacksResponseT, GetPacksWorkerT } from 'types/PacksType'
-import { CardTypePartial } from 'types/PackTypes'
+import { UpdatedGradeRequestT, UpdatedGradeT, CardTypePartial } from 'types/PackTypes'
 
 function* packsWorker({ payload }: GetPacksWorkerT): Generator<StrictEffect, void, CardsPackT[]> {
   try {
@@ -88,12 +89,27 @@ function* createNewCardInPackWorker({ payload }: any): Generator<StrictEffect, v
 export const createNewCard = (payload: CardTypePartial) =>
   ({ type: SagaActions.CreateCard, payload } as const)
 
+function* rateCardWorker({ payload }: any): Generator<StrictEffect, void, CardsT> {
+  try {
+    const response: UpdatedGradeT = yield call(cardsApi.rateCard, payload)
+
+    // @ts-ignore
+    yield put(setCardUpdatedGrade(response.updatedGrade))
+  } catch (e) {
+    yield put(setError((e as AxiosError)?.response?.data))
+  }
+}
+
+export const rateCard = (payload: UpdatedGradeRequestT) =>
+  ({ type: SagaActions.RateCard, payload } as const)
+
 export function* cardsWatcher(): SagaIterator {
   yield takeLatest(SagaActions.GetPacks, packsWorker)
   yield takeLatest(SagaActions.GetOnePack, onePackCardsWorker)
   yield takeLatest(SagaActions.DeleteCard, deleteOneCardFromPackWorker)
   yield takeLatest(SagaActions.UpdateCard, updateOneCardFromPackWorker)
   yield takeLatest(SagaActions.CreateCard, createNewCardInPackWorker)
+  yield takeLatest(SagaActions.RateCard, rateCardWorker)
 }
 
 export const getPacksS = (payload: Partial<GetPacksPayload>) =>

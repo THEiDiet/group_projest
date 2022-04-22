@@ -2,11 +2,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background-color: #EBE0E9;
+    padding: 12px;
 }
 .tableHead span {
     word-break: break-all;
     width: 25%;
-    border: 1px solid gray;
     padding: 2px;
     align-items: center;
     font-weight: bold;
@@ -15,11 +16,13 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background-color: #EBE0E9;
+    padding: 12px;
 }
 .tableHeadFor3 span {
     word-break: break-all;
     width: 34%;
-    border: 1px solid gray;
+
     padding: 2px;
     font-weight: bold;
 }
@@ -29,13 +32,14 @@
 .tableRow {
     display: flex;
     justify-content: space-between ;
+    padding: 8px;
 
 }
 
 .tableRow div {
     word-break: break-all;
     width: 25%;
-    border: 1px solid gray;
+
     padding: 5px;
 
 }
@@ -43,12 +47,13 @@
 .tableRowFor3 {
     display: flex;
     justify-content: space-between ;
+    padding: 8px;
 }
 
 .tableRowFor3 div {
     word-break: break-all;
     width: 34%;
-    border: 1px solid gray;
+
     padding: 5px;
 }
 
@@ -62,4 +67,3 @@
 .test {
     margin-left: auto;
 }
-

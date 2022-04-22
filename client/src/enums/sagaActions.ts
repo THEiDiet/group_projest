@@ -8,4 +8,5 @@ export enum SagaActions {
   AddPack = 'AddPack',
   UpdatePack = 'UpdatePack',
   DeletePack = 'DeletePack',
+  RateCard = 'RateCard',
 }

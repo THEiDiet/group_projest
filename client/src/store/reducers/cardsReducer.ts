@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { EHelpers, EPacksSort } from 'enums'
 import { CardT, PackT, SortT } from 'types'
 import { CardsPackT, GetPacksResponseT } from 'types/PacksType'
+import {UpdatedGradeT} from '../../types/PackTypes';
 
 const initialState = {
   currentPackId: '',
@@ -87,6 +88,16 @@ const slice = createSlice({
     setCurrentPackId: (state, action: PayloadAction<string>) => {
       state.currentPackId = action.payload
     },
+    setCardUpdatedGrade: (state, action: PayloadAction<UpdatedGradeT>) => {
+      console.log('popal v reducer')
+      const { cards } = state.currentPack
+      console.log('viju cards', cards)
+      // eslint-disable-next-line no-underscore-dangle
+      const index = cards.findIndex(s => s._id === action.payload.card_id)
+      console.log('viju index', index)
+      cards[index] = { ...cards[index], grade: action.payload.grade }
+    },
+
   },
 })
 
@@ -103,4 +114,5 @@ export const {
   setMinMaxCardInPacks,
   setSearchPacks,
   setCurrentPackId,
+  setCardUpdatedGrade
 } = slice.actions
