@@ -7,6 +7,7 @@ import preloader from 'assets/Rocket.gif'
 import { Router } from 'components/routes'
 import { useAppSelector } from 'hooks'
 import { requestInitialize, setInitializeWorker } from 'store/reducers/appReducer'
+import {ErrorSnackbar} from './components/common/ErrorSnackbar/ErrorSnackbar';
 
 const App = (): ReactElement => {
   const isInitialized = useAppSelector<boolean>(state => state.app.isInitialized)
@@ -29,6 +30,7 @@ const App = (): ReactElement => {
   return (
     <div className={s.app}>
       <Router />
+      <ErrorSnackbar />
     </div>
   )
 }
