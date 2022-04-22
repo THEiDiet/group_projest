@@ -12,6 +12,7 @@ import { userApi } from 'api/userApi'
 import { SagaActions } from 'enums/sagaActions'
 import { setIsLoggedInAC } from 'store/reducers'
 import { setNameUserResponseType } from 'types'
+import {setError} from '../reducers/appReducer';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function* setNameWorker(action: requestChangeUserInfoType) {
@@ -23,7 +24,7 @@ export function* setNameWorker(action: requestChangeUserInfoType) {
     })
     yield put(setUserInfo(res.data.updatedUser))
   } catch (e) {
-    yield put(setUserError((e as AxiosError)?.response?.data.error))
+    yield put(setError((e as AxiosError)?.response?.data))
   }
 }
 
@@ -35,7 +36,7 @@ export function* setNewPasswordWorker(action: requestChangePasswordType) {
     // тут должен быть login запрос?
     yield put(setIsLoggedInAC(true))
   } catch (e) {
-    yield put(setUserError((e as AxiosError)?.response?.data.error))
+    yield put(setError((e as AxiosError)?.response?.data))
   }
 }
 
@@ -50,8 +51,8 @@ function* restoreWorker({ payload }: RestoreST) {
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function* UserWatcher() {
   yield takeLatest('REQUEST_CHANGE_USER_INFO', setNameWorker)
+  yield takeLatest('REQUEST_CHANGE_PASS', setNewPasswordWorker)
   yield takeLatest(SagaActions.Restore, restoreWorker)
-
   yield takeEvery('REQUEST_CHANGE_PASS', setNewPasswordWorker)
 }
 export const restorePassS = (payload: string) => ({ type: SagaActions.Restore, payload } as const)
