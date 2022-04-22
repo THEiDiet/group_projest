@@ -9,4 +9,5 @@ export enum SagaActions {
   UpdatePack = 'UpdatePack',
   DeletePack = 'DeletePack',
   RateCard = 'RateCard',
+  Restore = 'Restore',
 }

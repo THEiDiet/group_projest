@@ -8,7 +8,21 @@
     justify-content: space-around;
     padding-top: 30px;
   }
-
+.btnAndSearch {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: center;
+  input {
+    flex: 0 0 80%;
+    margin-right: 20px;
+  }
+  button{
+    flex: 0 0 20%;
+    padding: 10px;
+    margin-left: 5px;
+  }
+}
   .debounceRange {
     width: 200px;
     margin: 0 auto;

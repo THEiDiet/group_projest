@@ -62,14 +62,14 @@ export const Paginator: React.FC<propsType> = ({
     <div className={s.pages}>
       {portionNumber > EHelpers.One && (
         <>
-          <button
+          <Button
             type="button"
             className={s.button}
             onClick={() => handlePortionNumberChange(portionNumber - EHelpers.One)}
             onKeyPress={() => {}}
           >
             Prev
-          </button>
+          </Button>
           <button
             type="button"
             className={s.page}

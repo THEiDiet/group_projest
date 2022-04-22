@@ -209,24 +209,23 @@ export const TablePage: FC = () => {
           <Button onClick={setAllPacks}> All Packs</Button>
         </div>
       ) : null}
-
       <div className={s.debounceRange}>
         <DebounceRange showQuantityPacks={showQuantityPacks} />
       </div>
-      {/* <Button onClick={addNewPack}>add pack</Button> */}
-      <ModalButton
-        isOpen={isModalOpen}
-        handleOpen={() => setModalOpen(!isModalOpen)}
-        title="add pack"
-      >
-        <Input name="add pack" type="text" onChange={onChangePackValue} value={addPackValue} />
-        <FormControlLabel
-          control={<Checkbox value={checkboxValue} onChange={onChangeCheckbox} />}
-          label="private?"
-        />
-        <Button onClick={addNewPack}>Add</Button>
-      </ModalButton>
-      <DebounceSearchInput placeholder="Search..." searchValue={searchByPacks} />
+      <div className={s.btnAndSearch}>
+        <ModalButton
+          isOpen={isModalOpen}
+          handleOpen={() => setModalOpen(!isModalOpen)}
+          title="add pack"
+        >
+          <Input name="Add pack" type="text" onChange={onChangePackValue} value={addPackValue} />
+          <FormControlLabel
+            control={<Checkbox value={checkboxValue} onChange={onChangeCheckbox} />}
+            label="private?"
+          />
+        </ModalButton>
+        <DebounceSearchInput placeholder="Search..." searchValue={searchByPacks} />
+      </div>
       <TableHeader
         sortByName={sortByName}
         sortByCardsCount={sortByCardsCount}

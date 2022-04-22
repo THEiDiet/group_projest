@@ -3,6 +3,7 @@ import React, { FC, ReactElement } from 'react'
 import { createPortal } from 'react-dom'
 
 import s from './styles/Modal.module.scss'
+import { Button } from 'components/common/button/Button'
 
 type ModalProps = {
   component?: ReactElement
@@ -15,10 +16,10 @@ export const Modal: FC<ModalProps> = props => {
   const root = document.querySelector('body')
   const wrapper = (
     <div className={s.wrapper}>
-      <div className={s.modal}>
-        <button type="button" onClick={handleOpen}>
+      <div className={s.editableWrapper}>
+        <Button type="button" onClick={handleOpen} className={s.button}>
           close
-        </button>
+        </Button>
         {children}
       </div>
     </div>
@@ -26,7 +27,7 @@ export const Modal: FC<ModalProps> = props => {
   if (root && isOpen) {
     return createPortal(wrapper, root)
   }
-  return <>...</>
+  return null
 }
 Modal.defaultProps = {
   component: <div>modal</div>,

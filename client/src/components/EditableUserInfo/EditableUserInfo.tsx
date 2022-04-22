@@ -1,5 +1,6 @@
 import React, { ChangeEvent, FC, useCallback, useState } from 'react'
 
+import { userApi } from 'api'
 import addPhoto from 'assets/icons/addPhoto.svg'
 import noAvatar from 'assets/user-no-avatar.png'
 import { Button } from 'components/common'
@@ -7,10 +8,13 @@ import s from 'components/EditableUserInfo/EditableUserInfo.module.scss'
 import { Input } from 'components/index'
 import { useAppDispatch, useAppSelector } from 'hooks'
 import { requestChangeUserInfo } from 'store/reducers/userReducer'
+import { restorePassS } from 'store/sagas/userSaga'
 
 export type EditableUserInfoPropsType = {
   changeEditMode: () => void
 }
+
+const MIN_EMAIL_LENGTH = 6
 
 export const EditableUserInfo: FC<EditableUserInfoPropsType> = React.memo(({ changeEditMode }) => {
   const dispatch = useAppDispatch()
@@ -19,6 +23,7 @@ export const EditableUserInfo: FC<EditableUserInfoPropsType> = React.memo(({ cha
   const userEmail = useAppSelector<string>(state => state.user.userInfo.email)
   const [name, setNewName] = useState<string>(userName)
   const [email, setNewEmail] = useState<string>(userEmail)
+  const [restoreEmail, setRestoreEmail] = useState('')
 
   const changeUserInfo = (): void => {
     if (userAvatar) {
@@ -47,6 +52,14 @@ export const EditableUserInfo: FC<EditableUserInfoPropsType> = React.memo(({ cha
   }
   const changeUserEmail = (e: ChangeEvent<HTMLInputElement>): void => {
     setNewEmail(e.currentTarget.value)
+  }
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    setRestoreEmail(e.target.value)
+  }
+
+  const restorePassword = async (): Promise<void> => {
+    dispatch(restorePassS(restoreEmail))
   }
 
   return (
@@ -79,6 +92,18 @@ export const EditableUserInfo: FC<EditableUserInfoPropsType> = React.memo(({ cha
             Save
           </Button>
         </div>
+        <div>
+          <div className={s.customInput}>
+            <Input
+              name="restore"
+              label="Restore pass"
+              type="text"
+              onChange={handleChange}
+              value={restoreEmail}
+            />
+          </div>
+        </div>
+        <Button className={s.button} onClick={restorePassword}>Restore password</Button>
         <div />
       </div>
     </div>

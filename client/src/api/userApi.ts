@@ -32,12 +32,12 @@ export const userApi = {
   forgot: async (email: string) => {
     const body = {
       email,
-      from: 'alex96kravets@gmail.com',
+      from: 'you',
       message: `<div style='background-color: lime; padding: 15px'>password recovery link: 
                 <a href='http://localhost:3000/#/set-new-password$token$'>link</a></div>`,
     }
     try {
-      const res = await instance.post('auth/forgot', JSON.stringify(body))
+      const res = await instance.post('auth/forgot', body)
       return res.data
     } catch (e) {
       return (e as AxiosError)?.response?.data?.error

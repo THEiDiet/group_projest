@@ -11,7 +11,6 @@ import { useAppDispatch, useAppSelector } from 'hooks/useAppDispatchAndSelector'
 const linksArrayAuthorized = [
   { path: Paths.Home, name: 'Packs' },
   { path: Paths.Profile, name: 'Profile' },
-  { path: Paths.RestorePassword, name: 'Restore Pass' },
 ]
 const linksArrayUnAuthorized = [
   { path: Paths.Auth, name: 'Auth' },
@@ -66,22 +65,5 @@ export const Header = (): ReactElement => {
         </div>
       </main>
     </>
-    // <>
-    //   <header className={s.header}>
-    //     <div className={s.container}>
-    //       <Link to={Paths.Home}>Home page</Link>
-    //       <Link to={Paths.Profile}>Profile</Link>
-    //       <Link to={Paths.Auth}>Auth</Link>
-    //       <Link to={Paths.Login}>Login</Link>
-    //       <Link to={Paths.RestorePassword}>Restore Password</Link>
-
-    //     </div>
-    //   </header>
-    //   <main className={s.main}>
-    //     <div className={s.mainContainer}>
-    //       <Outlet />
-    //     </div>
-    //   </main>
-    // </>
   )
 }
