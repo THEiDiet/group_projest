@@ -19,7 +19,7 @@ function* packsWorker({ payload }: GetPacksWorkerT): Generator<StrictEffect, voi
     const response: AxiosResponse<GetPacksResponseT> = yield call(cardsApi.getPacks, payload)
     yield put(setPacks(response.data))
   } catch (e) {
-    yield put(setError((e as AxiosError)?.response?.data))
+    yield put(setError((e as AxiosError)?.response?.data.error))
   }
 }
 type CardsT = any
